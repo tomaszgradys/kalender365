@@ -1,5 +1,6 @@
 // German side/mega menu — single source of truth for header dropdown, sidebar
 // and mobile drawer. {y} = current year placeholder, resolved server-side.
+// Only links to routes that actually exist (no dead links).
 
 import { berlinNow } from "./now";
 
@@ -15,21 +16,10 @@ export const MENU: MenuSection[] = [
       { label: "Feiertage {y}", href: "/feiertage/{y}", emoji: "🎉" },
       { label: "Schulferien {y}", href: "/schulferien/{y}", emoji: "🎒" },
       { label: "Brückentage {y}", href: "/brueckentage/{y}", emoji: "🌉" },
-      { label: "Urlaubsplaner", href: "/urlaubsplaner/{y}", emoji: "🏖️" },
+      { label: "Urlaubsplaner {y}", href: "/urlaubsplaner/{y}", emoji: "🏖️" },
       { label: "Kalenderwochen {y}", href: "/kalenderwochen/{y}", emoji: "🔢" },
-      { label: "Kalender zum Ausdrucken", href: "/kalender-zum-ausdrucken/{y}", emoji: "🖨️" },
+      { label: "Arbeitstage {y}", href: "/arbeitstage/{y}", emoji: "💼" },
       { label: "Arbeitstage-Rechner", href: "/arbeitstage-rechner", emoji: "🧮" },
-      { label: "Mondphasen {y}", href: "/mondphasen/{y}", emoji: "🌙" },
-      { label: "Zeitumstellung {y}", href: "/zeitumstellung/{y}", emoji: "🕑" },
-    ],
-  },
-  {
-    title: "Kalender",
-    items: [
-      { label: "Jahreskalender {y}", href: "/kalender/{y}", emoji: "📅" },
-      { label: "Kalender zum Ausdrucken", href: "/kalender-zum-ausdrucken/{y}", emoji: "🖨️" },
-      { label: "Kalenderwochen {y}", href: "/kalenderwochen/{y}", emoji: "🔢" },
-      { label: "Kalenderblatt heute", href: "/kalender/{y}", emoji: "📄" },
     ],
   },
   {
@@ -39,38 +29,22 @@ export const MENU: MenuSection[] = [
       { label: "Arbeitstage {y}", href: "/arbeitstage/{y}", emoji: "💼" },
       { label: "Brückentage {y}", href: "/brueckentage/{y}", emoji: "🌉" },
       { label: "Urlaubsplaner {y}", href: "/urlaubsplaner/{y}", emoji: "🏖️" },
-      { label: "Arbeitstage-Rechner", href: "/arbeitstage-rechner", emoji: "🧮" },
     ],
   },
   {
     title: "Schule & Familie",
     items: [
       { label: "Schulferien {y}", href: "/schulferien/{y}", emoji: "🎒" },
-      { label: "Sommerferien {y}", href: "/schulferien/{y}", emoji: "☀️" },
-      { label: "Stundenplan", href: "/stundenplan", emoji: "📝" },
-      { label: "Altersrechner", href: "/altersrechner", emoji: "🎂" },
-    ],
-  },
-  {
-    title: "Mond, Sonne & Natur",
-    items: [
-      { label: "Mondphasen {y}", href: "/mondphasen/{y}", emoji: "🌙" },
-      { label: "Vollmond {y}", href: "/vollmond/{y}", emoji: "🌕" },
-      { label: "Neumond {y}", href: "/neumond/{y}", emoji: "🌑" },
-      { label: "Zeitumstellung {y}", href: "/zeitumstellung/{y}", emoji: "🕑" },
-      { label: "Jahreszeiten {y}", href: "/jahreszeiten/{y}", emoji: "🍂" },
-      { label: "Sonnauf- & -untergang", href: "/sonnenaufgang-sonnenuntergang", emoji: "🌅" },
     ],
   },
   {
     title: "Zeit & Rechner",
     items: [
+      { label: "Kalenderwochen {y}", href: "/kalenderwochen/{y}", emoji: "🔢" },
       { label: "Tage-Rechner", href: "/tage-rechner", emoji: "➗" },
       { label: "Arbeitstage-Rechner", href: "/arbeitstage-rechner", emoji: "🧮" },
       { label: "Wochentag-Rechner", href: "/wochentag-rechner", emoji: "📆" },
-      { label: "Altersrechner", href: "/altersrechner", emoji: "🎂" },
-      { label: "Countdown", href: "/countdown", emoji: "⏳" },
-      { label: "Generatoren", href: "/generatoren", emoji: "⚙️" },
+      { label: "Alle Tools", href: "/generatoren", emoji: "⚙️" },
     ],
   },
 ];

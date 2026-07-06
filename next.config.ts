@@ -46,13 +46,10 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.kalendarz.pro" }],
-        destination: "https://kalendarz.pro/:path*",
+        has: [{ type: "host", value: "www.kalender365.pro" }],
+        destination: "https://kalender365.pro/:path*",
         permanent: true,
       },
-      // Sekcja EN usunięta — serwis jest wyłącznie po polsku.
-      { source: "/en", destination: "/", permanent: true },
-      { source: "/en/:path*", destination: "/", permanent: true },
     ];
   },
 };
