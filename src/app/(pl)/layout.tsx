@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { geistSans, geistMono } from "@/lib/fonts";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
-import { COMPANY } from "@/lib/company";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
-import CookieConsent from "@/components/CookieConsent";
-import InstallBanner from "@/components/InstallBanner";
+import { SITE_URL, SITE_NAME } from "@/lib/de/site";
+import { berlinNow } from "@/lib/de/now";
+import Header from "@/components/de/Header";
+import Footer from "@/components/de/Footer";
 import "../globals.css";
 
 const orgLd = {
@@ -14,56 +12,38 @@ const orgLd = {
     {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
-      name: "kalendarz.pro",
-      legalName: COMPANY.legalName,
+      name: SITE_NAME,
       url: SITE_URL,
       logo: `${SITE_URL}/brand/png/web/mark-calendar-color-512.png`,
-      email: COMPANY.email,
-      vatID: `PL${COMPANY.nip}`,
-      taxID: COMPANY.nip,
-      // Sygnały encji dla wyszukiwarek AI: jasny opis + obszar + tematy autorytetu.
       description:
-        "Darmowy polski serwis kalendarzowy: kalendarze do druku, święta i dni wolne od pracy, imieniny, fazy księżyca z dokładnymi godzinami, wschody i zachody słońca, kalkulatory dat i planer urlopu.",
-      areaServed: { "@type": "Country", name: "Polska" },
+        "Kostenloser Kalender-Service für Deutschland: Kalender zum Ausdrucken, gesetzliche Feiertage, Schulferien, Brückentage, Kalenderwochen, Arbeitstage und Mondphasen — für alle 16 Bundesländer.",
+      areaServed: { "@type": "Country", name: "Deutschland" },
       knowsAbout: [
-        "kalendarz",
-        "święta w Polsce",
-        "dni wolne od pracy",
-        "dni robocze",
-        "długie weekendy",
-        "imieniny",
-        "fazy księżyca",
-        "pełnia księżyca",
-        "wschód i zachód słońca",
-        "numery tygodni ISO 8601",
-        "ferie zimowe",
-        "kalendarz szkolny",
-        "zmiana czasu",
-        "pory roku",
+        "Kalender",
+        "gesetzliche Feiertage",
+        "Schulferien",
+        "Brückentage",
+        "Arbeitstage",
+        "Werktage",
+        "Kalenderwochen",
+        "Mondphasen",
+        "Zeitumstellung",
+        "Jahreszeiten",
+        "Bundesländer",
       ],
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: COMPANY.street,
-        postalCode: COMPANY.postal,
-        addressLocality: COMPANY.city,
-        addressCountry: "PL",
-      },
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
-      name: "kalendarz.pro",
+      name: SITE_NAME,
       url: SITE_URL,
-      inLanguage: "pl-PL",
+      inLanguage: "de-DE",
       description:
-        "Kalendarze online i do druku, święta, dni wolne, imieniny, fazy księżyca i kalkulatory dat — dla Polski, aktualne dla każdego roku.",
+        "Kalender online und zum Ausdrucken: Feiertage, Schulferien, Brückentage, Kalenderwochen, Arbeitstage und Mondphasen — kostenlos für Deutschland und alle Bundesländer.",
       publisher: { "@id": `${SITE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${SITE_URL}/szukaj?q={search_term_string}`,
-        },
+        target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/suche?q={search_term_string}` },
         "query-input": "required name=search_term_string",
       },
     },
@@ -73,41 +53,31 @@ const orgLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — kalendarze do druku i pobrania`,
-    // Bez sufiksu marki na podstronach — nazwa serwisu jest sygnalizowana przez
-    // og:site_name i logo, a doklejanie „— Kalendarz.pro" wypychało tytuły ponad
-    // zalecane ~580 px (ostrzeżenia SEO). Podstrony podają własny, zwięzły tytuł.
+    default: "Kalender online – Feiertage, Schulferien, Brückentage & PDF",
     template: "%s",
   },
   description:
-    "Darmowe kalendarze na każdy rok: święta, dni wolne, imieniny, fazy księżyca i numery tygodni. Podgląd online i PDF do druku.",
-  applicationName: "kalendarz.pro",
+    "Kalender, Feiertage, Schulferien, Kalenderwochen, Arbeitstage, Mondphasen und PDF – kostenlos für Deutschland und alle Bundesländer.",
+  applicationName: SITE_NAME,
   openGraph: {
     siteName: SITE_NAME,
-    locale: "pl_PL",
+    locale: "de_DE",
     type: "website",
-    images: [{ url: "/brand/og/og-image-1200x630.jpg", width: 1200, height: 630, alt: "kalendarz.pro — kalendarze online i do druku" }],
   },
-  twitter: { card: "summary_large_image", images: ["/brand/og/og-image-1200x630.jpg"] },
-  // Ikony generuje automatycznie App Router z plików src/app/icon.png + favicon.ico
-  // + apple-icon.png (brandowe, wysokiej rozdzielczości) — bez ręcznych linków.
-  manifest: "/brand/favicon/site.webmanifest",
+  twitter: { card: "summary_large_image" },
 };
 
-export const viewport = {
-  themeColor: "#003890",
-};
+export const viewport = { themeColor: "#003890" };
 
-export default function PlRootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const year = berlinNow().year;
   return (
-    <html lang="pl" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="de" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-[var(--background)] text-navy-900">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
-        <SiteHeader />
+        <Header year={year} />
         {children}
-        <SiteFooter />
-        <CookieConsent />
-        <InstallBanner />
+        <Footer />
       </body>
     </html>
   );
