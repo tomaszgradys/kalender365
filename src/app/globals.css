@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+/* ---- Oficjalny system kolorów marki kalendarz.pro (brand pack) ---- */
+@theme {
+  --color-navy-50: #eef5ff; /* ice */
+  --color-navy-100: #d9e6fb;
+  --color-navy-200: #b6cbf5;
+  --color-navy-300: #7f9fe0;
+  --color-navy-400: #3f6bcb;
+  --color-navy-500: #0649a8;
+  --color-navy-600: #003890; /* Kalendarz Blue — główny */
+  --color-navy-700: #06377e;
+  --color-navy-800: #08284f;
+  --color-navy-900: #071b39;
+
+  --color-brand-green-50: #e6f8f1;
+  --color-brand-green-100: #c3f0df;
+  --color-brand-green-400: #22c58a;
+  --color-brand-green-500: #06b27b;
+  --color-brand-green-600: #00b978; /* Kalendarz Green — akcent */
+  --color-brand-green-700: #009e68;
+
+  --color-peri-100: #e5eafd;
+  --color-peri-200: #cdd8fb;
+  --color-peri-300: #a4b6f8; /* Light Calendar Blue */
+
+  --color-border-brand: #dce7f7;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #f8fafc; /* soft surface */
+  --foreground: #0f172a; /* ink */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #00b978;
+  color: #fff;
+}
+
+/* iOS Safari przybliża widok przy focusie na input o font-size < 16px. Na telefonie
+   wymuszamy min. 16px na polach formularzy, by uniknąć niechcianego zoomu (desktop
+   bez zmian — wyższe breakpointy zachowują oryginalne rozmiary z klas Tailwind). */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Widoczny wskaźnik focusu dla nawigacji klawiaturą (WCAG 2.4.7 Focus Visible).
+   Tylko :focus-visible — nie pojawia się przy kliknięciu myszą, więc nie zmienia
+   wyglądu dla myszkujących. Spójny, brandowy pierścień na wszystkich elementach
+   interaktywnych (linki, przyciski, chipy, pola). */
+:focus-visible {
+  outline: 2px solid var(--color-navy-600);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+/* Elementy z ciemnym tłem (hero/przyciski granatowe) — jaśniejszy pierścień dla kontrastu. */
+.bg-navy-600 :focus-visible,
+.bg-navy-700 :focus-visible,
+[class*="from-navy"] :focus-visible {
+  outline-color: #ffffff;
+}
+
+/* ---- Druk / zapis do PDF (dla każdej strony kalendarza) ---- */
+@media print {
+  header,
+  footer,
+  aside,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  main,
+  .min-w-0 {
+    max-width: 100% !important;
+    flex: none !important;
+    width: 100% !important;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+  .rounded-3xl,
+  .rounded-2xl,
+  .shadow-lg,
+  .shadow-sm,
+  .shadow-md {
+    box-shadow: none !important;
+  }
+  /* jasne hero na druku */
+  [class*="bg-gradient-to-br"],
+  [class*="bg-navy-6"],
+  [class*="bg-navy-7"],
+  [class*="bg-navy-8"] {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  [class*="text-white"] {
+    color: #000 !important;
+  }
+}
+
+/* ---- Treść artykułu blogowego (spójna typografia bez pluginu typography) ---- */
+.blog-prose {
+  color: #334155;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.blog-prose > h2 {
+  scroll-margin-top: 5rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #08284f;
+}
+.blog-prose > h3 {
+  scroll-margin-top: 5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #06377e;
+}
+.blog-prose p {
+  margin-top: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+.blog-prose ul,
+.blog-prose ol {
+  margin: 0.85rem 0;
+  padding-left: 1.35rem;
+}
+.blog-prose ul { list-style: disc; }
+.blog-prose ol { list-style: decimal; }
+.blog-prose li { margin: 0.3rem 0; }
+.blog-prose a {
+  color: #003890;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: #a4b6f8;
+}
+.blog-prose a:hover { color: #00b978; text-decoration-color: #00b978; }
+.blog-prose strong { color: #08284f; font-weight: 700; }
+.blog-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+.blog-prose th,
+.blog-prose td {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.blog-prose th { background: #eef5ff; color: #08284f; font-weight: 700; }
+
+/* Element widoczny wyłącznie na wydruku (np. stopka z logo + QR). */
+.print-only { display: none !important; }
+
+/* ---- Druk planera urlopu: kolory + kondensacja do JEDNEJ strony A4 ---- */
+@media print {
+  @page { size: A4 portrait; margin: 8mm; }
+
+  .print-only { display: flex !important; }
+
+  /* Wymuś druk teł (urlop zielony, ferie/wakacje żółte, święta czerwone). */
+  .planer-root,
+  .planer-root * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4 kolumny miesięcy, ciasno — 12 mini-miesięcy mieści się na jednej A4. */
+  .planer-root .planer-months {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    margin-top: 8px !important;
+  }
+  .planer-root .planer-months > div {
+    padding: 4px 5px !important;
+    border-radius: 8px !important;
+    break-inside: avoid;
+  }
+  .planer-root .planer-months h3 { font-size: 10px !important; margin-bottom: 2px !important; }
+  .planer-root .planer-months th { font-size: 7px !important; padding-bottom: 1px !important; }
+  .planer-root .planer-months td { padding: 0 !important; }
+  .planer-root .planer-months button {
+    font-size: 8px !important; border-radius: 2px !important;
+  }
+
+  /* Kompaktowe statystyki i kafelki ferii/wakacji. */
+  .planer-root .planer-stats > div { padding: 6px 4px !important; }
+  .planer-root .planer-stats .text-2xl { font-size: 1.1rem !important; }
+  .planer-root .planer-info { margin-top: 6px !important; }
+  .planer-root .planer-info > div { padding: 6px 8px !important; }
+  .planer-root .planer-legend { margin-top: 6px !important; gap: 10px !important; font-size: 9px !important; }
+}
+
+/* Podpowiedź, że zagięty róg kartki zdzieraka jest klikalny — kilka „mrugnięć" na start */
+@keyframes cornerHint {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+}
+.corner-hint {
+  animation: cornerHint 0.9s ease-in-out 3;
+}
+@media (prefers-reduced-motion: reduce) {
+  .corner-hint { animation: none; }
+}
+
+/* Animacja „zrywania" kartki zdzieraka — kartka odchyla się do góry wokół górnej oprawy */
+@keyframes tearoff {
+  0% {
+    transform: rotateX(0deg) translateY(0);
+    opacity: 1;
+  }
+  35% {
+    transform: rotateX(-18deg) translateY(0);
+  }
+  100% {
+    transform: rotateX(-115deg) translateY(-14%);
+    opacity: 0;
+  }
+}
+.tearoff-anim {
+  animation: tearoff 0.62s cubic-bezier(0.34, 0.4, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tearoff-anim {
+    animation-duration: 0.01s;
+  }
+}
+
+/* Animacja odwrotna — poprzednia kartka „wraca" z góry na wierzch */
+@keyframes untearoff {
+  0% {
+    transform: rotateX(-115deg) translateY(-14%);
+    opacity: 0;
+  }
+  65% {
+    transform: rotateX(-18deg) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(0deg) translateY(0);
+    opacity: 1;
+  }
+}
+.untearoff-anim {
+  animation: untearoff 0.6s cubic-bezier(0.34, 0.4, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .untearoff-anim {
+    animation-duration: 0.01s;
+  }
+}

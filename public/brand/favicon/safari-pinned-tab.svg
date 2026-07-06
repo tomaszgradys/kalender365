@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">kalendarz.pro calendar mark</title>
+  <desc id="desc">Rounded calendar symbol with highlighted day.</desc>
+  <rect width="512" height="512" fill="none"/>
+  <g fill="none" fill-rule="evenodd" transform="translate(86 78)">
+    <rect x="12" y="52" width="316" height="286" rx="54" stroke="#003890" stroke-width="26" fill="#FFFFFF"/>
+    <path d="M66 52h208c30 0 54 24 54 54v42H12v-42c0-30 24-54 54-54Z" fill="#003890"/>
+    <rect x="72" y="0" width="34" height="90" rx="17" fill="#003890"/>
+    <rect x="234" y="0" width="34" height="90" rx="17" fill="#003890"/>
+    <rect x="63" y="130" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="146" y="130" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="229" y="130" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="63" y="207" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="146" y="207" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="229" y="207" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="63" y="284" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="146" y="284" width="48" height="48" rx="12" fill="#003890"/>
+    <rect x="229" y="284" width="48" height="48" rx="12" fill="#003890"/>
+  </g>
+</svg>

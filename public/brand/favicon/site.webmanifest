@@ -1,0 +1,27 @@
+{
+  "name": "kalendarz.pro",
+  "short_name": "kalendarz.pro",
+  "description": "Kalendarze online i do druku: miesięczne, roczne, święta, dni robocze i PDF.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#003890",
+  "icons": [
+    {
+      "src": "/brand/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/favicon/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
