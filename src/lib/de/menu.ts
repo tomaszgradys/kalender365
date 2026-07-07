@@ -18,7 +18,7 @@ export const MENU: MenuSection[] = [
       { label: "Brückentage {y}", href: "/brueckentage/{y}", emoji: "🌉" },
       { label: "Urlaubsplaner {y}", href: "/urlaubsplaner/{y}", emoji: "🏖️" },
       { label: "Kalenderwochen {y}", href: "/kalenderwochen/{y}", emoji: "🔢" },
-      { label: "Arbeitstage {y}", href: "/arbeitstage/{y}", emoji: "💼" },
+      { label: "Kalender zum Ausdrucken", href: "/kalender-zum-ausdrucken/{y}", emoji: "🖨️" },
       { label: "Arbeitstage-Rechner", href: "/arbeitstage-rechner", emoji: "🧮" },
     ],
   },

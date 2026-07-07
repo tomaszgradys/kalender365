@@ -53,13 +53,17 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Kalender {year}{state ? ` – ${state.name}` : ""}</h1>
-        {isNavigableYear(year) && (
-          <div className="flex gap-2 text-sm">
-            <Link href={state ? `/kalender/${year - 1}/${state.slug}` : `/kalender/${year - 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← {year - 1}</Link>
-            <Link href={state ? `/kalender/${year + 1}/${state.slug}` : `/kalender/${year + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{year + 1} →</Link>
-          </div>
-        )}
+        <div className="flex flex-wrap gap-2 text-sm">
+          <a href={state ? `/api/pdf/de/jahr/${year}?land=${state.slug}` : `/api/pdf/de/jahr/${year}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">🖨 PDF</a>
+          <Link href={`/kalender-zum-ausdrucken/${year}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Alle PDFs</Link>
+        </div>
       </div>
+      {isNavigableYear(year) && (
+        <div className="mt-3 flex gap-2 text-sm">
+          <Link href={state ? `/kalender/${year - 1}/${state.slug}` : `/kalender/${year - 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← {year - 1}</Link>
+          <Link href={state ? `/kalender/${year + 1}/${state.slug}` : `/kalender/${year + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{year + 1} →</Link>
+        </div>
+      )}
 
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
@@ -154,6 +158,7 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">{name} {year}{state ? ` – ${state.name}` : ""}</h1>
         <div className="flex gap-2 text-sm">
+          <a href={`/api/pdf/de/${year}/${MONTH_SLUGS_DE[month0]}${state ? `?land=${state.slug}` : ""}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">🖨 PDF</a>
           <Link href={`/kalender/${mSlug(prev.y, prev.m)}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">←</Link>
           <Link href={`/kalender/${mSlug(next.y, next.m)}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">→</Link>
         </div>

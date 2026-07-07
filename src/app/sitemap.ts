@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const thisYear = berlinNow().year;
   for (const y of NAV_YEARS) {
     entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/feiertage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/brueckentage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });

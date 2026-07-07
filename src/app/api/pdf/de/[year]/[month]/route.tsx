@@ -1,0 +1,28 @@
+import { renderToBuffer } from "@react-pdf/renderer";
+import { parseYear } from "@/lib/de/year";
+import { monthSlugToIndexDE, MONTH_SLUGS_DE } from "@/lib/de/locale";
+import { stateBySlug } from "@/lib/de/bundeslaender";
+import { MonthDoc } from "@/lib/de/pdf";
+
+export const runtime = "nodejs";
+
+export async function GET(req: Request, { params }: { params: Promise<{ year: string; month: string }> }) {
+  const { year, month } = await params;
+  const y = parseYear(year);
+  const m0 = monthSlugToIndexDE(month);
+  if (!y || m0 === null) return new Response("Not found", { status: 404 });
+
+  const landSlug = new URL(req.url).searchParams.get("land");
+  const st = landSlug ? stateBySlug(landSlug) : null;
+  const state = st ? { code: st.code, name: st.name } : undefined;
+
+  const buffer = await renderToBuffer(<MonthDoc year={y} month0={m0} state={state} />);
+  const suffix = st ? `-${st.slug}` : "";
+  return new Response(new Uint8Array(buffer), {
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="kalender-${MONTH_SLUGS_DE[m0]}-${y}${suffix}.pdf"`,
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}

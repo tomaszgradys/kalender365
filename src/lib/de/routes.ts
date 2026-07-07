@@ -65,7 +65,7 @@ export const routes = {
 
   // Export endpoints
   pdfMonth: (y: number, m: number) => `/api/pdf/de/${y}/${MONTH_SLUGS_DE[m]}`,
-  pdfYear: (y: number) => `/api/pdf/de/rok/${y}`,
+  pdfYear: (y: number) => `/api/pdf/de/jahr/${y}`,
   icsFeiertage: (y: number, s: Bundesland) => `/api/ics/feiertage/${y}/${s.slug}`,
   icsSchulferien: (y: number, s: Bundesland) => `/api/ics/schulferien/${y}/${s.slug}`,
 } as const;

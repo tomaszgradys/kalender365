@@ -11,6 +11,7 @@ const COLS: { title: string; links: FootLink[] }[] = [
     title: "Kalender",
     links: [
       { href: `/kalender/${YEAR}`, label: `Kalender ${YEAR}` },
+      { href: `/kalender-zum-ausdrucken/${YEAR}`, label: "Kalender zum Ausdrucken" },
       { href: `/feiertage/${YEAR}`, label: "Feiertage" },
       { href: `/brueckentage/${YEAR}`, label: "Brückentage" },
       { href: `/kalenderwochen/${YEAR}`, label: "Kalenderwochen" },
