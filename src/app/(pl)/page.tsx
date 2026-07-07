@@ -6,6 +6,7 @@ import { getAllFeiertage } from "@/lib/de/feiertage";
 import { MENU, resolveHref } from "@/lib/de/menu";
 import { yearSummary } from "@/lib/de/calendar";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
+import TearOff from "@/components/de/TearOff";
 
 // Zeigt das heutige Kalenderblatt — muss revalidieren, darf nicht auf den
 // Build-Zeitpunkt eingefroren sein.
@@ -52,8 +53,11 @@ export default function HomePage() {
       </section>
 
       <div className="mx-auto w-full max-w-6xl px-4 py-8">
-        {/* HEUTE */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        {/* KALENDERBLATT (Abreißkalender) + HEUTE */}
+        <section className="grid items-start gap-8 lg:grid-cols-[24rem_1fr]">
+          <TearOff year={cy} monthIndex={cm} day={cd} />
+
+          <div className="flex flex-col justify-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-green-600">Heute ist</p>
           <p className="mt-1 text-2xl font-black text-navy-800">{formatFullDE(isoToday)}</p>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
@@ -79,6 +83,7 @@ export default function HomePage() {
             <Link href={`/kalenderblatt/${isoToday}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">
               Kalenderblatt heute
             </Link>
+          </div>
           </div>
         </section>
 
