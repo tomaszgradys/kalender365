@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/cookies`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/nutzungsbedingungen`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/kontakt`, lastModified: NOW, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/sonnenaufgang-sonnenuntergang`, lastModified: NOW, changeFrequency: "daily" },
   ];
 
   const thisYear = berlinNow().year;
@@ -32,6 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/mondphasen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/vollmond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/zeitumstellung/${y}`, lastModified: NOW, changeFrequency: "yearly" });
+    entries.push({ url: `${SITE_URL}/jahreszeiten/${y}`, lastModified: NOW, changeFrequency: "yearly" });
     for (const ms of MONTH_SLUGS_DE) {
       entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
     }

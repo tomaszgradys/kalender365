@@ -38,6 +38,17 @@ export const MENU: MenuSection[] = [
     ],
   },
   {
+    title: "Mond, Sonne & Natur",
+    items: [
+      { label: "Mondphasen {y}", href: "/mondphasen/{y}", emoji: "🌙" },
+      { label: "Vollmond {y}", href: "/vollmond/{y}", emoji: "🌕" },
+      { label: "Neumond {y}", href: "/neumond/{y}", emoji: "🌑" },
+      { label: "Zeitumstellung {y}", href: "/zeitumstellung/{y}", emoji: "🕑" },
+      { label: "Jahreszeiten {y}", href: "/jahreszeiten/{y}", emoji: "🍂" },
+      { label: "Sonnauf- & -untergang", href: "/sonnenaufgang-sonnenuntergang", emoji: "🌅" },
+    ],
+  },
+  {
     title: "Zeit & Rechner",
     items: [
       { label: "Kalenderwochen {y}", href: "/kalenderwochen/{y}", emoji: "🔢" },
