@@ -61,7 +61,10 @@ export default async function SchulferienStatePage({ params }: { params: Promise
                 Quelle ({record.meta.source}) geprüft.
               </div>
             )}
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4">
+              <a href={`/api/ics/schulferien/${y}/${state.slug}`} className="inline-block rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">📅 Ferien als ICS-Kalender</a>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {record.periods.map((p) => (
                 <div key={p.typ} className="rounded-2xl border border-slate-200 bg-white p-4">
                   <h2 className="text-sm font-bold text-navy-700">{FERIEN_TYP_LABEL[p.typ]}</h2>

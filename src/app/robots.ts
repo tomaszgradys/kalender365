@@ -21,10 +21,11 @@ const AI_BOTS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
+  const disallow = ["/api/"];
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
-      ...AI_BOTS.map((userAgent) => ({ userAgent, allow: "/" })),
+      { userAgent: "*", allow: "/", disallow },
+      ...AI_BOTS.map((userAgent) => ({ userAgent, allow: "/", disallow })),
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

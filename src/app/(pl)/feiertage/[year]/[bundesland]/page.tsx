@@ -78,6 +78,12 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
           ergeben sich <strong>{arbeitstage} Arbeitstage</strong>. Unten finden Sie alle Termine, Brückentage und Verweise.
         </p>
 
+        <div className="mt-4 flex flex-wrap gap-2 text-sm">
+          <a href={`/api/ics/feiertage/${y}/${state.slug}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">📅 ICS-Kalender</a>
+          <a href={`/api/csv/feiertage/${y}/${state.slug}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">⬇ CSV</a>
+          <Link href={`/kalender/${y}/${state.slug}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">🖨 Kalender {state.name}</Link>
+        </div>
+
         {/* HOLIDAYS */}
         <section className="mt-6">
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">

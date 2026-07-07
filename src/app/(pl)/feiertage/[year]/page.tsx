@@ -94,8 +94,9 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
           Wählen Sie Ihr Bundesland, um regionale Feiertage und Brückentage zu sehen.
         </p>
 
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-navy-50/40 p-4">
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-navy-50/40 p-4">
           <BundeslandSelect basePath={`/feiertage/${y}`} />
+          <a href={`/api/ics/feiertage/${y}`} className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">📅 ICS (bundesweit)</a>
         </div>
 
         {/* NATIONAL */}
