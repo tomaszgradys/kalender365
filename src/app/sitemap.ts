@@ -55,5 +55,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+  // Kalenderblätter (Tagesseiten) für das aktuelle und nächste Jahr.
+  for (const y of [thisYear, thisYear + 1]) {
+    for (let m0 = 0; m0 < 12; m0++) {
+      const dim = new Date(Date.UTC(y, m0 + 1, 0)).getUTCDate();
+      for (let d = 1; d <= dim; d++) {
+        const iso = `${y}-${String(m0 + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        entries.push({ url: `${SITE_URL}/kalenderblatt/${iso}`, lastModified: NOW, changeFrequency: "yearly" });
+      }
+    }
+  }
+
   return entries;
 }

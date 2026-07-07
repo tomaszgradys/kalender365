@@ -76,6 +76,9 @@ export default function HomePage() {
             <Link href={`/brueckentage/${cy}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">
               Brückentage {cy}
             </Link>
+            <Link href={`/kalenderblatt/${isoToday}`} className="rounded-lg border border-slate-200 px-4 py-2 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">
+              Kalenderblatt heute
+            </Link>
           </div>
         </section>
 
