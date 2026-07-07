@@ -8,6 +8,7 @@ import { statesWithData, getFerienByTyp, isSchulferienIndexable } from "@/lib/de
 import { stateByCode } from "@/lib/de/bundeslaender";
 import { getAllPosts } from "@/lib/de/blog";
 import { COUNTDOWNS } from "@/lib/de/countdowns";
+import { isoWeeksInYear } from "@/lib/de/weeks";
 
 const NOW = berlinToday();
 
@@ -22,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/tage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/wochentag-rechner`, lastModified: NOW, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/altersrechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/so-berechnen-wir`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/datenschutz`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/cookies`, lastModified: NOW, changeFrequency: "yearly" },
@@ -43,6 +45,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    // Einzelne Kalenderwochen nur für aktuelles + nächstes Jahr (Umfang).
+    if (y === thisYear || y === thisYear + 1) {
+      for (let w = 1; w <= isoWeeksInYear(y); w++) {
+        entries.push({ url: `${SITE_URL}/kw/${w}-${y}`, lastModified: NOW, changeFrequency: "weekly" });
+      }
+    }
     entries.push({ url: `${SITE_URL}/mondphasen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/vollmond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: NOW, changeFrequency: "monthly" });

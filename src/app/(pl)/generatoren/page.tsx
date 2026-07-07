@@ -14,6 +14,7 @@ export default function GeneratorenPage() {
     { href: "/tage-rechner", emoji: "➗", label: "Tage-Rechner", desc: "Tage zwischen zwei Daten" },
     { href: "/arbeitstage-rechner", emoji: "🧮", label: "Arbeitstage-Rechner", desc: "Arbeitstage je Bundesland" },
     { href: "/wochentag-rechner", emoji: "📆", label: "Wochentag-Rechner", desc: "Wochentag eines Datums" },
+    { href: "/altersrechner", emoji: "🎂", label: "Altersrechner", desc: "Alter genau berechnen" },
     { href: "/wie-viele-tage-bis", emoji: "⏳", label: "Countdown", desc: "Tage bis Weihnachten, Ostern …" },
     { href: `/urlaubsplaner/${y}`, emoji: "🏖️", label: "Urlaubsplaner", desc: "Brückentage optimal nutzen" },
     { href: `/kalenderwochen/${y}`, emoji: "🔢", label: "Kalenderwochen", desc: "Alle KW nach ISO 8601" },

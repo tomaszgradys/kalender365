@@ -87,3 +87,43 @@ export function WochentagRechner() {
     </div>
   );
 }
+
+export function AltersRechner() {
+  const [birth, setBirth] = useState("");
+  const valid = /^\d{4}-\d{2}-\d{2}$/.test(birth);
+  let out: { years: number; months: number; days: number; totalDays: number; weekday: string; nextIn: number } | null = null;
+  if (valid) {
+    const [by, bm, bd] = birth.split("-").map(Number);
+    const now = new Date();
+    const ny = now.getUTCFullYear(), nm = now.getUTCMonth() + 1, nd = now.getUTCDate();
+    const birthMs = Date.UTC(by, bm - 1, bd);
+    const todayMs = Date.UTC(ny, nm - 1, nd);
+    if (birthMs <= todayMs) {
+      let years = ny - by, months = nm - bm, days = nd - bd;
+      if (days < 0) { months -= 1; days += new Date(Date.UTC(ny, nm - 1, 0)).getUTCDate(); }
+      if (months < 0) { years -= 1; months += 12; }
+      const totalDays = Math.round((todayMs - birthMs) / 86400000);
+      const weekday = formatFullDE(birth).split(",")[0];
+      // days until next birthday
+      let nextBd = Date.UTC(ny, bm - 1, bd);
+      if (nextBd < todayMs) nextBd = Date.UTC(ny + 1, bm - 1, bd);
+      const nextIn = Math.round((nextBd - todayMs) / 86400000);
+      out = { years, months, days, totalDays, weekday, nextIn };
+    }
+  }
+  return (
+    <div className={cardCls}>
+      <label className="text-sm">
+        <span className="block text-slate-500">Geburtsdatum</span>
+        <input type="date" value={birth} onChange={(e) => setBirth(e.target.value)} className={inputCls} />
+      </label>
+      {out && (
+        <div className="mt-4 space-y-1 text-navy-800">
+          <p className="text-lg">Sie sind <strong>{out.years} Jahre, {out.months} Monate und {out.days} Tage</strong> alt.</p>
+          <p className="text-sm text-slate-600">Das sind insgesamt <strong>{out.totalDays.toLocaleString("de-DE")} Tage</strong>. Geboren an einem <strong>{out.weekday}</strong>.</p>
+          <p className="text-sm text-brand-green-700">Nächster Geburtstag in <strong>{out.nextIn} Tagen</strong>.</p>
+        </div>
+      )}
+    </div>
+  );
+}

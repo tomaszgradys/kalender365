@@ -62,7 +62,7 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
                 return (
                   <tr key={w.week} className={`border-t border-slate-100 ${isCurrent ? "bg-brand-green-50" : ""}`}>
                     <td className="px-4 py-2 font-semibold text-navy-800">
-                      KW {w.week}{isCurrent && <span className="ml-2 rounded-full bg-brand-green-600 px-2 py-0.5 text-[10px] font-bold text-white">aktuell</span>}
+                      <Link href={`/kw/${w.week}-${y}`} className="hover:text-navy-600 hover:underline">KW {w.week}</Link>{isCurrent && <span className="ml-2 rounded-full bg-brand-green-600 px-2 py-0.5 text-[10px] font-bold text-white">aktuell</span>}
                     </td>
                     <td className="px-4 py-2 text-slate-600">{formatShortDE(iso(w.start))}</td>
                     <td className="px-4 py-2 text-slate-600">{formatShortDE(iso(w.end))}</td>
