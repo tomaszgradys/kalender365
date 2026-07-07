@@ -7,6 +7,7 @@ import { berlinNow, berlinToday } from "@/lib/de/now";
 import { statesWithData, getFerienByTyp, isSchulferienIndexable } from "@/lib/de/schulferien";
 import { stateByCode } from "@/lib/de/bundeslaender";
 import { getAllPosts } from "@/lib/de/blog";
+import { COUNTDOWNS } from "@/lib/de/countdowns";
 
 const NOW = berlinToday();
 
@@ -27,6 +28,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/nutzungsbedingungen`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/kontakt`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/sonnenaufgang-sonnenuntergang`, lastModified: NOW, changeFrequency: "daily" },
+    { url: `${SITE_URL}/wie-viele-tage-bis`, lastModified: NOW, changeFrequency: "daily" },
+    { url: `${SITE_URL}/wie-viele-tage-bis-zu-den-sommerferien`, lastModified: NOW, changeFrequency: "daily" },
+    { url: `${SITE_URL}/countdown`, lastModified: NOW, changeFrequency: "monthly" },
+    ...COUNTDOWNS.map((c) => ({ url: `${SITE_URL}/wie-viele-tage-bis/${c.slug}`, lastModified: NOW, changeFrequency: "daily" as const })),
   ];
 
   const thisYear = berlinNow().year;

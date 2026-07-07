@@ -55,6 +55,7 @@ export const MENU: MenuSection[] = [
       { label: "Tage-Rechner", href: "/tage-rechner", emoji: "➗" },
       { label: "Arbeitstage-Rechner", href: "/arbeitstage-rechner", emoji: "🧮" },
       { label: "Wochentag-Rechner", href: "/wochentag-rechner", emoji: "📆" },
+      { label: "Countdown", href: "/wie-viele-tage-bis", emoji: "⏳" },
       { label: "Alle Tools", href: "/generatoren", emoji: "⚙️" },
     ],
   },
