@@ -61,8 +61,11 @@ export default async function SchulferienStatePage({ params }: { params: Promise
                 Quelle ({record.meta.source}) geprüft.
               </div>
             )}
-            <div className="mt-4">
-              <a href={`/api/ics/schulferien/${y}/${state.slug}`} className="inline-block rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">📅 Ferien als ICS-Kalender</a>
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <a href={`/api/ics/schulferien/${y}/${state.slug}`} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">📅 Ferien als ICS-Kalender</a>
+              {(["sommerferien", "osterferien", "herbstferien", "weihnachtsferien"] as const).map((t) => (
+                <Link key={t} href={`/${t}/${y}/${state.slug}`} className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-navy-700 hover:border-navy-300">{FERIEN_TYP_LABEL[t]}</Link>
+              ))}
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {record.periods.map((p) => (

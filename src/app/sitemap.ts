@@ -4,7 +4,7 @@ import { NAV_YEARS } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { berlinNow, berlinToday } from "@/lib/de/now";
-import { statesWithData } from "@/lib/de/schulferien";
+import { statesWithData, getFerienByTyp, isSchulferienIndexable } from "@/lib/de/schulferien";
 import { stateByCode } from "@/lib/de/bundeslaender";
 import { getAllPosts } from "@/lib/de/blog";
 
@@ -47,8 +47,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sfStates = statesWithData(y);
     if (sfStates.length > 0) {
       entries.push({ url: `${SITE_URL}/schulferien/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+      const FERIEN_TYPES = ["sommerferien", "osterferien", "herbstferien", "weihnachtsferien"] as const;
       for (const code of sfStates) {
-        entries.push({ url: `${SITE_URL}/schulferien/${y}/${stateByCode(code).slug}`, lastModified: NOW, changeFrequency: "monthly" });
+        const slug = stateByCode(code).slug;
+        entries.push({ url: `${SITE_URL}/schulferien/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+        if (isSchulferienIndexable(y, code)) {
+          for (const t of FERIEN_TYPES) {
+            if (getFerienByTyp(y, code, t)) {
+              entries.push({ url: `${SITE_URL}/${t}/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+            }
+          }
+        }
       }
     }
     for (const ms of MONTH_SLUGS_DE) {

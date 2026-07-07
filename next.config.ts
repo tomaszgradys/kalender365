@@ -50,6 +50,9 @@ const nextConfig: NextConfig = {
         destination: "https://kalender365.pro/:path*",
         permanent: true,
       },
+      // „Gesetzliche Feiertage" ist ein Synonym-Keyword → 308 auf die Kanonische.
+      { source: "/gesetzliche-feiertage/:year(\\d{4})", destination: "/feiertage/:year", permanent: true },
+      { source: "/gesetzliche-feiertage/:year(\\d{4})/:land", destination: "/feiertage/:year/:land", permanent: true },
     ];
   },
 };
