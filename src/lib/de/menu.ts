@@ -35,6 +35,8 @@ export const MENU: MenuSection[] = [
     title: "Schule & Familie",
     items: [
       { label: "Schulferien {y}", href: "/schulferien/{y}", emoji: "🎒" },
+      { label: "Stundenplan", href: "/stundenplan", emoji: "📝" },
+      { label: "Sommerferien-Countdown", href: "/wie-viele-tage-bis-zu-den-sommerferien", emoji: "⏳" },
     ],
   },
   {

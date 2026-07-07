@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/wochentag-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/altersrechner`, lastModified: NOW, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/stundenplan`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/so-berechnen-wir`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/datenschutz`, lastModified: NOW, changeFrequency: "yearly" },
     { url: `${SITE_URL}/cookies`, lastModified: NOW, changeFrequency: "yearly" },
