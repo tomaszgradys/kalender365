@@ -42,11 +42,6 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
           Wählen Sie Ihr Bundesland für Winter-, Oster-, Pfingst-, Sommer-, Herbst- und Weihnachtsferien.
         </p>
 
-        <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <strong>Hinweis:</strong> Die Ferientermine werden derzeit anhand offizieller Quellen (KMK, Landesministerien)
-          geprüft und schrittweise freigeschaltet. Bis dahin ohne Gewähr.
-        </div>
-
         <div className="mt-4 rounded-2xl border border-slate-200 bg-navy-50/40 p-4">
           <BundeslandSelect basePath={`/schulferien/${y}`} />
         </div>
@@ -59,7 +54,7 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
               return (
                 <Link key={b.code} href={`/schulferien/${y}/${b.slug}`} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-navy-700 hover:border-navy-300 hover:shadow-sm">
                   {b.name}
-                  {!has && <span className="text-[10px] text-slate-400">bald</span>}
+                  {!has && <span className="text-[10px] text-slate-400">folgt</span>}
                 </Link>
               );
             })}

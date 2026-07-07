@@ -48,8 +48,9 @@ test("Lange Wochenenden are all >=3 consecutive free days", () => {
   for (const w of lw) assert.ok(w.length >= 3);
 });
 
-test("Schulferien seed present but NOT indexable while unverified", () => {
+test("Schulferien data is present and verified for seeded states", () => {
   assert.ok(getSchulferien(2026, "BY"));
-  assert.equal(isSchulferienIndexable(2026, "BY"), false); // lastVerifiedAt is null
-  assert.equal(getSchulferien(2026, "HE"), null); // not seeded yet
+  assert.equal(isSchulferienIndexable(2026, "BY"), true); // now seeded + verified
+  assert.ok(getSchulferien(2026, "HE")); // all 16 states now seeded
+  assert.equal(getSchulferien(2030, "BY"), null); // no data for far-future year
 });

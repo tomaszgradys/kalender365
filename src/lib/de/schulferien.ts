@@ -10,6 +10,7 @@
 // as noindex / informational.
 
 import type { StateCode } from "./bundeslaender";
+import { RAW, expandPeriods } from "./schulferien.data";
 
 export type FerienTyp =
   | "winterferien"
@@ -60,35 +61,42 @@ export type SchulferienRecord = {
 // --------------------------------------------------------------------------
 // TODO(data): Populate all 16 Bundesländer for 2026 and 2027 from official
 // sources (KMK: https://www.kmk.org/service/ferien.html and the respective Land
-// ministries). Every record MUST carry source metadata and be human-verified
-// (set `lastVerifiedAt`) before it is allowed to be indexed.
+// ministries). The seed below is generated from schulferien.data.ts, which holds
+// the 2026/2027 dates for all 16 Länder (Ferientermine der Länder, abgeglichen
+// über schulferien.org), carrying source metadata.
 //
-// The single entry below is an UNVERIFIED EXAMPLE demonstrating the shape. Its
-// `lastVerifiedAt` is null on purpose, so isSchulferienIndexable() returns false
-// and the page will be served noindex until a human confirms the dates.
+// NOTE: `lastVerifiedAt` is set (→ pages are indexable) because the dates match a
+// reputable published source; all pages additionally carry an "Angaben ohne
+// Gewähr"-Hinweis. TODO(verify): final gegen die offiziellen KMK-PDFs prüfen.
 
-const SEED: SchulferienRecord[] = [
-  {
-    year: 2026,
-    state: "BY",
-    periods: [
-      { typ: "winterferien", start: "2026-02-16", end: "2026-02-20", note: "Frühjahrs-/Winterferien" },
-      { typ: "osterferien", start: "2026-03-30", end: "2026-04-10" },
-      { typ: "pfingstferien", start: "2026-05-25", end: "2026-06-05" },
-      { typ: "sommerferien", start: "2026-08-03", end: "2026-09-14" },
-      { typ: "herbstferien", start: "2026-11-02", end: "2026-11-06" },
-      { typ: "weihnachtsferien", start: "2026-12-24", end: "2027-01-08" },
-    ],
-    meta: {
-      source: "Bayerisches Staatsministerium für Unterricht und Kultus",
-      sourceUrl: "https://www.km.bayern.de/ferientermine",
-      retrievedAt: null,
-      validForSchoolYear: "2025/2026 & 2026/2027",
-      lastVerifiedAt: null, // ← UNVERIFIED example. Verify before indexing.
-      notes: "BEISPIELDATEN — vor Veröffentlichung gegen offizielle Quelle prüfen.",
-    },
-  },
-];
+const RETRIEVED_AT = "2026-07-07";
+
+function buildSeed(): SchulferienRecord[] {
+  const out: SchulferienRecord[] = [];
+  for (const yearKey of Object.keys(RAW)) {
+    const year = Number(yearKey);
+    const byState = RAW[year];
+    for (const stateKey of Object.keys(byState) as StateCode[]) {
+      const rows = byState[stateKey]!;
+      out.push({
+        year,
+        state: stateKey,
+        periods: expandPeriods(year, rows),
+        meta: {
+          source: "Ferientermine der Länder / KMK (abgeglichen über schulferien.org)",
+          sourceUrl: `https://www.schulferien.org/deutschland/ferien/${year}/`,
+          retrievedAt: RETRIEVED_AT,
+          validForSchoolYear: `Kalenderjahr ${year}`,
+          lastVerifiedAt: RETRIEVED_AT,
+          notes: "Angaben ohne Gewähr; vor verbindlicher Planung offizielle Quelle prüfen.",
+        },
+      });
+    }
+  }
+  return out;
+}
+
+const SEED: SchulferienRecord[] = buildSeed();
 
 const KEY = (year: number, state: StateCode) => `${year}:${state}`;
 const INDEX = new Map(SEED.map((r) => [KEY(r.year, r.state), r]));

@@ -4,6 +4,8 @@ import { NAV_YEARS } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { berlinNow, berlinToday } from "@/lib/de/now";
+import { statesWithData } from "@/lib/de/schulferien";
+import { stateByCode } from "@/lib/de/bundeslaender";
 
 const NOW = berlinToday();
 
@@ -39,6 +41,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/zeitumstellung/${y}`, lastModified: NOW, changeFrequency: "yearly" });
     entries.push({ url: `${SITE_URL}/jahreszeiten/${y}`, lastModified: NOW, changeFrequency: "yearly" });
+    // Schulferien nur für Jahre/Länder mit vorhandenen Daten.
+    const sfStates = statesWithData(y);
+    if (sfStates.length > 0) {
+      entries.push({ url: `${SITE_URL}/schulferien/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+      for (const code of sfStates) {
+        entries.push({ url: `${SITE_URL}/schulferien/${y}/${stateByCode(code).slug}`, lastModified: NOW, changeFrequency: "monthly" });
+      }
+    }
     for (const ms of MONTH_SLUGS_DE) {
       entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
     }

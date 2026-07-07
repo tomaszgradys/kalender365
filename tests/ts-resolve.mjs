@@ -6,8 +6,12 @@ import { existsSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 
+const HAS_JS_EXT = /\.(ts|tsx|js|jsx|mjs|cjs|json)$/;
+
 export async function resolve(specifier, context, next) {
-  if ((specifier.startsWith("./") || specifier.startsWith("../")) && !path.extname(specifier)) {
+  // Relative import without an explicit JS/TS extension (note: a dotted name like
+  // "./schulferien.data" has extname ".data" but still needs ".ts" appended).
+  if ((specifier.startsWith("./") || specifier.startsWith("../")) && !HAS_JS_EXT.test(specifier)) {
     const parent = context.parentURL ? fileURLToPath(context.parentURL) : process.cwd();
     const candidate = path.resolve(path.dirname(parent), specifier + ".ts");
     if (existsSync(candidate)) {
