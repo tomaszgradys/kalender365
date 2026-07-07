@@ -10,6 +10,7 @@
     "test": "node --loader ./tests/ts-resolve.mjs --test \"tests/*.test.ts\""
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
     "@neondatabase/serverless": "^0.10.4",
     "@react-pdf/renderer": "^4.5.1",
     "html2canvas-pro": "^2.2.1",

@@ -34,6 +34,7 @@ const COLS: { title: string; links: FootLink[] }[] = [
   {
     title: "Information",
     links: [
+      { href: "/blog", label: "Blog" },
       { href: "/so-berechnen-wir", label: "So berechnen wir" },
       { href: "/impressum", label: "Impressum" },
       { href: "/datenschutz", label: "Datenschutz" },

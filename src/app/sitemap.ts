@@ -6,15 +6,17 @@ import { MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { berlinNow, berlinToday } from "@/lib/de/now";
 import { statesWithData } from "@/lib/de/schulferien";
 import { stateByCode } from "@/lib/de/bundeslaender";
+import { getAllPosts } from "@/lib/de/blog";
 
 const NOW = berlinToday();
 
 // Nur fertige, indexierbare deutsche Routen. Schulferien bleiben ausgeschlossen,
 // bis die Termine verifiziert sind (siehe schulferien.ts / SEO-Gate). Impressum
 // ist ausgeschlossen, solange nur Platzhalterdaten hinterlegt sind.
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: NOW, changeFrequency: "daily" },
+    { url: `${SITE_URL}/blog`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/generatoren`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/tage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
@@ -75,6 +77,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         entries.push({ url: `${SITE_URL}/kalenderblatt/${iso}`, lastModified: NOW, changeFrequency: "yearly" });
       }
     }
+  }
+
+  // Blog-Beiträge (Seed + KI aus der DB).
+  try {
+    for (const p of await getAllPosts()) {
+      entries.push({ url: `${SITE_URL}/blog/${p.slug}`, lastModified: new Date(`${p.publishedAt}T00:00:00Z`), changeFrequency: "monthly" });
+    }
+  } catch {
+    // DB nicht erreichbar → nur statische Einträge
   }
 
   return entries;

@@ -29,6 +29,7 @@ export default function Header({ year }: { year: number }) {
     { label: "Brückentage", href: `/brueckentage/${year}` },
     { label: "Urlaubsplaner", href: `/urlaubsplaner/${year}` },
     { label: "Tools", href: "/generatoren" },
+    { label: "Blog", href: "/blog" },
   ];
 
   return (
