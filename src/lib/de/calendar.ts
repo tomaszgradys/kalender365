@@ -4,6 +4,23 @@ import type { StateCode } from "./bundeslaender";
 import { getAllFeiertage, workFreeHolidaySet } from "./feiertage";
 import { arbeitstageInYear } from "./arbeitstage";
 import { isoWeeksInYear } from "./weeks";
+import { isoWeekOf } from "./now";
+import { parseMonthYearSlugDE } from "./locale";
+
+/** Parse a /kalender/[slug] segment: "2026" (year) or "juli-2026" (month). */
+export type KalenderSlug =
+  | { kind: "year"; year: number }
+  | { kind: "month"; year: number; month0: number };
+
+export function parseKalenderSlug(slug: string): KalenderSlug | null {
+  if (/^\d{4}$/.test(slug)) {
+    const year = Number(slug);
+    return year >= 1900 && year <= 2100 ? { kind: "year", year } : null;
+  }
+  const my = parseMonthYearSlugDE(slug);
+  if (my && my.year >= 1900 && my.year <= 2100) return { kind: "month", year: my.year, month0: my.monthIndex };
+  return null;
+}
 
 export type GridDay = {
   day: number; // 1..31, or 0 for padding cells
@@ -47,6 +64,33 @@ export function monthMatrix(year: number, month0: number, state?: StateCode): Gr
   const weeks: GridDay[][] = [];
   for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
   return weeks;
+}
+
+export type MonthWeek = { kw: number; days: GridDay[] };
+
+/** Month grid with the ISO calendar week (KW) for each row. */
+export function monthView(year: number, month0: number, state?: StateCode): MonthWeek[] {
+  const rows = monthMatrix(year, month0, state);
+  const first = new Date(Date.UTC(year, month0, 1));
+  const startPad = (first.getUTCDay() + 6) % 7; // Mon=0
+  return rows.map((days, i) => {
+    // Monday date of this row (may fall in the previous/next month).
+    const mondayNum = 1 - startPad + i * 7;
+    const monday = new Date(Date.UTC(year, month0, mondayNum));
+    const { week } = isoWeekOf(monday.getUTCFullYear(), monday.getUTCMonth(), monday.getUTCDate());
+    return { kw: week, days };
+  });
+}
+
+/** Feiertage that fall within a given month for a state (or national baseline). */
+export function feiertageInMonth(year: number, month0: number, state?: StateCode) {
+  const prefix = `${year}-${pad(month0 + 1)}-`;
+  return getAllFeiertage(year).filter((h) => {
+    if (!h.date.startsWith(prefix)) return false;
+    if (h.scope === "national") return true;
+    if (state && h.scope === "state" && h.states.includes(state)) return true;
+    return false;
+  });
 }
 
 export type YearSummary = {

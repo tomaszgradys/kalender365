@@ -2,7 +2,8 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/de/site";
 import { NAV_YEARS } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
-import { berlinToday } from "@/lib/de/now";
+import { MONTH_SLUGS_DE } from "@/lib/de/locale";
+import { berlinNow, berlinToday } from "@/lib/de/now";
 
 const NOW = berlinToday();
 
@@ -23,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/kontakt`, lastModified: NOW, changeFrequency: "yearly" },
   ];
 
+  const thisYear = berlinNow().year;
   for (const y of NAV_YEARS) {
     entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/feiertage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
@@ -30,10 +32,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    for (const ms of MONTH_SLUGS_DE) {
+      entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    }
     for (const slug of STATE_SLUGS) {
+      entries.push({ url: `${SITE_URL}/kalender/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
       entries.push({ url: `${SITE_URL}/feiertage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
       entries.push({ url: `${SITE_URL}/brueckentage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
       entries.push({ url: `${SITE_URL}/arbeitstage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+      // Monatskalender je Bundesland nur für das aktuelle und nächste Jahr (Umfang).
+      if (y === thisYear || y === thisYear + 1) {
+        for (const ms of MONTH_SLUGS_DE) {
+          entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+        }
+      }
     }
   }
 
