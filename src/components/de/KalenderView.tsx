@@ -1,22 +1,37 @@
 import Link from "next/link";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE, WEEKDAY_SHORT_DE, formatLongDE, weekdayDE } from "@/lib/de/locale";
-import { monthMatrix, monthView, yearSummary, feiertageInMonth } from "@/lib/de/calendar";
+import { monthMatrix, monthView, yearSummary, feiertageInMonth, type GridDay } from "@/lib/de/calendar";
 import { getFeiertage, getNationalFeiertage } from "@/lib/de/feiertage";
 import { workingDaysInMonth } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
+import { getSchulferien } from "@/lib/de/schulferien";
 import { isNavigableYear } from "@/lib/de/year";
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 
-function Cell({ d }: { d: { day: number; weekend: boolean; holiday: boolean } }) {
+/** Set of ISO dates that fall inside any school-holiday period of a Bundesland. */
+function ferienDateSet(year: number, state?: Bundesland): Set<string> {
+  const set = new Set<string>();
+  if (!state) return set;
+  const rec = getSchulferien(year, state.code);
+  if (!rec) return set;
+  for (const p of rec.periods) {
+    for (let t = Date.parse(`${p.start}T00:00:00Z`); t <= Date.parse(`${p.end}T00:00:00Z`); t += 86400000) {
+      set.add(new Date(t).toISOString().slice(0, 10));
+    }
+  }
+  return set;
+}
+
+function Cell({ d, ferien = false }: { d: Pick<GridDay, "day" | "weekend" | "holiday">; ferien?: boolean }) {
   if (d.day === 0) return <span className="text-transparent">0</span>;
-  return (
-    <span
-      className={`inline-flex h-6 w-6 items-center justify-center rounded-full ${
-        d.holiday ? "bg-brand-green-100 font-bold text-brand-green-700" : d.weekend ? "text-slate-400" : "text-navy-800"
-      }`}
-    >
-      {d.day}
-    </span>
-  );
+  const tone = d.holiday
+    ? "bg-brand-green-100 font-bold text-brand-green-700"
+    : ferien
+      ? "bg-amber-100 font-medium text-amber-700"
+      : d.weekend
+        ? "text-slate-400"
+        : "text-navy-800";
+  return <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full ${tone}`}>{d.day}</span>;
 }
 
 function StateLinks({ base }: { base: (b: Bundesland) => string }) {
@@ -36,9 +51,12 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
   const summary = yearSummary(year, state?.code);
   const feiertage = state ? getFeiertage(year, state.code, { includePartial: false }) : getNationalFeiertage(year);
   const label = state ? state.name : "Deutschland";
+  const ferien = ferienDateSet(year, state);
+  const suffix = state ? `/${state.slug}` : "";
+  const landQ = state ? `?land=${state.slug}` : "";
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8">
+    <PageWithSidebar>
       <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
         {state ? (
@@ -52,16 +70,21 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
       </nav>
 
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Kalender {year}{state ? ` – ${state.name}` : ""}</h1>
+        <h1 className="text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">Kalender {year}{state ? ` – ${state.name}` : ""}</h1>
         <div className="flex flex-wrap gap-2 text-sm">
-          <a href={state ? `/api/pdf/de/jahr/${year}?land=${state.slug}` : `/api/pdf/de/jahr/${year}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">🖨 PDF</a>
+          <a href={`/api/pdf/de/jahr/${year}${landQ}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">🖨 PDF</a>
           <Link href={`/kalender-zum-ausdrucken/${year}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Alle PDFs</Link>
         </div>
       </div>
+      <p className="mt-2 max-w-2xl text-slate-600">
+        Kalender für das ganze Jahr {year}{state ? ` in ${state.name}` : ""} — alle 12 Monate, gesetzliche Feiertage,
+        Kalenderwochen und Arbeitstage. Monat anklicken für Details und PDF zum Ausdrucken.
+      </p>
+
       {isNavigableYear(year) && (
-        <div className="mt-3 flex gap-2 text-sm">
-          <Link href={state ? `/kalender/${year - 1}/${state.slug}` : `/kalender/${year - 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← {year - 1}</Link>
-          <Link href={state ? `/kalender/${year + 1}/${state.slug}` : `/kalender/${year + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{year + 1} →</Link>
+        <div className="mt-4 flex gap-2 text-sm">
+          <Link href={`/kalender/${year - 1}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← {year - 1}</Link>
+          <Link href={`/kalender/${year + 1}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{year + 1} →</Link>
         </div>
       )}
 
@@ -79,7 +102,18 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
         ))}
       </div>
 
-      <section className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Farblegende */}
+      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded bg-brand-green-100 ring-1 ring-brand-green-300" /> Feiertag</span>
+        <span className="inline-flex items-center gap-1.5"><span className="text-slate-400">7</span> Wochenende</span>
+        {state ? (
+          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded bg-amber-100 ring-1 ring-amber-300" /> Schulferien</span>
+        ) : (
+          <Link href={`/schulferien/${year}`} className="font-medium text-navy-600 hover:text-brand-green-600">Schulferien nach Bundesland →</Link>
+        )}
+      </div>
+
+      <section className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {MONTH_NAMES_DE.map((name, m) => {
           const weeks = monthMatrix(year, m, state?.code);
           const href = state ? `/kalender/${MONTH_SLUGS_DE[m]}-${year}/${state.slug}` : `/kalender/${MONTH_SLUGS_DE[m]}-${year}`;
@@ -94,7 +128,7 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
                 </thead>
                 <tbody>
                   {weeks.map((wk, i) => (
-                    <tr key={i}>{wk.map((d, j) => <td key={j} className="py-0.5"><Cell d={d} /></td>)}</tr>
+                    <tr key={i}>{wk.map((d, j) => <td key={j} className="py-0.5"><Cell d={d} ferien={ferien.has(d.iso)} /></td>)}</tr>
                   ))}
                 </tbody>
               </table>
@@ -102,6 +136,16 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
           );
         })}
       </section>
+
+      {/* Schnellzugriff & Downloads */}
+      <div className="mt-6 flex flex-wrap gap-2 text-sm">
+        <Link href={`/feiertage/${year}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Feiertage {year}</Link>
+        <Link href={`/brueckentage/${year}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Brückentage {year}</Link>
+        <Link href={`/schulferien/${year}${suffix}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Schulferien {year}</Link>
+        <Link href={`/kalender-zum-ausdrucken/${year}`} className="rounded-lg bg-brand-green-600 px-3 py-1.5 font-semibold text-white hover:bg-brand-green-700">Kalender {year} zum Ausdrucken</Link>
+        <a href={`/api/ics/feiertage/${year}${suffix}`} className="rounded-lg border border-brand-green-200 bg-brand-green-50 px-3 py-1.5 font-medium text-brand-green-700 hover:bg-brand-green-100">📅 Feiertage als .ics</a>
+        <a href={`/api/pdf/de/jahr/${year}${landQ}`} className="rounded-lg bg-navy-600 px-3 py-1.5 font-semibold text-white hover:bg-navy-700">⬇ Ganzes Jahr auf 1 Seite (PDF)</a>
+      </div>
 
       <section className="mt-10">
         <h2 className="mb-3 text-xl font-bold text-navy-800">Feiertage {year}{state ? ` in ${state.name}` : " (bundesweit)"}</h2>
@@ -130,7 +174,7 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
         <h2 className="mb-3 text-xl font-bold text-navy-800">Kalender {year} nach Bundesland</h2>
         <StateLinks base={(b) => `/kalender/${year}/${b.slug}`} />
       </section>
-    </div>
+    </PageWithSidebar>
   );
 }
 
@@ -146,9 +190,10 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
   const next = month0 === 11 ? { y: year + 1, m: 0 } : { y: year, m: month0 + 1 };
   const mSlug = (y: number, m: number) => `${MONTH_SLUGS_DE[m]}-${y}`;
   const suffix = state ? `/${state.slug}` : "";
+  const ferien = ferienDateSet(year, state);
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-8">
+    <PageWithSidebar>
       <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
         <Link href={state ? `/kalender/${year}/${state.slug}` : `/kalender/${year}`} className="hover:text-navy-600">Kalender {year}</Link> <span className="mx-1">/</span>
@@ -189,11 +234,16 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
             {weeks.map((row) => (
               <tr key={row.kw}>
                 <td className="py-1 text-[11px] font-semibold text-slate-400">{row.kw}</td>
-                {row.days.map((d, j) => <td key={j} className="py-1"><Cell d={d} /></td>)}
+                {row.days.map((d, j) => <td key={j} className="py-1"><Cell d={d} ferien={ferien.has(d.iso)} /></td>)}
               </tr>
             ))}
           </tbody>
         </table>
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-slate-100 pt-3 text-xs text-slate-500">
+          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded bg-brand-green-100 ring-1 ring-brand-green-300" /> Feiertag</span>
+          <span className="inline-flex items-center gap-1.5"><span className="text-slate-400">7</span> Wochenende</span>
+          {state && <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded bg-amber-100 ring-1 ring-amber-300" /> Schulferien</span>}
+        </div>
       </div>
 
       {feiertage.length > 0 && (
@@ -211,7 +261,7 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">{name} {year} nach Bundesland</h2>
         <StateLinks base={(b) => `/kalender/${mSlug(year, month0)}/${b.slug}`} />
       </section>
-    </div>
+    </PageWithSidebar>
   );
 }
 
