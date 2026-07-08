@@ -42,11 +42,32 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Kalenderwochen {y}</span>
         </nav>
-        <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Kalenderwochen {y}</h1>
+        <h1 className="text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">Kalenderwochen {y}</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
           Alle {weeks.length} Kalenderwochen {y} nach ISO 8601. Jede Woche beginnt am Montag; KW 1 ist die Woche,
-          die den 4. Januar enthält.
+          die den 4. Januar enthält. Die aktuelle Woche ist hervorgehoben.
         </p>
+
+        {current.isoYear === y && (() => {
+          const cw = weeks.find((w) => w.week === current.week);
+          if (!cw) return null;
+          return (
+            <Link
+              href={`/kw/${cw.week}-${y}`}
+              className="mt-5 flex items-center gap-4 rounded-2xl border border-brand-green-100 bg-brand-green-50 p-4 transition hover:border-brand-green-300 sm:p-5"
+            >
+              <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-brand-green-600 text-white sm:h-20 sm:w-20">
+                <span className="text-[10px] font-semibold uppercase tracking-wider">KW</span>
+                <span className="text-3xl font-black leading-none sm:text-4xl">{cw.week}</span>
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand-green-700">Aktuelle Kalenderwoche</p>
+                <p className="text-lg font-bold text-navy-800 sm:text-xl">{cw.week}. Kalenderwoche {y}</p>
+                <p className="text-sm text-slate-600">{formatShortDE(iso(cw.start))} – {formatShortDE(iso(cw.end))}</p>
+              </div>
+            </Link>
+          );
+        })()}
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <table className="w-full text-left text-sm">
