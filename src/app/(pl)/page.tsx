@@ -7,6 +7,7 @@ import { MENU, resolveHref } from "@/lib/de/menu";
 import { yearSummary } from "@/lib/de/calendar";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import TearOff from "@/components/de/TearOff";
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 
 // Zeigt das heutige Kalenderblatt — muss revalidieren, darf nicht auf den
 // Build-Zeitpunkt eingefroren sein.
@@ -52,7 +53,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-6xl px-4 py-8">
+      <PageWithSidebar>
         {/* KALENDERBLATT (Abreißkalender) + HEUTE */}
         <section className="grid items-start gap-8 lg:grid-cols-[24rem_1fr]">
           <TearOff year={cy} monthIndex={cm} day={cd} />
@@ -166,7 +167,7 @@ export default function HomePage() {
             })}
           </div>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }
