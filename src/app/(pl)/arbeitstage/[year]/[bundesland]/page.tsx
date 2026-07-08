@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,7 +37,7 @@ export default async function ArbeitstageStatePage({ params }: { params: Promise
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-3xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <Link href={`/arbeitstage/${y}`} className="hover:text-navy-600">Arbeitstage {y}</Link> <span className="mx-1">/</span>
@@ -88,7 +89,7 @@ export default async function ArbeitstageStatePage({ params }: { params: Promise
             ))}
           </div>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getMoonPhaseInstants, type PhaseType } from "@/lib/de/moonPhases";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 
 export default function MoonPhasesView({
   year,
@@ -17,7 +18,7 @@ export default function MoonPhasesView({
   const phases = only ? all.filter((p) => p.type === only) : all;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-8">
+    <PageWithSidebar>
       <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
         <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
         <span className="text-navy-700">{title}</span>
@@ -59,6 +60,6 @@ export default function MoonPhasesView({
         <Link href={`/mondphasen/${year - 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← {year - 1}</Link>
         <Link href={`/mondphasen/${year + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{year + 1} →</Link>
       </div>
-    </div>
+    </PageWithSidebar>
   );
 }

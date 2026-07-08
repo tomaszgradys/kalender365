@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { COUNTDOWNS, berlinMidnight } from "@/lib/de/countdowns";
@@ -26,7 +27,7 @@ export default function CountdownHubPage() {
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-3xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Countdown</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Countdown – wie viele Tage bis …?</h1>
         <p className="mt-2 text-slate-600">Wie lange noch bis zu den beliebtesten Terminen? Live-Countdown mit Tagen, Stunden und Minuten.</p>
@@ -47,7 +48,7 @@ export default function CountdownHubPage() {
             <span className="text-sm font-medium text-slate-500">Countdown-Rechner →</span>
           </Link>
         </div>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -28,7 +29,7 @@ export default async function AusdruckenPage({ params }: { params: Promise<{ yea
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Kalender {y} zum Ausdrucken</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Kalender {y} zum Ausdrucken</h1>
         <p className="mt-2 max-w-2xl text-slate-600">Kostenlose PDF-Kalender {y} mit Kalenderwochen und Feiertagen — als Jahreskalender (Querformat) oder einzelne Monate. Optional mit den Feiertagen Ihres Bundeslandes.</p>
@@ -52,7 +53,7 @@ export default async function AusdruckenPage({ params }: { params: Promise<{ yea
           </div>
           <p className="mt-2 text-xs text-slate-400">Tipp: Für einen Monat mit den Feiertagen eines Bundeslandes hängen Sie <code>?land=bayern</code> an die PDF-Adresse an.</p>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

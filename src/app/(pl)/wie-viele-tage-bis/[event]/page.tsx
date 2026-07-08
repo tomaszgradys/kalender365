@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -41,7 +42,7 @@ export default async function CountdownEventPage({ params }: { params: Promise<{
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-2xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <Link href="/wie-viele-tage-bis" className="hover:text-navy-600">Countdown</Link> <span className="mx-1">/</span> <span className="text-navy-700">{c.title}</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">{c.emoji} Wie viele Tage bis {c.title}?</h1>
         <p className="mt-2 text-slate-600">
@@ -60,7 +61,7 @@ export default async function CountdownEventPage({ params }: { params: Promise<{
             <Link href="/wie-viele-tage-bis-zu-den-sommerferien" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-navy-700 hover:border-navy-300">🎒 Sommerferien</Link>
           </div>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

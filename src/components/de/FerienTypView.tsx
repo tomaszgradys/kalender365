@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
 import { getFerienByTyp, isSchulferienIndexable, FERIEN_TYP_LABEL, type FerienTyp } from "@/lib/de/schulferien";
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 
 function inclusiveDays(startISO: string, endISO: string): number {
   const a = new Date(startISO + "T00:00:00Z").getTime();
@@ -33,7 +34,7 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
   return (
     <main className="flex-1">
       {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
-      <div className="mx-auto w-full max-w-3xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <Link href={`/schulferien/${year}`} className="hover:text-navy-600">Schulferien {year}</Link> <span className="mx-1">/</span>
@@ -96,7 +97,7 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
             ))}
           </div>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

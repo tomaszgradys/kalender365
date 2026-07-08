@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -65,7 +66,7 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="mx-auto w-full max-w-6xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <Link href={`/feiertage/${y}`} className="hover:text-navy-600">Feiertage {y}</Link> <span className="mx-1">/</span>
@@ -169,7 +170,7 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
             ))}
           </div>
         </section>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,7 +32,7 @@ export default async function ArbeitstageHubPage({ params }: { params: Promise<{
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Arbeitstage {y}</span>
@@ -70,7 +71,7 @@ export default async function ArbeitstageHubPage({ params }: { params: Promise<{
         <p className="mt-3 text-sm text-slate-500">
           Details und Berechnung: <Link href="/so-berechnen-wir" className="font-medium text-navy-600 underline">So berechnen wir</Link>.
         </p>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

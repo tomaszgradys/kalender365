@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -27,7 +28,7 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Urlaubsplaner {y}</span>
@@ -40,7 +41,7 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
         <div className="mt-6">
           <UrlaubsplanerClient year={y} />
         </div>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

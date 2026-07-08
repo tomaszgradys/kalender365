@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,7 +32,7 @@ export default async function ZeitumstellungPage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div className="mx-auto w-full max-w-3xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Zeitumstellung {y}</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Zeitumstellung {y}</h1>
         <p className="mt-2 text-slate-600">Die Uhren werden zweimal im Jahr umgestellt — jeweils am letzten Sonntag im März und Oktober (EU-Regelung, Europe/Berlin).</p>
@@ -49,7 +50,7 @@ export default async function ZeitumstellungPage({ params }: { params: Promise<{
           <Link href={`/zeitumstellung/${y + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{y + 1} →</Link>
           <Link href={`/jahreszeiten/${y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Jahreszeiten {y}</Link>
         </div>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,7 +37,7 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
 
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Kalenderwochen {y}</span>
@@ -78,7 +79,7 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
           <Link href={`/kalenderwochen/${y + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">KW {y + 1} →</Link>
           <Link href={`/kalender/${y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Kalender {y}</Link>
         </div>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }

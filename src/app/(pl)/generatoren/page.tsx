@@ -1,3 +1,4 @@
+import PageWithSidebar from "@/components/de/PageWithSidebar";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { berlinNow } from "@/lib/de/now";
@@ -23,7 +24,7 @@ export default function GeneratorenPage() {
   ];
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Tools</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Tools &amp; Rechner</h1>
         <p className="mt-2 text-slate-600">Praktische Helfer rund um Kalender, Arbeitstage und Termine – kostenlos und ohne Anmeldung.</p>
@@ -36,7 +37,7 @@ export default function GeneratorenPage() {
             </Link>
           ))}
         </div>
-      </div>
+      </PageWithSidebar>
     </main>
   );
 }
