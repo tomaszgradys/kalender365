@@ -13,17 +13,15 @@ export default function BlogCard({ post, featured = false }: { post: BlogPost; f
         featured ? "sm:col-span-2 sm:flex-row" : ""
       }`}
     >
-      <div className={`relative ${featured ? "sm:w-1/2" : ""}`}>
+      <div
+        className={`relative overflow-hidden aspect-[40/21] ${
+          featured ? "sm:aspect-auto sm:w-1/2" : "w-full"
+        }`}
+      >
         {post.cover?.src ? (
-          <Image
-            src={post.cover.src}
-            alt={post.cover.alt}
-            width={640}
-            height={336}
-            className="aspect-[40/21] w-full object-cover"
-          />
+          <Image src={post.cover.src} alt={post.cover.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
         ) : (
-          <div className={`flex aspect-[40/21] w-full items-center justify-center bg-gradient-to-br ${gradient}`}>
+          <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${gradient}`}>
             <span className="px-4 text-center text-sm font-semibold uppercase tracking-widest text-white/90">
               {post.category}
             </span>

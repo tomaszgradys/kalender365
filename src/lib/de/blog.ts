@@ -46,6 +46,7 @@ const SEED: BlogPost[] = [
       "Wie Sie 2026 mit geschickt gelegten Brückentagen aus 20–30 Urlaubstagen deutlich mehr freie Tage machen – und warum das je nach Bundesland unterschiedlich ausfällt.",
     category: "Feiertage & Urlaub",
     publishedAt: "2026-07-01",
+    cover: { src: "https://v3b.fal.media/files/b/0aa16d70/zjXpqmEpgxk5M2cSo3P5y.jpg", alt: "Brückentage 2026" },
     bodyHtml: `
 <p>Brückentage sind einzelne Arbeitstage, die zwischen einem gesetzlichen Feiertag und dem Wochenende liegen. Wer sie als Urlaub nimmt, verbindet Feiertag, Brückentag und Wochenende zu einem langen freien Block – oft vier oder mehr Tage am Stück für nur einen Urlaubstag.</p>
 <h2>Warum sich Brückentage 2026 besonders lohnen</h2>
@@ -67,6 +68,7 @@ const SEED: BlogPost[] = [
       "Neun Feiertage gelten bundesweit – der Rest ist Ländersache. Welche Feiertage 2026 wo gelten und worauf Sie bei Fronleichnam, Reformationstag & Co. achten sollten.",
     category: "Feiertage & Urlaub",
     publishedAt: "2026-06-24",
+    cover: { src: "https://v3b.fal.media/files/b/0aa16d66/fWZJpcv1q2ZmOwPNe6hsd.jpg", alt: "Feiertage 2026 in Deutschland" },
     bodyHtml: `
 <p>In Deutschland gibt es <strong>neun bundesweite Feiertage</strong>, die in allen 16 Bundesländern gelten: Neujahr, Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt, Pfingstmontag, Tag der Deutschen Einheit sowie der 1. und 2. Weihnachtsfeiertag.</p>
 <h2>Regionale Feiertage machen den Unterschied</h2>
@@ -89,6 +91,7 @@ const SEED: BlogPost[] = [
       "KW 1, KW 32, KW 53 – wie werden Kalenderwochen in Deutschland eigentlich gezählt? Die ISO-8601-Regel einfach erklärt, samt der Frage, warum manche Jahre 53 Wochen haben.",
     category: "Kalender-Wissen",
     publishedAt: "2026-06-15",
+    cover: { src: "https://v3b.fal.media/files/b/0aa16d66/Qj2wkcyFS3IxIbTiePF5a.jpg", alt: "Kalenderwochen erklärt" },
     bodyHtml: `
 <p>Im deutschen und europäischen Raum werden Kalenderwochen nach der Norm <strong>ISO 8601</strong> gezählt. Zwei Regeln genügen, um jede Kalenderwoche eindeutig zu bestimmen.</p>
 <h2>Die zwei Grundregeln</h2>
@@ -109,6 +112,7 @@ const SEED: BlogPost[] = [
       "Sommerferien von Ende Juni bis Mitte September – aber nie überall gleichzeitig. Wie das deutsche Schulferien-System funktioniert und warum die Termine rotieren.",
     category: "Schulferien",
     publishedAt: "2026-06-05",
+    cover: { src: "https://v3b.fal.media/files/b/0aa16d66/7TA7-wGh1zsDKekZ0QfwV.jpg", alt: "Schulferien 2026" },
     bodyHtml: `
 <p>Anders als in vielen Ländern haben in Deutschland nicht alle Schülerinnen und Schüler gleichzeitig frei. Die <strong>Sommerferien</strong> sind zwischen den Bundesländern gestaffelt und erstrecken sich insgesamt von Ende Juni bis Mitte September.</p>
 <h2>Warum die Termine rotieren</h2>
@@ -132,6 +136,7 @@ const SEED: BlogPost[] = [
       "Am letzten Sonntag im März und Oktober werden die Uhren umgestellt. Die genauen Termine 2026, die Merkregel für vor und zurück – und der Stand der Abschaffungsdebatte.",
     category: "Zeit & Rechner",
     publishedAt: "2026-05-20",
+    cover: { src: "https://v3b.fal.media/files/b/0aa16d66/EqT-5sBlf0162jgtbZz8c.jpg", alt: "Zeitumstellung 2026" },
     bodyHtml: `
 <p>Die Uhren werden in Deutschland zweimal im Jahr umgestellt – nach einer EU-weit einheitlichen Regel: jeweils am <strong>letzten Sonntag im März</strong> (Beginn der Sommerzeit) und am <strong>letzten Sonntag im Oktober</strong> (Rückkehr zur Winterzeit / Normalzeit).</p>
 <h2>Vor oder zurück? Die Merkregel</h2>
