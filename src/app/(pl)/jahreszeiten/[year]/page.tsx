@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { getSeasons } from "@/lib/de/astroYear";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
   return NAV_YEARS.map((y) => ({ year: String(y) }));
@@ -46,6 +48,31 @@ export default async function JahreszeitenPage({ params }: { params: Promise<{ y
           <Link href={`/jahreszeiten/${y + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">{y + 1} →</Link>
           <Link href={`/zeitumstellung/${y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Zeitumstellung {y}</Link>
         </div>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: `Wann beginnen die Jahreszeiten ${y}?`,
+              p: [
+                `Die astronomischen Jahreszeiten ${y} beginnen mit den Tag-und-Nacht-Gleichen (Äquinoktien) und den Sonnenwenden (Solstitien). Der Frühling startet zur Frühlings-Tagundnachtgleiche im März, der Sommer zur Sommersonnenwende im Juni (dem längsten Tag), der Herbst zur Herbst-Tagundnachtgleiche im September und der Winter zur Wintersonnenwende im Dezember (dem kürzesten Tag). Alle Zeitpunkte oben sind nach dem Algorithmus von Jean Meeus berechnet und in mitteleuropäischer Zeit (Europe/Berlin) angegeben.`,
+              ],
+            },
+            {
+              h2: `Astronomische und meteorologische Jahreszeiten`,
+              p: [
+                `Neben den astronomischen gibt es die meteorologischen Jahreszeiten, die Meteorologen zur einfacheren Auswertung von Klimadaten nutzen. Sie beginnen jeweils am Monatsersten: Frühling am 1. März, Sommer am 1. Juni, Herbst am 1. September und Winter am 1. Dezember. Deshalb ist der „Sommeranfang“ je nach Definition der 1. Juni (meteorologisch) oder rund der 21. Juni (astronomisch).`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Wann ist Frühlingsanfang ${y}?`, a: `Der astronomische Frühling beginnt ${y} am ${seasons.find((s) => s.key === "fruehling")?.date} um ${seasons.find((s) => s.key === "fruehling")?.time} Uhr (Europe/Berlin). Meteorologisch beginnt der Frühling bereits am 1. März.` },
+            { q: `Wann ist Sommeranfang ${y}?`, a: `Der astronomische Sommer beginnt ${y} zur Sommersonnenwende am ${seasons.find((s) => s.key === "sommer")?.date} um ${seasons.find((s) => s.key === "sommer")?.time} Uhr – das ist der längste Tag des Jahres.` },
+            { q: "Was ist der Unterschied zwischen astronomischen und meteorologischen Jahreszeiten?", a: "Astronomische Jahreszeiten richten sich nach dem Stand der Sonne (Tagundnachtgleichen und Sonnenwenden) und beginnen um den 20./21. des Monats. Meteorologische Jahreszeiten beginnen aus praktischen Gründen jeweils am Monatsersten." },
+            { q: "Warum verschiebt sich der Jahreszeitenbeginn jedes Jahr um Stunden?", a: "Ein Sonnenjahr dauert etwa 365,24 Tage. Weil unser Kalender nur 365 Tage hat (mit Schaltjahr-Korrektur), verschiebt sich der exakte Zeitpunkt der Tagundnachtgleichen und Sonnenwenden von Jahr zu Jahr um einige Stunden." },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

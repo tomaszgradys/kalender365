@@ -6,6 +6,8 @@ import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { formatLongDE } from "@/lib/de/locale";
 import { getBrueckentage, getLangeWochenenden } from "@/lib/de/brueckentage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
   return NAV_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
@@ -86,6 +88,31 @@ export default async function BrueckentageStatePage({ params }: { params: Promis
             ))}
           </div>
         </section>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: `Brückentage ${y} in ${state.name} optimal nutzen`,
+              p: [
+                `Brückentage sind einzelne Arbeitstage zwischen einem Feiertag und dem Wochenende. Weil die Feiertage in ${state.name} vom Landesrecht abhängen, sind auch die besten Brückentage ${y} landesspezifisch. ${bridges[0] ? `Der effizienteste Vorschlag: mit ${bridges[0].urlaubstage} Urlaubstag${bridges[0].urlaubstage > 1 ? "en" : ""} rund um den ${formatLongDE(bridges[0].von)} erhalten Sie ${bridges[0].freieTage} freie Tage am Stück.` : ""} Die Liste oben ist nach Effizienz sortiert – also nach freien Tagen je eingesetztem Urlaubstag.`,
+                `Am meisten bringen Feiertage, die auf einen Dienstag oder Donnerstag fallen: Hier genügt ein einziger Brückentag für ein verlängertes Wochenende. Rund um Ostern, Christi Himmelfahrt und Pfingsten lassen sich mit wenigen Urlaubstagen sogar besonders lange Blöcke planen.`,
+              ],
+            },
+            {
+              h2: `Lange Wochenenden ${y} ganz ohne Urlaub`,
+              p: [
+                `Manche Feiertage ${y} in ${state.name} fallen so, dass bereits ohne Urlaubstag ein langes Wochenende entsteht – etwa wenn ein Feiertag auf einen Freitag oder Montag fällt. Diese Termine finden Sie oben unter „Lange Wochenenden“. Für die genaue Urlaubsverteilung über das ganze Jahr hilft zusätzlich der Urlaubsplaner ${y}.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            ...(bridges[0] ? [{ q: `Welcher Brückentag lohnt sich ${y} in ${state.name} am meisten?`, a: `Am effizientesten ist der Zeitraum um den ${formatLongDE(bridges[0].von)}: ${bridges[0].urlaubstage} Urlaubstag${bridges[0].urlaubstage > 1 ? "e" : ""} ergeben ${bridges[0].freieTage} freie Tage.` }] : []),
+            { q: `Warum sind die Brückentage in ${state.name} anders als in anderen Ländern?`, a: `Weil regionale Feiertage wie Fronleichnam, Allerheiligen oder der Reformationstag nur in bestimmten Bundesländern gelten. Dadurch entstehen in ${state.name} eigene Brückentag-Möglichkeiten.` },
+            { q: "Habe ich Anspruch auf freie Brückentage?", a: "Nein, ein Brückentag ist ein regulärer Arbeitstag und muss als Urlaub beantragt werden. Manche Betriebe schließen an Brückentagen aber freiwillig." },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

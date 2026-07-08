@@ -6,6 +6,8 @@ import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import { arbeitstageInYear } from "@/lib/de/arbeitstage";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
   return NAV_YEARS.map((y) => ({ year: String(y) }));
@@ -71,6 +73,32 @@ export default async function ArbeitstageHubPage({ params }: { params: Promise<{
         <p className="mt-3 text-sm text-slate-500">
           Details und Berechnung: <Link href="/so-berechnen-wir" className="font-medium text-navy-600 underline">So berechnen wir</Link>.
         </p>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: `Wie viele Arbeitstage hat ${y}?`,
+              p: [
+                `Die Zahl der Arbeitstage ${y} unterscheidet sich je nach Bundesland, weil die gesetzlichen Feiertage Ländersache sind. Am meisten Arbeitstage hat ${y} ${rows[0].b.name} mit ${rows[0].at} Tagen, am wenigsten ${rows[rows.length - 1].b.name} mit ${rows[rows.length - 1].at} Tagen. Grundlage ist die 5-Tage-Woche (Montag bis Freitag); gesetzliche Feiertage, die auf einen Werktag fallen, werden abgezogen.`,
+                `Arbeitstage sind die Basis für Gehaltsabrechnung, Urlaubsberechnung, Projektplanung und Fristen. Wählen Sie oben Ihr Bundesland, um die genaue Zahl samt Monatsaufteilung und den zugrunde liegenden Feiertagen zu sehen.`,
+              ],
+            },
+            {
+              h2: "Arbeitstage oder Werktage?",
+              p: [
+                `Verwechseln Sie Arbeitstage nicht mit Werktagen: Arbeitstage sind Montag bis Freitag, Werktage dagegen Montag bis Samstag. Der Samstag ist rechtlich ein Werktag, auch wenn an ihm meist nicht gearbeitet wird – das ist etwa bei gesetzlichen Fristen relevant, die in Werktagen angegeben werden. Sonntage und gesetzliche Feiertage zählen bei beiden nicht.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Welches Bundesland hat ${y} die meisten Arbeitstage?`, a: `${rows[0].b.name} hat ${y} mit ${rows[0].at} Arbeitstagen die meisten, ${rows[rows.length - 1].b.name} mit ${rows[rows.length - 1].at} die wenigsten. Der Unterschied ergibt sich aus den regionalen Feiertagen.` },
+            { q: "Wie werden die Arbeitstage berechnet?", a: "Gezählt werden alle Tage von Montag bis Freitag im Jahr, abzüglich der gesetzlichen Feiertage des jeweiligen Bundeslandes, die auf einen Werktag fallen." },
+            { q: "Was ist der Unterschied zwischen Arbeitstagen und Werktagen?", a: "Arbeitstage sind Montag bis Freitag. Werktage umfassen zusätzlich den Samstag. Sonn- und Feiertage zählen bei beiden nicht." },
+            { q: `Wie viele Arbeitstage hat ein einzelner Monat ${y}?`, a: `Wählen Sie Ihr Bundesland – auf der Detailseite finden Sie die Arbeitstage ${y} pro Monat. Für einen frei wählbaren Zeitraum nutzen Sie den Arbeitstage-Rechner.` },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

@@ -7,6 +7,11 @@ import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
 import { getSchulferien } from "@/lib/de/schulferien";
 import { isNavigableYear } from "@/lib/de/year";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import SeoProse, { type ProseBlock } from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
+import type { QA } from "@/lib/de/jsonLd";
+
+const DAYS_IN_MONTH_LABEL = (year: number, month0: number) => new Date(Date.UTC(year, month0 + 1, 0)).getUTCDate();
 
 /** Set of ISO dates that fall inside any school-holiday period of a Bundesland. */
 function ferienDateSet(year: number, state?: Bundesland): Set<string> {
@@ -174,8 +179,49 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
         <h2 className="mb-3 text-xl font-bold text-navy-800">Kalender {year} nach Bundesland</h2>
         <StateLinks base={(b) => `/kalender/${year}/${b.slug}`} />
       </section>
+
+      <SeoProse blocks={yearProse(year, label, summary)} />
+      <Faq items={yearFaq(year, label, summary)} />
     </PageWithSidebar>
   );
+}
+
+function yearProse(year: number, label: string, summary: ReturnType<typeof yearSummary>): ProseBlock[] {
+  const schaltjahr = summary.totalDays === 366;
+  const neujahr = weekdayDE(`${year}-01-01`);
+  const weihnachten = weekdayDE(`${year}-12-25`);
+  return [
+    {
+      h2: `Kalender ${year} für ${label} im Überblick`,
+      p: [
+        `Das Jahr ${year} hat ${summary.totalDays} Tage und verteilt sich auf ${summary.isoWeeks} Kalenderwochen. ${schaltjahr ? `${year} ist ein Schaltjahr – der Februar hat 29 Tage.` : `${year} ist kein Schaltjahr – der Februar hat 28 Tage.`} Der Kalender oben zeigt alle zwölf Monate mit gesetzlichen Feiertagen (grün), Wochenenden und – bei Auswahl eines Bundeslandes – den Schulferien. Jeder Monat lässt sich anklicken; dort finden Sie den Monatskalender mit Kalenderwochen und einen Druck-PDF.`,
+        `Neujahr fällt ${year} auf einen ${neujahr}, der 1. Weihnachtsfeiertag auf einen ${weihnachten}. Diese Wochentage bestimmen, wo sich Brückentage und lange Wochenenden lohnen.`,
+      ],
+    },
+    {
+      h2: `Feiertage, Brückentage und Ferien ${year}`,
+      p: [
+        `Bundesweit gelten neun gesetzliche Feiertage einheitlich in allen 16 Bundesländern; je nach Land kommen regionale Feiertage wie Fronleichnam, Reformationstag oder Allerheiligen hinzu. Für ${label} sind ${year} ${summary.feiertageCount} Feiertage hinterlegt, woraus sich ${summary.arbeitstage} Arbeitstage ergeben. Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen ein langer Zeitraum machen – eine detaillierte Übersicht bietet die Brückentage-Seite.`,
+      ],
+    },
+    {
+      h2: `Kalender ${year} zum Ausdrucken (PDF)`,
+      p: [
+        `Sie können den Kalender ${year} kostenlos als PDF herunterladen und ausdrucken – wahlweise das ganze Jahr auf einer Seite, einzelne Monate oder eine Feiertagsliste. Die Kalenderwochen sind nach ISO 8601 nummeriert (die Woche beginnt am Montag, die erste Kalenderwoche ist die mit dem ersten Donnerstag des Jahres). Zusätzlich stehen alle Feiertage als ICS-Datei für den Import in Google Kalender, Outlook oder Apple Kalender bereit.`,
+      ],
+    },
+  ];
+}
+
+function yearFaq(year: number, label: string, summary: ReturnType<typeof yearSummary>): QA[] {
+  return [
+    { q: `Wie viele Tage hat das Jahr ${year}?`, a: `${year} hat ${summary.totalDays} Tage${summary.totalDays === 366 ? " – es ist ein Schaltjahr" : ""}.` },
+    { q: `Wie viele Kalenderwochen hat ${year}?`, a: `${year} hat ${summary.isoWeeks} Kalenderwochen (nach ISO 8601, Wochenbeginn Montag).` },
+    { q: `Wie viele Feiertage und Arbeitstage hat ${year} in ${label}?`, a: `Für ${label} sind ${year} ${summary.feiertageCount} gesetzliche Feiertage hinterlegt; daraus ergeben sich ${summary.arbeitstage} Arbeitstage.` },
+    { q: `Ist ${year} ein Schaltjahr?`, a: summary.totalDays === 366 ? `Ja, ${year} ist ein Schaltjahr mit 366 Tagen; der Februar hat 29 Tage.` : `Nein, ${year} ist kein Schaltjahr; der Februar hat 28 Tage.` },
+    { q: `Auf welchen Wochentag fällt Neujahr ${year}?`, a: `Der 1. Januar ${year} ist ein ${weekdayDE(`${year}-01-01`)}.` },
+    { q: `Kann ich den Kalender ${year} kostenlos ausdrucken?`, a: `Ja. Der Kalender ${year} steht kostenlos als PDF zum Ausdrucken bereit – als Jahresübersicht auf einer Seite oder nach Monaten. Feiertage gibt es zusätzlich als ICS-Datei.` },
+  ];
 }
 
 /** Single-month view with KW column, national or for one Bundesland. */
@@ -261,8 +307,65 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">{name} {year} nach Bundesland</h2>
         <StateLinks base={(b) => `/kalender/${mSlug(year, month0)}/${b.slug}`} />
       </section>
+
+      <SeoProse blocks={monthProse(year, month0, name, state, counts, feiertage)} />
+      <Faq items={monthFaq(year, month0, name, state, counts, feiertage)} />
     </PageWithSidebar>
   );
+}
+
+type MonthCounts = { total: number; arbeitstage: number; freie: number };
+
+function monthProse(
+  year: number,
+  month0: number,
+  name: string,
+  state: Bundesland | undefined,
+  counts: MonthCounts,
+  feiertage: ReturnType<typeof feiertageInMonth>,
+): ProseBlock[] {
+  const days = DAYS_IN_MONTH_LABEL(year, month0);
+  const region = state ? ` in ${state.name}` : "";
+  const erster = weekdayDE(`${year}-${String(month0 + 1).padStart(2, "0")}-01`);
+  const feiertagText = feiertage.length
+    ? `Im ${name} ${year} liegen ${feiertage.length === 1 ? "ein gesetzlicher Feiertag" : `${feiertage.length} gesetzliche Feiertage`}: ${feiertage.map((h) => h.name).join(", ")}.`
+    : `Im ${name} ${year} gibt es${region} keinen bundesweiten gesetzlichen Feiertag.`;
+  return [
+    {
+      h2: `${name} ${year}${region} im Überblick`,
+      p: [
+        `Der ${name} ${year} hat ${days} Tage. Der Monat beginnt an einem ${erster}. Von den ${counts.total} Tagen sind ${counts.arbeitstage} Arbeitstage und ${counts.freie} freie Tage (Wochenenden und Feiertage${state ? "" : " – bundesweit"}). Der Kalender oben zeigt zu jeder Woche die Kalenderwoche (KW) nach ISO 8601.`,
+        feiertagText,
+      ],
+    },
+    {
+      h2: `Arbeitstage und Kalenderwochen im ${name} ${year}`,
+      p: [
+        `Für die Arbeitszeit- und Urlaubsplanung zählen die ${counts.arbeitstage} Arbeitstage im ${name} ${year}. Fällt Ihr Urlaub in diesen Monat, hilft der Blick auf die Feiertage und benachbarte Brückentage, um freie Tage optimal zu nutzen. Den vollständigen Monatskalender können Sie oben als PDF herunterladen und ausdrucken; die Feiertage lassen sich als ICS-Datei in Ihren digitalen Kalender importieren.`,
+      ],
+    },
+  ];
+}
+
+function monthFaq(
+  year: number,
+  month0: number,
+  name: string,
+  state: Bundesland | undefined,
+  counts: MonthCounts,
+  feiertage: ReturnType<typeof feiertageInMonth>,
+): QA[] {
+  const days = DAYS_IN_MONTH_LABEL(year, month0);
+  const region = state ? state.name : "Deutschland";
+  return [
+    { q: `Wie viele Tage hat der ${name} ${year}?`, a: `Der ${name} ${year} hat ${days} Tage.` },
+    { q: `Wie viele Arbeitstage hat der ${name} ${year} in ${region}?`, a: `Der ${name} ${year} hat in ${region} ${counts.arbeitstage} Arbeitstage und ${counts.freie} freie Tage.` },
+    {
+      q: `Welche Feiertage gibt es im ${name} ${year}?`,
+      a: feiertage.length ? `Im ${name} ${year} gibt es: ${feiertage.map((h) => `${h.name} (${formatLongDE(h.date)})`).join(", ")}.` : `Im ${name} ${year} gibt es keinen bundesweiten gesetzlichen Feiertag.`,
+    },
+    { q: `Auf welchen Wochentag fällt der 1. ${name} ${year}?`, a: `Der 1. ${name} ${year} ist ein ${weekdayDE(`${year}-${String(month0 + 1).padStart(2, "0")}-01`)}.` },
+  ];
 }
 
 // National month counts (no state): weekday minus national weekday holidays.

@@ -8,6 +8,8 @@ import { yearSummary } from "@/lib/de/calendar";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import TearOff from "@/components/de/TearOff";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 // Zeigt das heutige Kalenderblatt — muss revalidieren, darf nicht auf den
 // Build-Zeitpunkt eingefroren sein.
@@ -167,6 +169,33 @@ export default function HomePage() {
             })}
           </div>
         </section>
+
+        <SeoProse
+          className="mt-12"
+          blocks={[
+            {
+              h2: `Kalender ${cy} für Deutschland – alles auf einen Blick`,
+              p: [
+                `Auf Kalender365 finden Sie den kompletten Kalender ${cy} für Deutschland und alle 16 Bundesländer – online und kostenlos zum Ausdrucken. Neben dem Monats- und Jahreskalender bündeln wir alle Termine, die den Alltag strukturieren: gesetzliche Feiertage, Schulferien, Brückentage, Kalenderwochen (KW nach ISO 8601), Arbeitstage sowie astronomische Daten wie Mondphasen, Sonnenauf- und -untergang und den Beginn der Jahreszeiten.`,
+                `Weil Feiertage und Schulferien in Deutschland Ländersache sind, lassen sich alle Übersichten nach Bundesland filtern. So sehen Sie sofort, welche Feiertage bei Ihnen gelten und wann die Ferien beginnen. Jede Ansicht steht als PDF zum Ausdrucken sowie als ICS-Datei für Google Kalender, Outlook oder Apple Kalender bereit.`,
+              ],
+            },
+            {
+              h2: "Feiertage, Ferien und Urlaub clever planen",
+              p: [
+                `Wer seinen Urlaub geschickt plant, macht aus wenigen Urlaubstagen lange freie Blöcke. Nutzen Sie dafür die Brückentage-Übersicht und den Urlaubsplaner: Beide zeigen, wie sich Feiertage und Wochenenden optimal kombinieren lassen. Für Termine und Fristen helfen zusätzlich der Tage-Rechner, der Arbeitstage-Rechner und der Wochentag-Rechner.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Wie viele Feiertage hat ${cy} in Deutschland?`, a: `Bundesweit gibt es ${cy} neun gesetzliche Feiertage, die in allen Bundesländern gelten. Je nach Bundesland kommen regionale Feiertage hinzu – Bayern hat mit bis zu 13 die meisten.` },
+            { q: "Ist der Kalender kostenlos und ohne Anmeldung nutzbar?", a: "Ja. Alle Kalender, Feiertags- und Ferienübersichten sowie die PDF- und ICS-Downloads sind kostenlos und ohne Registrierung nutzbar." },
+            { q: "Kann ich die Feiertage in meinen Kalender importieren?", a: "Ja. Zu jeder Feiertags- und Ferienseite gibt es eine ICS-Datei, die Sie direkt in Google Kalender, Outlook oder Apple Kalender einbinden können." },
+            { q: "Gelten die Angaben für mein Bundesland?", a: "Feiertage und Schulferien lassen sich nach Bundesland auswählen. So sehen Sie genau die Termine, die in Ihrem Land gelten." },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

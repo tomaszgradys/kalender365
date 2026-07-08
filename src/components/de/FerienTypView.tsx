@@ -3,6 +3,18 @@ import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
 import { getFerienByTyp, isSchulferienIndexable, FERIEN_TYP_LABEL, type FerienTyp } from "@/lib/de/schulferien";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
+import type { QA } from "@/lib/de/jsonLd";
+
+const TYP_INTRO: Record<FerienTyp, string> = {
+  winterferien: "Die Winterferien liegen meist im Januar oder Februar und geben Schülerinnen und Schülern eine Pause im zweiten Schulhalbjahr – vielerorts als klassische Ski- oder Faschingsferien.",
+  osterferien: "Die Osterferien (in manchen Ländern Frühjahrsferien) fallen ins Frühjahr rund um das Osterfest und dauern je nach Bundesland ein bis zwei Wochen.",
+  pfingstferien: "Die Pfingstferien liegen im Mai oder Juni rund um Pfingsten. Nicht jedes Bundesland hat zusammenhängende Pfingstferien – manche vergeben stattdessen einzelne bewegliche Ferientage.",
+  sommerferien: "Die Sommerferien sind mit rund sechs Wochen die längsten Ferien des Schuljahres. Ihr Beginn ist über die Bundesländer gestaffelt, um den Reiseverkehr zu entzerren.",
+  herbstferien: "Die Herbstferien liegen im Oktober und dauern je nach Bundesland ein bis zwei Wochen – oft rund um den Reformationstag oder Allerheiligen.",
+  weihnachtsferien: "Die Weihnachtsferien überbrücken den Jahreswechsel mit Weihnachten und Neujahr und dauern in der Regel etwa zwei Wochen.",
+};
 
 function inclusiveDays(startISO: string, endISO: string): number {
   const a = new Date(startISO + "T00:00:00Z").getTime();
@@ -16,24 +28,23 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
   const period = getFerienByTyp(year, state.code, typ);
   const verified = isSchulferienIndexable(year, state.code);
 
-  const faq = period
+  const faq: QA[] = period
     ? [
         {
           q: `Wann sind ${label} ${year} in ${state.name}?`,
           a: `Die ${label} ${year} in ${state.name} sind vom ${formatLongDE(period.start)} bis zum ${formatLongDE(period.end)}${period.start !== period.end ? ` (${inclusiveDays(period.start, period.end)} Tage inkl. Wochenenden)` : ""}.`,
         },
-        { q: "Woher stammen die Ferientermine?", a: "Die Termine stammen aus den offiziellen Angaben der Länder (KMK / Kultusministerien). Angaben ohne Gewähr." },
+        {
+          q: `Wie viele Tage dauern die ${label} ${year} in ${state.name}?`,
+          a: period.start !== period.end ? `Die ${label} ${year} in ${state.name} umfassen ${inclusiveDays(period.start, period.end)} Tage inklusive der Wochenenden (${weekdayDE(period.start)} bis ${weekdayDE(period.end)}).` : `Es handelt sich um einen einzelnen freien Tag am ${formatLongDE(period.start)}.`,
+        },
+        { q: `Sind die ${label}-Termine offiziell?`, a: "Die Termine stammen aus den offiziellen Angaben der Länder (KMK / Kultusministerien). Angaben ohne Gewähr; zusätzliche bewegliche Ferientage einzelner Schulen sind nicht enthalten." },
+        { q: `Wie kann ich die ${label} in meinen Kalender eintragen?`, a: `Über den ICS-Button laden Sie alle Ferien des Jahres herunter und importieren sie in Google Kalender, Outlook oder Apple Kalender.` },
       ]
     : [];
-  const faqLd = period && {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  };
 
   return (
     <main className="flex-1">
-      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -75,19 +86,26 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
           </div>
         )}
 
-        {faq.length > 0 && (
-          <section className="mt-10">
-            <h2 className="mb-3 text-xl font-bold text-navy-800">Häufige Fragen</h2>
-            <div className="space-y-3">
-              {faq.map((f) => (
-                <details key={f.q} className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <summary className="cursor-pointer font-semibold text-navy-800">{f.q}</summary>
-                  <p className="mt-2 text-sm text-slate-600">{f.a}</p>
-                </details>
-              ))}
-            </div>
-          </section>
+        {period && (
+          <SeoProse
+            blocks={[
+              {
+                h2: `${label} ${year} in ${state.name}`,
+                p: [
+                  `${TYP_INTRO[typ]} In ${state.name} sind die ${label} ${year} vom ${formatLongDE(period.start)} bis ${formatLongDE(period.end)} angesetzt${period.start !== period.end ? ` – das sind ${inclusiveDays(period.start, period.end)} Tage inklusive der Wochenenden` : ""}.`,
+                  `Die Termine werden vom Kultusministerium in ${state.name} festgelegt und über die Kultusministerkonferenz (KMK) mit den übrigen Bundesländern abgestimmt. Da die Ferien Ländersache sind, können sie sich von Jahr zu Jahr und von Bundesland zu Bundesland verschieben – ein Vergleich mit den Nachbarländern lohnt sich daher für die Reiseplanung.`,
+                ],
+              },
+              {
+                h2: `${label} mit Urlaub und Feiertagen kombinieren`,
+                p: [
+                  `Rund um die ${label} lassen sich mit Brückentagen und gesetzlichen Feiertagen in ${state.name} zusätzliche freie Tage gewinnen. Prüfen Sie dazu die Feiertage und Brückentage des Jahres ${year} sowie den vollständigen Ferienkalender für ${state.name}.`,
+                ],
+              },
+            ]}
+          />
         )}
+        <Faq items={faq} />
 
         <section className="mt-8">
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">{label} in anderen Bundesländern</h2>

@@ -6,6 +6,8 @@ import { NAV_YEARS, parseYear } from "@/lib/de/year";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import { getSchulferien, isSchulferienIndexable } from "@/lib/de/schulferien";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
   return NAV_YEARS.map((y) => ({ year: String(y) }));
@@ -61,6 +63,38 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
             })}
           </div>
         </section>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: "Wie sind die Schulferien in Deutschland geregelt?",
+              p: [
+                `Schulferien sind in Deutschland Ländersache: Jedes der 16 Bundesländer legt seine Ferientermine selbst fest. Damit nicht alle Familien gleichzeitig in den Urlaub starten, koordiniert die Kultusministerkonferenz (KMK) vor allem die Sommerferien und staffelt sie über mehrere Wochen. Deshalb beginnen die Sommerferien ${y} in Nordrhein-Westfalen zu einem anderen Zeitpunkt als etwa in Bayern oder Baden-Württemberg.`,
+                `Aus diesem Grund gibt es keinen bundeseinheitlichen Ferienkalender – die genauen Termine finden Sie immer über die Auswahl Ihres Bundeslandes oben.`,
+              ],
+            },
+            {
+              h2: `Die Ferienarten im Schuljahr`,
+              p: [
+                `Über das Jahr verteilt gibt es in den meisten Ländern sechs Ferienabschnitte: Winterferien (Ende Januar/Februar), Osterferien bzw. Frühjahrsferien, Pfingstferien, die langen Sommerferien (rund sechs Wochen), Herbstferien und die Weihnachtsferien zum Jahreswechsel. Nicht jedes Bundesland kennt alle Arten – manche fassen etwa Pfingstferien zu einzelnen beweglichen Ferientagen zusammen.`,
+              ],
+            },
+            {
+              h2: `Ferientermine ${y} verlässlich planen`,
+              p: [
+                `Alle Termine auf dieser Seite stammen aus den offiziellen Angaben der Kultusministerien und der KMK. Bewegliche Ferientage, die einzelne Schulen zusätzlich frei geben, sind dabei nicht enthalten, da sie lokal festgelegt werden. Jede Ferienübersicht lässt sich als ICS-Datei herunterladen und direkt in Google Kalender, Outlook oder Apple Kalender importieren.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Warum sind die Schulferien ${y} in jedem Bundesland anders?`, a: "Ferientermine sind Ländersache. Die KMK staffelt insbesondere die Sommerferien bewusst über mehrere Wochen, um den Reiseverkehr zu entzerren – deshalb unterscheiden sich die Termine je nach Bundesland." },
+            { q: "Wie lange dauern die Sommerferien in Deutschland?", a: "Die Sommerferien dauern in allen Bundesländern etwa sechs Wochen. Der genaue Beginn verschiebt sich je nach Land zwischen Mitte Juni und Ende Juli." },
+            { q: "Wer legt die Schulferien fest?", a: "Die Kultusministerien der einzelnen Bundesländer legen die Ferien fest; die Sommerferien werden zusätzlich über die Kultusministerkonferenz (KMK) länderübergreifend koordiniert." },
+            { q: "Sind bewegliche Ferientage hier enthalten?", a: "Nein. Bewegliche Ferientage werden von den einzelnen Schulen bzw. Schulaufsichten vergeben und sind nicht Teil der landesweiten Ferientermine." },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

@@ -6,6 +6,8 @@ import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import { getAllFeiertage, getNationalFeiertage } from "@/lib/de/feiertage";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 const NAV_MIN = 2015;
 const NAV_MAX = 2035;
@@ -74,15 +76,8 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
     },
   ];
 
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  };
-
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -168,18 +163,24 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-navy-800">Häufige Fragen</h2>
-          <div className="space-y-3">
-            {faq.map((f) => (
-              <details key={f.q} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <summary className="cursor-pointer font-semibold text-navy-800">{f.q}</summary>
-                <p className="mt-2 text-sm text-slate-600">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+        <SeoProse
+          blocks={[
+            {
+              h2: `Gesetzliche Feiertage ${y} in Deutschland`,
+              p: [
+                `${y} gibt es in Deutschland neun bundesweite gesetzliche Feiertage, die in allen 16 Bundesländern einheitlich gelten: Neujahr, Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt, Pfingstmontag, Tag der Deutschen Einheit sowie der 1. und 2. Weihnachtsfeiertag. Alle weiteren Feiertage sind Ländersache und unterscheiden sich von Bundesland zu Bundesland.`,
+                `Bayern hat mit bis zu 13 gesetzlichen Feiertagen die meisten, während Länder wie Berlin, Hamburg oder Niedersachsen auf weniger kommen. Ob Heilige Drei Könige, Fronleichnam, Mariä Himmelfahrt, Reformationstag oder Allerheiligen gilt, hängt vom jeweiligen Landesrecht ab – wählen Sie oben Ihr Bundesland für die genaue Übersicht.`,
+              ],
+            },
+            {
+              h2: `Feiertage ${y} für die Urlaubsplanung nutzen`,
+              p: [
+                `Für lange Wochenenden sind vor allem Feiertage interessant, die auf einen Dienstag oder Donnerstag fallen – hier genügt ein einzelner Brückentag. Fällt ein gesetzlicher Feiertag hingegen auf ein Wochenende, gibt es in Deutschland keinen Anspruch auf einen Ersatztag. Alle Termine ${y} lassen sich als ICS-Datei herunterladen und in den digitalen Kalender importieren.`,
+              ],
+            },
+          ]}
+        />
+        <Faq items={faq} />
       </PageWithSidebar>
     </main>
   );

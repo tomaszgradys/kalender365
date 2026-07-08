@@ -7,6 +7,8 @@ import { getISOWeekRange, isoWeeksInYear, isValidWeek } from "@/lib/de/weeks";
 import { MONTH_NAMES_DE, WEEKDAY_NAMES_DE, formatLongDE, formatShortDE } from "@/lib/de/locale";
 import { getNationalFeiertage } from "@/lib/de/feiertage";
 import { berlinISOWeek } from "@/lib/de/now";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 // Prerender the current and next year's weeks; older/future weeks via ISR.
 export function generateStaticParams() {
@@ -115,6 +117,25 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
         <p className="mt-4 text-sm text-slate-500">
           <Link href={`/kalenderwochen/${year}`} className="font-medium text-navy-600 underline">Alle Kalenderwochen {year} →</Link>
         </p>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: `Kalenderwoche ${week} ${year} im Detail`,
+              p: [
+                `Die ${week}. Kalenderwoche ${year} beginnt am Montag, den ${formatLongDE(iso(r.start))}, und endet am Sonntag, den ${formatLongDE(iso(r.end))}. Sie liegt im ${spanText} und ist nach der Norm ISO 8601 nummeriert, die in Deutschland und der EU gilt: Die Woche beginnt am Montag, und KW 1 ist die Woche mit dem ersten Donnerstag des Jahres.${holidaysThisWeek.length ? ` In dieser Woche liegt ein bundesweiter Feiertag: ${holidaysThisWeek.map((h) => `${h.name} (${formatShortDE(h.date)})`).join(", ")}.` : " In dieser Woche liegt kein bundesweiter Feiertag."}`,
+                `Kalenderwochen werden im Berufsalltag häufig zur Terminabsprache genutzt – etwa „Lieferung in KW ${week}“. Die Tabelle oben zeigt jeden Wochentag mit Datum, sodass Sie die KW ${week} ${year} schnell einem konkreten Datum zuordnen können.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Von wann bis wann geht die KW ${week} ${year}?`, a: `Die Kalenderwoche ${week} ${year} geht von Montag, ${formatLongDE(iso(r.start))}, bis Sonntag, ${formatLongDE(iso(r.end))}.` },
+            { q: `In welchem Monat liegt die KW ${week} ${year}?`, a: `Die KW ${week} ${year} liegt im ${spanText}.` },
+            { q: "Beginnt die Kalenderwoche am Montag?", a: "Ja. Nach ISO 8601 – der in Deutschland gültigen Norm – beginnt jede Kalenderwoche am Montag und endet am Sonntag." },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );

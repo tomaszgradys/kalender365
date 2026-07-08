@@ -7,6 +7,9 @@ import { getFeiertage } from "@/lib/de/feiertage";
 import { getBrueckentage } from "@/lib/de/brueckentage";
 import { arbeitstageInYear } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
+import type { QA } from "@/lib/de/jsonLd";
 
 const NAV_MIN = 2015;
 const NAV_MAX = 2035;
@@ -47,7 +50,11 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
   const bridges = getBrueckentage(y, state.code).slice(0, 6);
   const arbeitstage = arbeitstageInYear(y, state.code);
 
-  const faq = [
+  const isWeekend = (iso: string) => [0, 6].includes(new Date(iso + "T00:00:00Z").getUTCDay());
+  const weekendCount = workFree.filter((h) => isWeekend(h.date)).length;
+  const bestBridge = bridges[0];
+
+  const faq: QA[] = [
     {
       q: `Wie viele gesetzliche Feiertage gibt es ${y} in ${state.name}?`,
       a: `In ${state.name} gibt es ${y} insgesamt ${workFree.length} gesetzliche Feiertage${partial.length ? ` (zzgl. ${partial.length} regional/teilweise geltende Tage)` : ""}.`,
@@ -56,16 +63,24 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
       q: `Wie viele Arbeitstage hat ${y} in ${state.name}?`,
       a: `${y} hat in ${state.name} ${arbeitstage} Arbeitstage bei einer 5-Tage-Woche (Montag–Freitag ohne gesetzliche Feiertage des Landes).`,
     },
+    {
+      q: `Wie viele Feiertage fallen ${y} in ${state.name} auf ein Wochenende?`,
+      a: weekendCount ? `${y} fallen ${weekendCount} der gesetzlichen Feiertage in ${state.name} auf ein Wochenende. In Deutschland gibt es dafür keinen gesetzlichen Ersatztag.` : `${y} fällt keiner der gesetzlichen Feiertage in ${state.name} auf ein Wochenende – ein gutes Jahr für lange Wochenenden.`,
+    },
+    ...(bestBridge
+      ? [{
+          q: `Welcher Brückentag lohnt sich ${y} in ${state.name} am meisten?`,
+          a: `Besonders effizient: mit ${bestBridge.urlaubstage} Urlaubstag${bestBridge.urlaubstage > 1 ? "en" : ""} rund um den ${formatLongDE(bestBridge.von)} erhalten Sie ${bestBridge.freieTage} freie Tage am Stück.`,
+        }]
+      : []),
+    {
+      q: `Bekomme ich einen Ersatztag, wenn ein Feiertag auf ein Wochenende fällt?`,
+      a: `Nein. In Deutschland gibt es keinen gesetzlichen Anspruch auf einen Ausgleichstag, wenn ein Feiertag auf einen Samstag oder Sonntag fällt. Ob ein Ausgleich gewährt wird, richtet sich nach Arbeits- oder Tarifvertrag.`,
+    },
   ];
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  };
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -158,18 +173,24 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-navy-800">Häufige Fragen</h2>
-          <div className="space-y-3">
-            {faq.map((f) => (
-              <details key={f.q} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <summary className="cursor-pointer font-semibold text-navy-800">{f.q}</summary>
-                <p className="mt-2 text-sm text-slate-600">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+        <SeoProse
+          blocks={[
+            {
+              h2: `Gesetzliche Feiertage ${y} in ${state.name}`,
+              p: [
+                `${state.name} hat ${y} insgesamt ${workFree.length} gesetzliche Feiertage. Neun davon gelten bundesweit einheitlich: Neujahr, Karfreitag, Ostermontag, Tag der Arbeit, Christi Himmelfahrt, Pfingstmontag, Tag der Deutschen Einheit sowie der 1. und 2. Weihnachtsfeiertag. ${workFree.length > 9 ? `Hinzu kommen die in ${state.name} zusätzlich gesetzlich geregelten Feiertage – die vollständige Liste mit Datum und Wochentag finden Sie in der Tabelle oben.` : `Über diese neun bundesweiten Tage hinaus gibt es in ${state.name} keine weiteren gesetzlichen Feiertage.`}${partial.length ? ` Zusätzlich gelten ${partial.length} nur regional oder teilweise anerkannte Tage.` : ""}`,
+                `An gesetzlichen Feiertagen ruht in ${state.name} grundsätzlich die Arbeit, und es gelten besondere Regeln etwa für Ladenöffnung und das Sonn- und Feiertagsgesetz. Bei einer 5-Tage-Woche ergeben sich ${y} in ${state.name} ${arbeitstage} Arbeitstage.`,
+              ],
+            },
+            {
+              h2: `Brückentage und lange Wochenenden ${y}`,
+              p: [
+                `Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen viel Freizeit machen. ${bestBridge ? `Der ergiebigste Vorschlag für ${state.name}: rund um den ${formatLongDE(bestBridge.von)} verwandeln ${bestBridge.urlaubstage} Urlaubstag${bestBridge.urlaubstage > 1 ? "e" : ""} in ${bestBridge.freieTage} freie Tage.` : ""} Eine vollständige Übersicht bietet die Brückentage-Seite; alle Feiertage lassen sich zudem als ICS- oder CSV-Datei herunterladen und in Google Kalender, Outlook oder Apple Kalender importieren.`,
+              ],
+            },
+          ]}
+        />
+        <Faq items={faq} />
       </PageWithSidebar>
     </main>
   );

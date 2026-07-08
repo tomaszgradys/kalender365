@@ -6,6 +6,8 @@ import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { allWeeks } from "@/lib/de/weeks";
 import { formatShortDE } from "@/lib/de/locale";
 import { berlinISOWeek } from "@/lib/de/now";
+import SeoProse from "@/components/de/SeoProse";
+import Faq from "@/components/de/Faq";
 
 export const revalidate = 3600;
 
@@ -100,6 +102,32 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
           <Link href={`/kalenderwochen/${y + 1}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">KW {y + 1} →</Link>
           <Link href={`/kalender/${y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Kalender {y}</Link>
         </div>
+
+        <SeoProse
+          blocks={[
+            {
+              h2: `Kalenderwochen ${y} nach ISO 8601`,
+              p: [
+                `Das Jahr ${y} hat ${weeks.length} Kalenderwochen. In Deutschland und der EU werden Kalenderwochen nach der Norm ISO 8601 gezählt: Jede Woche beginnt am Montag und endet am Sonntag. Die erste Kalenderwoche (KW 1) ist die Woche, die den ersten Donnerstag des Jahres enthält – gleichbedeutend mit der Woche, in die der 4. Januar fällt.`,
+                `Diese Regel führt dazu, dass die KW 1 manchmal bereits im Dezember des Vorjahres beginnt oder erst am 4. Januar. Die Kalenderwoche ist im Berufsalltag wichtig, weil Termine, Lieferungen und Projektpläne in Deutschland häufig über die KW statt über ein konkretes Datum kommuniziert werden.`,
+              ],
+            },
+            {
+              h2: `Warum manche Jahre 53 Kalenderwochen haben`,
+              p: [
+                `Die meisten Jahre haben 52 Kalenderwochen. Ein Jahr hat dann 53 Wochen, wenn es an einem Donnerstag beginnt (oder in einem Schaltjahr an einem Mittwoch oder Donnerstag). ${weeks.length === 53 ? `${y} ist ein solches Jahr mit 53 Kalenderwochen.` : `${y} hat 52 Kalenderwochen.`} Die Tabelle oben zeigt zu jeder KW das genaue Start- und Enddatum – ideal zum Nachschlagen oder Kopieren.`,
+              ],
+            },
+          ]}
+        />
+        <Faq
+          items={[
+            { q: `Wie viele Kalenderwochen hat ${y}?`, a: `${y} hat ${weeks.length} Kalenderwochen nach ISO 8601.` },
+            { q: "Wann beginnt die erste Kalenderwoche?", a: "KW 1 ist die Woche, die den ersten Donnerstag des Jahres bzw. den 4. Januar enthält. Sie kann daher schon Ende Dezember des Vorjahres beginnen." },
+            { q: "Beginnt die Kalenderwoche am Montag oder Sonntag?", a: "Nach ISO 8601 – wie in Deutschland üblich – beginnt die Kalenderwoche am Montag und endet am Sonntag. (In den USA startet die Woche am Sonntag.)" },
+            { q: `Welche Kalenderwoche ist heute?`, a: `Die aktuelle Kalenderwoche wird auf dieser Seite hervorgehoben, sobald ${y} das laufende Jahr ist. Sie finden sie oben in der grün markierten Karte.` },
+          ]}
+        />
       </PageWithSidebar>
     </main>
   );
