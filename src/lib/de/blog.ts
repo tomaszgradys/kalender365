@@ -18,6 +18,7 @@ export type BlogPost = {
   bodyHtml: string;
   publishedAt: string; // YYYY-MM-DD
   source: "seed" | "ai";
+  cover?: { src: string; alt: string };
 };
 
 export const BLOG_CATEGORIES: BlogCategory[] = [
@@ -27,6 +28,15 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
   "Mond & Natur",
   "Zeit & Rechner",
 ];
+
+// Fallback-Gradient (Kategorie-Label auf Farbverlauf), wenn ein Post kein Cover hat.
+export const CATEGORY_GRADIENT: Record<BlogCategory, string> = {
+  "Feiertage & Urlaub": "from-navy-600 to-navy-800",
+  "Schulferien": "from-brand-green-600 to-navy-700",
+  "Kalender-Wissen": "from-navy-500 to-navy-800",
+  "Mond & Natur": "from-navy-700 to-navy-900",
+  "Zeit & Rechner": "from-navy-600 to-brand-green-700",
+};
 
 const SEED: BlogPost[] = [
   {
