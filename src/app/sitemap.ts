@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/de/site";
+import { SITE_URL, COMPANY } from "@/lib/de/site";
 import { NAV_YEARS } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { MONTH_SLUGS_DE } from "@/lib/de/locale";
@@ -13,12 +13,18 @@ import { isoWeeksInYear } from "@/lib/de/weeks";
 const NOW = berlinToday();
 
 // Nur fertige, indexierbare deutsche Routen. Schulferien bleiben ausgeschlossen,
-// bis die Termine verifiziert sind (siehe schulferien.ts / SEO-Gate). Impressum
-// ist ausgeschlossen, solange nur Platzhalterdaten hinterlegt sind.
+// bis die Termine verifiziert sind (siehe schulferien.ts / SEO-Gate). Das
+// Impressum wird nur aufgenommen, sobald echte Betreiberdaten hinterlegt sind
+// (HAS_REAL_DATA) — analog zum noindex-Gate der Seite selbst.
+const IMPRESSUM_INDEXABLE = !COMPANY.legalName.startsWith("TODO");
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/blog`, lastModified: NOW, changeFrequency: "daily" },
+    ...(IMPRESSUM_INDEXABLE
+      ? [{ url: `${SITE_URL}/impressum`, lastModified: NOW, changeFrequency: "yearly" as const }]
+      : []),
     { url: `${SITE_URL}/generatoren`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/tage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
     { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
