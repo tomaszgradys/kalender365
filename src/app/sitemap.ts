@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL, COMPANY } from "@/lib/de/site";
+import { SITE_URL, COMPANY, CONTENT_VERSION } from "@/lib/de/site";
 import { NAV_YEARS } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { MONTH_SLUGS_DE } from "@/lib/de/locale";
@@ -13,7 +13,16 @@ import { BESONDERE_TAGE } from "@/lib/de/besondereTage";
 import { allNamenstage } from "@/lib/de/namenstage";
 import { STERNZEICHEN } from "@/lib/de/sternzeichen";
 
+// Stabiles <lastmod> statt „heute überall": ein Datum, das sich nur ändert, wenn
+// sich Inhalte real ändern. Vergangene Jahre werden auf Jahresende eingefroren
+// (der Inhalt eines abgelaufenen Jahres ändert sich nicht mehr) → Googlebot
+// recrawlt sie kaum und verschwendet kein Crawl-Budget. Aktuelles/künftiges Jahr
+// = CONTENT_VERSION. Nur echt tägliche Seiten (Home, Heute, Countdowns …) tragen NOW.
 const NOW = berlinToday();
+const CONTENT_DATE = new Date(`${CONTENT_VERSION}T00:00:00Z`);
+const thisYear = berlinNow().year;
+const yearLastmod = (y: number): Date =>
+  y < thisYear ? new Date(`${y}-12-31T00:00:00Z`) : CONTENT_DATE;
 
 // Nur fertige, indexierbare deutsche Routen. Schulferien bleiben ausgeschlossen,
 // bis die Termine verifiziert sind (siehe schulferien.ts / SEO-Gate). Das
@@ -27,101 +36,102 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/heute`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/blog`, lastModified: NOW, changeFrequency: "daily" },
     ...(IMPRESSUM_INDEXABLE
-      ? [{ url: `${SITE_URL}/impressum`, lastModified: NOW, changeFrequency: "yearly" as const }]
+      ? [{ url: `${SITE_URL}/impressum`, lastModified: CONTENT_DATE, changeFrequency: "yearly" as const }]
       : []),
-    { url: `${SITE_URL}/generatoren`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/tage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/wochentag-rechner`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/altersrechner`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/stundenplan`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/so-berechnen-wir`, lastModified: NOW, changeFrequency: "yearly" },
-    { url: `${SITE_URL}/datenschutz`, lastModified: NOW, changeFrequency: "yearly" },
-    { url: `${SITE_URL}/cookies`, lastModified: NOW, changeFrequency: "yearly" },
-    { url: `${SITE_URL}/nutzungsbedingungen`, lastModified: NOW, changeFrequency: "yearly" },
-    { url: `${SITE_URL}/kontakt`, lastModified: NOW, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/generatoren`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/tage-rechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/arbeitstage-rechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/wochentag-rechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/altersrechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/stundenplan`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/so-berechnen-wir`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/datenschutz`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/cookies`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/nutzungsbedingungen`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
+    { url: `${SITE_URL}/kontakt`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
     { url: `${SITE_URL}/sonnenaufgang-sonnenuntergang`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/wie-viele-tage-bis`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/wie-viele-tage-bis-zu-den-sommerferien`, lastModified: NOW, changeFrequency: "daily" },
-    { url: `${SITE_URL}/countdown`, lastModified: NOW, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/countdown`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
     ...COUNTDOWNS.map((c) => ({ url: `${SITE_URL}/wie-viele-tage-bis/${c.slug}`, lastModified: NOW, changeFrequency: "daily" as const })),
     // Brauchtum & Anlässe (jahresunabhängig).
-    { url: `${SITE_URL}/namenstage`, lastModified: NOW, changeFrequency: "daily" },
-    ...allNamenstage().map((e) => ({ url: `${SITE_URL}/namenstage/${e.mmdd}`, lastModified: NOW, changeFrequency: "yearly" as const })),
-    { url: `${SITE_URL}/bauernregeln`, lastModified: NOW, changeFrequency: "monthly" },
-    { url: `${SITE_URL}/sternzeichen`, lastModified: NOW, changeFrequency: "monthly" },
-    ...STERNZEICHEN.map((z) => ({ url: `${SITE_URL}/sternzeichen/${z.slug}`, lastModified: NOW, changeFrequency: "yearly" as const })),
+    { url: `${SITE_URL}/namenstage`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    ...allNamenstage().map((e) => ({ url: `${SITE_URL}/namenstage/${e.mmdd}`, lastModified: CONTENT_DATE, changeFrequency: "yearly" as const })),
+    { url: `${SITE_URL}/bauernregeln`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/sternzeichen`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    ...STERNZEICHEN.map((z) => ({ url: `${SITE_URL}/sternzeichen/${z.slug}`, lastModified: CONTENT_DATE, changeFrequency: "yearly" as const })),
   ];
 
-  const thisYear = berlinNow().year;
   for (const y of NAV_YEARS) {
-    entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/feiertage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/brueckentage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/besondere-tage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    const lm = yearLastmod(y);
+    entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/feiertage/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/brueckentage/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/besondere-tage/${y}`, lastModified: lm, changeFrequency: "monthly" });
     for (const e of BESONDERE_TAGE) {
-      entries.push({ url: `${SITE_URL}/besondere-tage/${y}/${e.slug}`, lastModified: NOW, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/besondere-tage/${y}/${e.slug}`, lastModified: lm, changeFrequency: "monthly" });
     }
     // Einzelne Kalenderwochen nur für aktuelles + nächstes Jahr (Umfang).
     if (y === thisYear || y === thisYear + 1) {
       for (let w = 1; w <= isoWeeksInYear(y); w++) {
-        entries.push({ url: `${SITE_URL}/kw/${w}-${y}`, lastModified: NOW, changeFrequency: "weekly" });
+        entries.push({ url: `${SITE_URL}/kw/${w}-${y}`, lastModified: lm, changeFrequency: "weekly" });
       }
     }
-    entries.push({ url: `${SITE_URL}/mondkalender/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/mondkalender/${y}`, lastModified: lm, changeFrequency: "monthly" });
     for (const ms of MONTH_SLUGS_DE) {
-      entries.push({ url: `${SITE_URL}/mondkalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/mondkalender/${ms}-${y}`, lastModified: lm, changeFrequency: "monthly" });
     }
-    entries.push({ url: `${SITE_URL}/mondphasen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/vollmond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
-    entries.push({ url: `${SITE_URL}/zeitumstellung/${y}`, lastModified: NOW, changeFrequency: "yearly" });
-    entries.push({ url: `${SITE_URL}/jahreszeiten/${y}`, lastModified: NOW, changeFrequency: "yearly" });
+    entries.push({ url: `${SITE_URL}/mondphasen/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/vollmond/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/zeitumstellung/${y}`, lastModified: lm, changeFrequency: "yearly" });
+    entries.push({ url: `${SITE_URL}/jahreszeiten/${y}`, lastModified: lm, changeFrequency: "yearly" });
     // Schulferien nur für Jahre/Länder mit vorhandenen Daten.
     const sfStates = statesWithData(y);
     if (sfStates.length > 0) {
-      entries.push({ url: `${SITE_URL}/schulferien/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/schulferien/${y}`, lastModified: lm, changeFrequency: "monthly" });
       const FERIEN_TYPES = ["sommerferien", "osterferien", "herbstferien", "weihnachtsferien"] as const;
       for (const code of sfStates) {
         const slug = stateByCode(code).slug;
-        entries.push({ url: `${SITE_URL}/schulferien/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+        entries.push({ url: `${SITE_URL}/schulferien/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
         if (isSchulferienIndexable(y, code)) {
           for (const t of FERIEN_TYPES) {
             if (getFerienByTyp(y, code, t)) {
-              entries.push({ url: `${SITE_URL}/${t}/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+              entries.push({ url: `${SITE_URL}/${t}/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
             }
           }
         }
       }
     }
     for (const ms of MONTH_SLUGS_DE) {
-      entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}`, lastModified: lm, changeFrequency: "monthly" });
     }
     for (const slug of STATE_SLUGS) {
-      entries.push({ url: `${SITE_URL}/kalender/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
-      entries.push({ url: `${SITE_URL}/feiertage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
-      entries.push({ url: `${SITE_URL}/brueckentage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
-      entries.push({ url: `${SITE_URL}/arbeitstage/${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/kalender/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/feiertage/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/brueckentage/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
+      entries.push({ url: `${SITE_URL}/arbeitstage/${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
       // Monatskalender je Bundesland nur für das aktuelle und nächste Jahr (Umfang).
       if (y === thisYear || y === thisYear + 1) {
         for (const ms of MONTH_SLUGS_DE) {
-          entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}/${slug}`, lastModified: NOW, changeFrequency: "monthly" });
+          entries.push({ url: `${SITE_URL}/kalender/${ms}-${y}/${slug}`, lastModified: lm, changeFrequency: "monthly" });
         }
       }
     }
   }
 
-  // Kalenderblätter (Tagesseiten) für das aktuelle und nächste Jahr.
+  // Kalenderblätter (Tagesseiten) für das aktuelle und nächste Jahr. Der Inhalt
+  // eines konkreten Datums ist statisch → stabiles lastmod (CONTENT_DATE).
   for (const y of [thisYear, thisYear + 1]) {
     for (let m0 = 0; m0 < 12; m0++) {
       const dim = new Date(Date.UTC(y, m0 + 1, 0)).getUTCDate();
       for (let d = 1; d <= dim; d++) {
         const iso = `${y}-${String(m0 + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-        entries.push({ url: `${SITE_URL}/kalenderblatt/${iso}`, lastModified: NOW, changeFrequency: "yearly" });
+        entries.push({ url: `${SITE_URL}/kalenderblatt/${iso}`, lastModified: CONTENT_DATE, changeFrequency: "yearly" });
       }
     }
   }

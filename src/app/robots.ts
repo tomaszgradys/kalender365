@@ -21,7 +21,10 @@ const AI_BOTS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  const disallow = ["/api/"];
+  // /api/ = Export-/Cron-Endpunkte (kein HTML). /suche = interne Suchergebnisse
+  // (noindex, ?q=… → unendliche URL-Varianten) — beides raus aus dem Crawl,
+  // um Crawl-Budget zu sparen.
+  const disallow = ["/api/", "/suche"];
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow },

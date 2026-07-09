@@ -6,6 +6,12 @@ export const SITE_SHORT = "Kalender365";
 export const LOCALE = "de-DE";
 export const TIMEZONE = "Europe/Berlin";
 
+// Datum der letzten inhaltlichen Aktualisierung (Daten/Texte der programmatischen
+// Seiten). Dient als STABILES sitemap-<lastmod> für aktuelle/künftige Jahre — nur
+// hochsetzen, wenn sich Inhalte real ändern. So bekommt Googlebot kein „alles heute
+// geändert"-Signal (Crawl-Budget-Schutz). Vergangene Jahre werden separat eingefroren.
+export const CONTENT_VERSION = "2026-07-09";
+
 // Default location for sunrise/sunset and "Kalenderblatt des Tages".
 export const DEFAULT_CITY = { name: "Berlin", lat: 52.52, lon: 13.405 };
 

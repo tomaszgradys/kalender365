@@ -84,9 +84,15 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
 
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">KW {week} {year}{isCurrent && <span className="ml-2 rounded-full bg-brand-green-600 px-2 py-0.5 align-middle text-xs font-bold text-white">aktuelle Woche</span>}</h1>
+          {/* Vor-/Zurück nur innerhalb des indexierbaren Fensters verlinken —
+              sonst leiten wir Crawler in noindex-Randwochen (Crawl-Budget). */}
           <div className="flex gap-2 text-sm">
-            <Link href={`/kw/${prev.w}-${prev.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← KW {prev.w}</Link>
-            <Link href={`/kw/${next.w}-${next.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">KW {next.w} →</Link>
+            {isNavigableYear(prev.y) && (
+              <Link href={`/kw/${prev.w}-${prev.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">← KW {prev.w}</Link>
+            )}
+            {isNavigableYear(next.y) && (
+              <Link href={`/kw/${next.w}-${next.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">KW {next.w} →</Link>
+            )}
           </div>
         </div>
         <p className="mt-2 text-slate-600">
