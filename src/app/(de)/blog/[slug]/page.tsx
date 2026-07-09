@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getSeedPosts, CATEGORY_GRADIENT } from "@/lib/de/blog";
 import { formatLongDE } from "@/lib/de/locale";
 import { SITE_URL, SITE_NAME } from "@/lib/de/site";
+import { serializeJsonLd } from "@/lib/de/jsonLd";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Faq from "@/components/de/Faq";
 import EventArt from "@/components/de/EventArt";
@@ -49,12 +50,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     articleSection: post.category,
     inLanguage: "de-DE",
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
-    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    ...(post.cover ? { image: [post.cover.src] } : {}),
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/brand/png/web/mark-calendar-color-512.png` },
+    },
   };
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleLd) }} />
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <Link href="/blog" className="hover:text-navy-600">Blog</Link> <span className="mx-1">/</span> <span className="text-navy-700">{post.category}</span></nav>
 
