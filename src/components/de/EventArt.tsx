@@ -28,6 +28,10 @@ export type EventMotif =
   | "nikolaus"
   | "tannenbaum"
   | "feuerwerk"
+  | "sonne"
+  | "mond"
+  | "sterne"
+  | "eis"
   | "kalender";
 
 type Tone = readonly [string, string];
@@ -396,6 +400,95 @@ function motifFor(motif: EventMotif, uid: string): Motif {
                 })}
                 <circle cx={cx as number} cy={cy as number} r="5" fill="#fff" />
               </g>
+            ))}
+          </g>
+        ),
+      };
+    case "sonne":
+      return {
+        tone: TONE.warm,
+        art: (
+          <g>
+            {[[180, 90], [640, 70], [560, 150]].map(([x, y], i) => (
+              <g key={i} fill="#fff" opacity="0.85">
+                <ellipse cx={x} cy={y} rx="46" ry="24" />
+                <ellipse cx={x + 30} cy={y + 6} rx="34" ry="20" />
+                <ellipse cx={x - 30} cy={y + 8} rx="30" ry="18" />
+              </g>
+            ))}
+            <g transform="translate(400 150)">
+              {Array.from({ length: 12 }).map((_, k) => {
+                const a = (k * 30 * Math.PI) / 180;
+                return <line key={k} x1={70 * Math.cos(a)} y1={70 * Math.sin(a)} x2={98 * Math.cos(a)} y2={98 * Math.sin(a)} stroke={GOLD} strokeWidth="7" strokeLinecap="round" />;
+              })}
+              <circle r="56" fill={GOLD} />
+              <circle r="56" fill={ORANGE} opacity="0.25" />
+            </g>
+          </g>
+        ),
+      };
+    case "mond":
+      return {
+        tone: TONE.night,
+        art: (
+          <g>
+            {[[120, 60], [220, 120], [640, 70], [700, 160], [500, 50], [340, 90]].map(([x, y], i) => (
+              <circle key={i} cx={x} cy={y} r={i % 2 ? 2 : 3} fill="#fff" opacity="0.85" />
+            ))}
+            <g transform="translate(400 150)">
+              <circle r="78" fill="#f4f6ff" />
+              <circle cx="-24" cy="-18" r="12" fill="#dde4f5" opacity="0.7" />
+              <circle cx="18" cy="14" r="16" fill="#dde4f5" opacity="0.6" />
+              <circle cx="30" cy="-26" r="8" fill="#dde4f5" opacity="0.6" />
+              <circle r="78" fill="none" stroke="#fff" strokeWidth="1" opacity="0.4" />
+            </g>
+          </g>
+        ),
+      };
+    case "sterne":
+      return {
+        tone: TONE.night,
+        art: (
+          <g>
+            {[[120, 70, 3], [200, 150, 2], [300, 60, 2], [520, 80, 3], [620, 150, 2], [690, 60, 2], [400, 40, 2], [460, 200, 2], [250, 210, 3]].map(([x, y, r], i) => (
+              <circle key={i} cx={x} cy={y} r={r} fill="#cfe0ff" />
+            ))}
+            {/* Verbundene „Sternbild"-Linien */}
+            <polyline points="150,120 260,150 360,110 470,150 560,110" fill="none" stroke={PERI} strokeWidth="1.5" opacity="0.6" />
+            {[150, 260, 360, 470, 560].map((x, i) => (
+              <circle key={i} cx={x} cy={[120, 150, 110, 150, 110][i]} r="4" fill={PERI} />
+            ))}
+            <g transform="translate(400 150)">
+              <path d="M0 -46 l11 26 l28 3 l-21 19 l6 28 l-24 -15 l-24 15 l6 -28 l-21 -19 l28 -3 Z" fill={GOLD} />
+            </g>
+          </g>
+        ),
+      };
+    case "eis":
+      return {
+        tone: TONE.winter,
+        art: (
+          <g>
+            {/* Schneeflocke */}
+            <g transform="translate(400 130)" stroke={BLUE} strokeWidth="5" strokeLinecap="round">
+              {[0, 60, 120].map((a) => (
+                <g key={a} transform={`rotate(${a})`}>
+                  <line x1="-64" y1="0" x2="64" y2="0" />
+                  <line x1="-64" y1="0" x2="-48" y2="-14" /><line x1="-64" y1="0" x2="-48" y2="14" />
+                  <line x1="64" y1="0" x2="48" y2="-14" /><line x1="64" y1="0" x2="48" y2="14" />
+                </g>
+              ))}
+              <circle r="9" fill={BLUE} stroke="none" />
+            </g>
+            {/* Frostige Blüte */}
+            <g transform="translate(400 215)">
+              {[0, 72, 144, 216, 288].map((a) => (
+                <ellipse key={a} cx="0" cy="-16" rx="10" ry="17" fill={PERI} transform={`rotate(${a})`} opacity="0.85" />
+              ))}
+              <circle r="8" fill={GREEN} />
+            </g>
+            {[[140, 80], [660, 90], [250, 60], [560, 60]].map(([x, y], i) => (
+              <circle key={i} cx={x} cy={y} r="3" fill="#fff" />
             ))}
           </g>
         ),

@@ -37,6 +37,7 @@ export const routes = {
   osterferienState: (y: number, s: Bundesland) => `/osterferien/${y}/${s.slug}`,
 
   // Brauchtum & Anlässe
+  heute: () => `/heute`,
   besondereTage: (y: number) => `/besondere-tage/${y}`,
   besondererTag: (y: number, slug: string) => `/besondere-tage/${y}/${slug}`,
   namenstage: () => `/namenstage`,

@@ -24,6 +24,7 @@ const IMPRESSUM_INDEXABLE = !COMPANY.legalName.startsWith("TODO");
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: NOW, changeFrequency: "daily" },
+    { url: `${SITE_URL}/heute`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/blog`, lastModified: NOW, changeFrequency: "daily" },
     ...(IMPRESSUM_INDEXABLE
       ? [{ url: `${SITE_URL}/impressum`, lastModified: NOW, changeFrequency: "yearly" as const }]

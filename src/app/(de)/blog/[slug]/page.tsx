@@ -6,6 +6,8 @@ import { getAllPosts, getPostBySlug, getSeedPosts, CATEGORY_GRADIENT } from "@/l
 import { formatLongDE } from "@/lib/de/locale";
 import { SITE_URL, SITE_NAME } from "@/lib/de/site";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Faq from "@/components/de/Faq";
+import EventArt from "@/components/de/EventArt";
 
 export const revalidate = 600;
 
@@ -70,6 +72,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               priority
               className="aspect-[40/21] w-full object-cover"
             />
+          ) : post.art ? (
+            <EventArt motif={post.art} uid={`bh-${post.slug}`} rounded={false} className="aspect-[40/21] w-full" />
           ) : (
             <div className={`flex aspect-[40/21] w-full items-center justify-center bg-gradient-to-br ${CATEGORY_GRADIENT[post.category]}`}>
               <span className="px-4 text-center text-sm font-semibold uppercase tracking-widest text-white/90">
@@ -83,6 +87,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-navy-800 [&_a]:font-medium [&_a]:text-navy-600 [&_a]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_p]:leading-relaxed"
           dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
         />
+
+        {post.faq && post.faq.length > 0 && <Faq items={post.faq} />}
 
         {related.length > 0 && (
           <section className="mt-10 border-t border-slate-100 pt-6">

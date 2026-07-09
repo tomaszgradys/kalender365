@@ -12,6 +12,7 @@ export const MENU: MenuSection[] = [
     title: "Beliebt",
     popular: true,
     items: [
+      { label: "Heute", href: "/heute", emoji: "📍" },
       { label: "Kalender {y}", href: "/kalender/{y}", emoji: "📅" },
       { label: "Feiertage {y}", href: "/feiertage/{y}", emoji: "🎉" },
       { label: "Schulferien {y}", href: "/schulferien/{y}", emoji: "🎒" },

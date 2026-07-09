@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CATEGORY_GRADIENT, type BlogPost } from "@/lib/de/blog";
 import { formatLongDE } from "@/lib/de/locale";
+import EventArt from "@/components/de/EventArt";
 
 // Kachel für einen Blogbeitrag. `featured` = großer Kachel (neuester Beitrag).
 export default function BlogCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
@@ -20,6 +21,8 @@ export default function BlogCard({ post, featured = false }: { post: BlogPost; f
       >
         {post.cover?.src ? (
           <Image src={post.cover.src} alt={post.cover.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
+        ) : post.art ? (
+          <EventArt motif={post.art} uid={`bc-${post.slug}`} rounded={false} className="absolute inset-0 h-full w-full object-cover" />
         ) : (
           <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${gradient}`}>
             <span className="px-4 text-center text-sm font-semibold uppercase tracking-widest text-white/90">

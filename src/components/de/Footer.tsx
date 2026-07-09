@@ -34,6 +34,18 @@ const COLS: { title: string; links: FootLink[] }[] = [
     ],
   },
   {
+    title: "Brauchtum & Anlässe",
+    links: [
+      { href: "/heute", label: "Welcher Tag ist heute?" },
+      { href: `/besondere-tage/${YEAR}`, label: "Besondere Tage" },
+      { href: `/besondere-tage/${YEAR}/muttertag`, label: "Muttertag" },
+      { href: `/besondere-tage/${YEAR}/rosenmontag`, label: "Karneval" },
+      { href: "/namenstage", label: "Namenstage" },
+      { href: "/bauernregeln", label: "Bauernregeln" },
+      { href: "/sternzeichen", label: "Sternzeichen" },
+    ],
+  },
+  {
     title: "Information",
     links: [
       { href: "/blog", label: "Blog" },
@@ -51,7 +63,7 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-slate-200 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
           <div className="max-w-xs">
             <Logo />
             <p className="mt-3 text-sm leading-relaxed text-slate-500">
