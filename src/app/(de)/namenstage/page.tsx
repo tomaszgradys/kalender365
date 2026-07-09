@@ -6,6 +6,8 @@ import { MONTH_NAMES_DE } from "@/lib/de/locale";
 import { allNamenstage, getNamenstage, namensIndex } from "@/lib/de/namenstage";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ModuleHero from "@/components/de/ModuleHero";
+import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
 
 export const revalidate = 86400;
 
@@ -51,6 +53,8 @@ export default function NamenstagePage() {
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Namenstage</span>
         </nav>
+
+        <ModuleHero src={heroSrc(MODULE_HERO, "namenstage")} alt="Namenstage im Kalender" motif="kalender" uid="hero-namen" className="mb-5 h-36 w-full sm:h-44" priority />
 
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Namenstage im Kalender</h1>
         <p className="mt-2 max-w-3xl text-slate-600">

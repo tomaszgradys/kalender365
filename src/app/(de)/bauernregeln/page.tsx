@@ -6,6 +6,8 @@ import { MONTH_NAMES_DE } from "@/lib/de/locale";
 import { getBauernregel, getDatierteBauernregeln, getAllgemeineBauernregeln } from "@/lib/de/bauernregeln";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ModuleHero from "@/components/de/ModuleHero";
+import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
 
 export const revalidate = 86400;
 
@@ -46,6 +48,8 @@ export default function BauernregelnPage() {
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Bauernregeln</span>
         </nav>
+
+        <ModuleHero src={heroSrc(MODULE_HERO, "bauernregeln")} alt="Bauernregeln und Lostage" motif="erntedank" uid="hero-bauern" className="mb-5 h-36 w-full sm:h-44" priority />
 
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Bauernregeln & Lostage</h1>
         <p className="mt-2 max-w-3xl text-slate-600">

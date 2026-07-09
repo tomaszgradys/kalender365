@@ -45,6 +45,8 @@ export const routes = {
   bauernregeln: () => `/bauernregeln`,
   sternzeichen: () => `/sternzeichen`,
   sternzeichenSign: (slug: string) => `/sternzeichen/${slug}`,
+  mondkalender: (y: number) => `/mondkalender/${y}`,
+  mondkalenderMonat: (slug: string) => `/mondkalender/${slug}`,
 
   // Zeit, Natur, Hobby
   kalenderwochen: (y: number) => `/kalenderwochen/${y}`,

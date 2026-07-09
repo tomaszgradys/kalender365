@@ -6,6 +6,8 @@ import { MONTH_NAMES_DE } from "@/lib/de/locale";
 import { STERNZEICHEN, sternzeichenByDate, ELEMENT_COLOR } from "@/lib/de/sternzeichen";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ModuleHero from "@/components/de/ModuleHero";
+import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
 
 export const revalidate = 86400;
 
@@ -41,6 +43,8 @@ export default function SternzeichenPage() {
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
           <span className="text-navy-700">Sternzeichen</span>
         </nav>
+
+        <ModuleHero src={heroSrc(MODULE_HERO, "sternzeichen")} alt="Sternzeichen im Überblick" motif="sterne" uid="hero-sternzeichen" className="mb-5 h-36 w-full sm:h-44" priority />
 
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Sternzeichen im Überblick</h1>
         <p className="mt-2 max-w-3xl text-slate-600">

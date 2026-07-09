@@ -36,6 +36,32 @@ export function getMoonPhaseDE(date: Date): { icon: string; label: string } {
   return { icon: p.icon, label: p.label };
 }
 
+/** Zu-/Abnehmen des Mondes: -1 = abnehmend, +1 = zunehmend, 0 = Voll-/Neumond. */
+export function getMoonTrend(date: Date): -1 | 0 | 1 {
+  const age = getMoonAge(date);
+  if (age < 0.5 || age > 29.03) return 0; // Neumond
+  if (Math.abs(age - 14.7652944) < 0.5) return 0; // Vollmond
+  return age < 14.7652944 ? 1 : -1;
+}
+
+/** Ekliptikale Länge des Mondes in Grad (0–360), niedrige Präzision (Montenbruck). */
+export function moonEclipticLongitudeDeg(jd: number): number {
+  const T = julianCentury(jd);
+  const P2 = 2 * Math.PI;
+  const L0 = frac(0.606433 + 1336.855225 * T);
+  const L = P2 * frac(0.374897 + 1325.55241 * T);
+  const D = P2 * frac(0.827361 + 1236.853086 * T);
+  const F = P2 * frac(0.259086 + 1342.227825 * T);
+  const LS = P2 * frac(0.993133 + 99.997361 * T);
+  const DL =
+    22640 * Math.sin(L) - 4586 * Math.sin(L - 2 * D) + 2370 * Math.sin(2 * D) + 769 * Math.sin(2 * L) -
+    668 * Math.sin(LS) - 412 * Math.sin(2 * F) - 212 * Math.sin(2 * L - 2 * D) - 206 * Math.sin(L + LS - 2 * D) +
+    192 * Math.sin(L + 2 * D) - 165 * Math.sin(LS - 2 * D) - 125 * Math.sin(D) - 110 * Math.sin(L + LS) +
+    148 * Math.sin(L - LS) - 55 * Math.sin(2 * F - 2 * D);
+  const lambda = frac(L0 + DL / 1296000); // 0..1
+  return lambda * 360;
+}
+
 // --- Moon rise/set (low precision) ---
 const rad = (d: number) => (d * Math.PI) / 180;
 const frac = (x: number) => x - Math.floor(x);

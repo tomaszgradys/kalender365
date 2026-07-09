@@ -8,6 +8,8 @@ import { formatFullDE, formatLongDE, weekdayDE, MONTH_SLUGS_DE } from "@/lib/de/
 import { BESONDERE_TAGE, getBesondererTag } from "@/lib/de/besondereTage";
 import { getCountdown, berlinMidnight } from "@/lib/de/countdowns";
 import EventArt from "@/components/de/EventArt";
+import ModuleHero from "@/components/de/ModuleHero";
+import { EVENT_HERO, heroSrc } from "@/lib/de/heroes";
 import CountdownClient from "@/components/de/CountdownClient";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
@@ -107,9 +109,7 @@ export default async function BesondererTagPage({ params }: { params: Promise<{ 
           <span className="text-navy-700">{e.name}</span>
         </nav>
 
-        <div className="overflow-hidden rounded-2xl">
-          <EventArt motif={e.motif} uid={`hero-${e.slug}`} className="h-44 w-full sm:h-56" />
-        </div>
+        <ModuleHero src={heroSrc(EVENT_HERO, e.slug)} alt={`${e.name} ${y}`} motif={e.motif} uid={`hero-${e.slug}`} className="h-44 w-full sm:h-56" priority />
 
         <h1 className="mt-5 text-2xl font-black text-navy-800 sm:text-3xl">{e.emoji} {e.name} {y}</h1>
         <p className="mt-2 max-w-3xl text-slate-600">{e.intro}</p>

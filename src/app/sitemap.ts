@@ -72,6 +72,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         entries.push({ url: `${SITE_URL}/kw/${w}-${y}`, lastModified: NOW, changeFrequency: "weekly" });
       }
     }
+    entries.push({ url: `${SITE_URL}/mondkalender/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    for (const ms of MONTH_SLUGS_DE) {
+      entries.push({ url: `${SITE_URL}/mondkalender/${ms}-${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    }
     entries.push({ url: `${SITE_URL}/mondphasen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/vollmond/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/neumond/${y}`, lastModified: NOW, changeFrequency: "monthly" });

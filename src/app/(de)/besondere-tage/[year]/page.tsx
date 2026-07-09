@@ -12,6 +12,8 @@ import {
   type BesondererTagInstance,
 } from "@/lib/de/besondereTage";
 import EventArt from "@/components/de/EventArt";
+import ModuleHero from "@/components/de/ModuleHero";
+import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
@@ -98,9 +100,7 @@ export default async function BesondereTagePage({ params }: { params: Promise<{ 
           <span className="text-navy-700">Besondere Tage {y}</span>
         </nav>
 
-        <div className="overflow-hidden rounded-2xl">
-          <EventArt motif="kalender" uid="hero-besondere" className="h-40 w-full sm:h-52" />
-        </div>
+        <ModuleHero src={heroSrc(MODULE_HERO, "besondere-tage")} alt={`Besondere Tage ${y}`} motif="kalender" uid="hero-besondere" className="h-40 w-full sm:h-52" priority />
 
         <h1 className="mt-5 text-2xl font-black text-navy-800 sm:text-3xl">Besondere Tage {y}</h1>
         <p className="mt-2 max-w-3xl text-slate-600">

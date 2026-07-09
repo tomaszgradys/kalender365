@@ -25,6 +25,7 @@ export default function GeneratorenPage() {
     { href: "/namenstage", emoji: "📛", label: "Namenstage", desc: "Namenstag heute & A–Z" },
     { href: "/bauernregeln", emoji: "🌾", label: "Bauernregeln", desc: "Lostage & Wetterregeln" },
     { href: "/sternzeichen", emoji: "⭐", label: "Sternzeichen", desc: "Daten & Eigenschaften" },
+    { href: `/mondkalender/${y}`, emoji: "🌱", label: "Mondkalender", desc: "Aussaattage nach dem Mond" },
   ];
   return (
     <main className="flex-1">

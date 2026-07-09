@@ -56,6 +56,7 @@ export const MENU: MenuSection[] = [
   {
     title: "Mond, Sonne & Natur",
     items: [
+      { label: "Mondkalender {y}", href: "/mondkalender/{y}", emoji: "🌱" },
       { label: "Mondphasen {y}", href: "/mondphasen/{y}", emoji: "🌙" },
       { label: "Vollmond {y}", href: "/vollmond/{y}", emoji: "🌕" },
       { label: "Neumond {y}", href: "/neumond/{y}", emoji: "🌑" },

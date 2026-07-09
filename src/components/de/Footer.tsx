@@ -28,6 +28,7 @@ const COLS: { title: string; links: FootLink[] }[] = [
       { href: "/wochentag-rechner", label: "Wochentag-Rechner" },
       { href: "/wie-viele-tage-bis", label: "Countdown" },
       { href: "/stundenplan", label: "Stundenplan" },
+      { href: `/mondkalender/${YEAR}`, label: "Mondkalender" },
       { href: `/mondphasen/${YEAR}`, label: "Mondphasen" },
       { href: `/zeitumstellung/${YEAR}`, label: "Zeitumstellung" },
       { href: "/generatoren", label: "Alle Tools" },
