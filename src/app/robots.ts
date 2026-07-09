@@ -21,10 +21,16 @@ const AI_BOTS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  // /api/ = Export-/Cron-Endpunkte (kein HTML). /suche = interne Suchergebnisse
-  // (noindex, ?q=… → unendliche URL-Varianten) — beides raus aus dem Crawl,
-  // um Crawl-Budget zu sparen.
-  const disallow = ["/api/", "/suche"];
+  // /api/ = Export-/Cron-Endpunkte (kein HTML) → komplett raus aus dem Crawl.
+  //
+  // /suche: NUR die parametrisierten Ergebnis-URLs (?q=… → unendliche Varianten)
+  // sperren — die blanke /suche-Seite bleibt crawlbar. Grund: /suche ist aus dem
+  // Header jeder Seite verlinkt (<a href="/suche">) und trägt selbst ein
+  // `noindex`. Würde man /suche pauschal in robots.txt sperren, könnte Googlebot
+  // das noindex nie lesen und die URL trotzdem (ohne Snippet) indexieren
+  // — robots.txt ist KEIN Ersatz für noindex. So wird das noindex tatsächlich
+  // ausgewertet und das Crawl-Budget bleibt vor ?q=-URLs geschützt.
+  const disallow = ["/api/", "/suche?"];
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow },
