@@ -159,6 +159,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-07-09",
     art: "blumen",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d2/3TZkovwm60LZjOLetTVZf.jpg", alt: "Blumenstrauß zum Muttertag" },
     bodyHtml: `
 <p><strong>Muttertag 2026 ist am Sonntag, den 10. Mai.</strong> Der Tag fällt in Deutschland immer auf den zweiten Sonntag im Mai – deshalb wechselt das Datum von Jahr zu Jahr, während der Wochentag (Sonntag) gleich bleibt.</p>
 <h2>Warum ist Muttertag nicht jedes Jahr am selben Datum?</h2>
@@ -187,6 +188,7 @@ const SEED: BlogPost[] = [
     category: "Feiertage & Urlaub",
     publishedAt: "2026-07-08",
     art: "vatertag",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d2/rpkCYY1qvtn3UVHFu5dLZ.jpg", alt: "Vatertag an Christi Himmelfahrt" },
     bodyHtml: `
 <p><strong>Vatertag 2026 ist am Donnerstag, den 14. Mai.</strong> In Deutschland fällt der Vatertag – auch Männertag oder Herrentag genannt – immer auf <strong>Christi Himmelfahrt</strong>, einen bundesweiten gesetzlichen Feiertag.</p>
 <h2>Warum fallen Vatertag und Christi Himmelfahrt zusammen?</h2>
@@ -209,6 +211,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-07-07",
     art: "karneval",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d3/QIinyUhUvstJPLcKNzSqU.jpg", alt: "Karneval 2026: Masken und Konfetti" },
     bodyHtml: `
 <p>Die „fünfte Jahreszeit" erreicht 2026 Mitte Februar ihren Höhepunkt. Weil sich alle Termine nach dem Osterdatum richten, wechseln sie jedes Jahr. <strong>2026 fällt der Rosenmontag auf den 16. Februar.</strong></p>
 <h2>Die Karnevalstage 2026 im Überblick</h2>
@@ -237,6 +240,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-07-06",
     art: "advent1",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191de/kcPasTDhZLNRtnw_vpHcK.jpg", alt: "Adventskranz mit vier Kerzen" },
     bodyHtml: `
 <p><strong>Der 1. Advent 2026 ist am Sonntag, den 29. November.</strong> Mit ihm beginnt die Adventszeit und zugleich das neue Kirchenjahr. Der Advent umfasst die vier Sonntage vor Weihnachten.</p>
 <h2>Die vier Adventssonntage 2026</h2>
@@ -265,6 +269,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-07-05",
     art: "nikolaus",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191de/ZkC5MsqqUeEmdTyNbUWzg.jpg", alt: "Nikolaus: gefüllter Stiefel vor der Tür" },
     bodyHtml: `
 <p><strong>Der Nikolaustag ist immer am 6. Dezember</strong> – 2026 fällt er zugleich auf den 2. Advent. In der Nacht zuvor stellen Kinder ihre geputzten Stiefel vor die Tür, die der Nikolaus mit Süßigkeiten, Nüssen und Mandarinen füllt.</p>
 <h2>Woher kommt der Nikolausbrauch?</h2>
@@ -287,6 +292,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-07-04",
     art: "kuerbis",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d3/XBn7cfxd9Kl98UnzG7LYd.jpg", alt: "Halloween: leuchtende Kürbislaternen" },
     bodyHtml: `
 <p><strong>Halloween ist jedes Jahr am 31. Oktober</strong>, dem Vorabend von Allerheiligen. Auch in Deutschland gehören Kürbislaternen, Kostüme und „Süßes oder Saures" ziehende Kinder inzwischen dazu.</p>
 <h2>Woher kommt Halloween?</h2>
@@ -309,6 +315,7 @@ const SEED: BlogPost[] = [
     category: "Mond & Natur",
     publishedAt: "2026-07-03",
     art: "eis",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d3/6HVQqVcnZxmdpC-QtJ5RE.jpg", alt: "Eisheiligen: Frost auf Frühlingsblüten" },
     bodyHtml: `
 <p>Die <strong>Eisheiligen</strong> sind eine Reihe von Gedenktagen Mitte Mai, die im Volksglauben für die letzten Nachtfröste des Frühlings stehen. Wer im Garten empfindliche Pflanzen setzt, wartet traditionell, bis sie vorüber sind.</p>
 <h2>Wann sind die Eisheiligen?</h2>
@@ -338,6 +345,7 @@ const SEED: BlogPost[] = [
     category: "Mond & Natur",
     publishedAt: "2026-07-02",
     art: "sonne",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d4/moU5dM7F-WdbnAF1t6h2k.jpg", alt: "Siebenschläfer: sonniger Sommerhimmel" },
     bodyHtml: `
 <p>Der <strong>Siebenschläfertag am 27. Juni</strong> gehört zu den bekanntesten Lostagen im deutschen Kalender. Die Bauernregel lautet: „Wie das Wetter am Siebenschläfer sich verhält, ist es sieben Wochen lang bestellt."</p>
 <h2>Woher kommt der Name?</h2>
@@ -360,6 +368,7 @@ const SEED: BlogPost[] = [
     category: "Mond & Natur",
     publishedAt: "2026-07-01",
     art: "mond",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d4/TqteqM0vS1RZNLTKlZL_E.jpg", alt: "Vollmond über nächtlicher Landschaft" },
     bodyHtml: `
 <p>Rund 12- bis 13-mal im Jahr steht der Mond der Sonne genau gegenüber und erscheint als volle Scheibe – der <strong>Vollmond</strong>. Die exakten Termine und Uhrzeiten für Deutschland finden Sie in unserer Jahresübersicht.</p>
 <h2>Wann ist 2026 Vollmond?</h2>
@@ -382,6 +391,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-06-28",
     art: "sterne",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d4/A3vV5Mu6S8GkQ_k4YVpYZ.jpg", alt: "Sternzeichen am Nachthimmel" },
     bodyHtml: `
 <p>Das <strong>Sternzeichen</strong> richtet sich nach dem Geburtsdatum: Der Tierkreis teilt den Sonnenlauf in zwölf Abschnitte. Eine vollständige Übersicht mit Beschreibung finden Sie unter <a href="/sternzeichen">Sternzeichen</a>.</p>
 <h2>Die 12 Sternzeichen und ihre Zeiträume</h2>
@@ -409,6 +419,7 @@ const SEED: BlogPost[] = [
     category: "Kalender-Wissen",
     publishedAt: "2026-06-26",
     art: "kalender",
+    cover: { src: "https://v3b.fal.media/files/b/0aa191d5/6Wj_F6mb03vA1DDa3r4az.jpg", alt: "Kalender und Uhr: welcher Tag ist heute" },
     bodyHtml: `
 <p>„Welcher Tag ist heute?", „Der wievielte ist heute?" oder „Welche Kalenderwoche haben wir gerade?" – diese Fragen lassen sich mit einem Blick beantworten. Die tagesaktuelle Antwort für Deutschland finden Sie auf der Seite <a href="/heute">Welcher Tag ist heute</a>.</p>
 <h2>Datum und Wochentag</h2>
