@@ -7,6 +7,7 @@ import { berlinNow, berlinToday } from "@/lib/de/now";
 import { statesWithData, getFerienByTyp, isSchulferienIndexable } from "@/lib/de/schulferien";
 import { stateByCode } from "@/lib/de/bundeslaender";
 import { getAllPosts } from "@/lib/de/blog";
+import { blogPageNumbers } from "@/lib/de/blogPaging";
 import { COUNTDOWNS } from "@/lib/de/countdowns";
 import { isoWeeksInYear } from "@/lib/de/weeks";
 import { BESONDERE_TAGE } from "@/lib/de/besondereTage";
@@ -146,10 +147,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Blog-Beiträge (Seed + KI aus der DB).
+  // Blog-Beiträge (Seed + KI aus der DB) + paginierte Blog-Übersichtsseiten.
   try {
     for (const p of await getAllPosts()) {
       entries.push({ url: `${SITE_URL}/blog/${p.slug}`, lastModified: new Date(`${p.publishedAt}T00:00:00Z`), changeFrequency: "monthly" });
+    }
+    for (const n of await blogPageNumbers()) {
+      entries.push({ url: `${SITE_URL}/blog/seite/${n}`, lastModified: NOW, changeFrequency: "daily" });
     }
   } catch {
     // DB nicht erreichbar → nur statische Einträge

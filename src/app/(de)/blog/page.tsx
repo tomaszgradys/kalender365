@@ -1,8 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getAllPosts } from "@/lib/de/blog";
 import BlogCard from "@/components/de/BlogCard";
+import BlogPagination from "@/components/de/BlogPagination";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import { getBlogPage } from "@/lib/de/blogPaging";
 
 export const revalidate = 600;
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage() {
-  const posts = await getAllPosts();
+  const { posts, page, totalPages } = await getBlogPage(1);
   const [lead, ...rest] = posts;
 
   return (
@@ -30,6 +31,8 @@ export default async function BlogIndexPage() {
             <BlogCard key={p.slug} post={p} />
           ))}
         </div>
+
+        <BlogPagination page={page} totalPages={totalPages} />
       </PageWithSidebar>
     </main>
   );
