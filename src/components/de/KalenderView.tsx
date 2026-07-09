@@ -4,7 +4,7 @@ import { monthMatrix, monthView, yearSummary, feiertageInMonth, type GridDay } f
 import { getFeiertage, getNationalFeiertage } from "@/lib/de/feiertage";
 import { workingDaysInMonth } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
-import { getSchulferien, ferienPeriodsInMonth } from "@/lib/de/schulferien";
+import { getSchulferien, ferienPeriodsInMonth, FERIEN_TYP_LABEL, type FerienPeriod } from "@/lib/de/schulferien";
 import { isNavigableYear } from "@/lib/de/year";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import SeoProse, { type ProseBlock } from "@/components/de/SeoProse";
@@ -57,6 +57,12 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
   const feiertage = state ? getFeiertage(year, state.code, { includePartial: false }) : getNationalFeiertage(year);
   const label = state ? state.name : "Deutschland";
   const ferien = ferienDateSet(year, state);
+  // Schulferien-Perioden des Landes für dieses Jahr — differenziert die
+  // Jahresseite je Bundesland zusätzlich zu den regionalen Feiertagen.
+  const ferienList = state ? (getSchulferien(year, state.code)?.periods ?? []) : [];
+  const ferienSummary = ferienList.length
+    ? [...new Set(ferienList.map((p) => FERIEN_TYP_LABEL[p.typ]))].join(", ")
+    : "";
   const suffix = state ? `/${state.slug}` : "";
   const landQ = state ? `?land=${state.slug}` : "";
 
@@ -175,21 +181,50 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
         </p>
       </section>
 
+      {state && ferienList.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-3 text-xl font-bold text-navy-800">Schulferien {year} in {state.name}</h2>
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50 text-slate-500">
+                <tr><th className="px-4 py-2 font-medium">Ferien</th><th className="px-4 py-2 font-medium">Von</th><th className="px-4 py-2 font-medium">Bis</th></tr>
+              </thead>
+              <tbody>
+                {ferienList.map((p, i) => (
+                  <tr key={`${p.typ}-${i}`} className="border-t border-slate-100">
+                    <td className="px-4 py-2 font-medium text-navy-800">{FERIEN_TYP_LABEL[p.typ]}</td>
+                    <td className="px-4 py-2 text-slate-600">{formatLongDE(p.start)}{p.note ? ` (${p.note})` : ""}</td>
+                    <td className="px-4 py-2 text-slate-600">{formatLongDE(p.end)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-sm text-slate-500">
+            <Link href={`/schulferien/${year}/${state.slug}`} className="font-medium text-navy-600 underline">Alle Schulferien {year} in {state.name} →</Link>
+            <span className="ml-2 text-slate-400">Quelle: KMK, Angaben ohne Gewähr.</span>
+          </p>
+        </section>
+      )}
+
       <section className="mt-10">
         <h2 className="mb-3 text-xl font-bold text-navy-800">Kalender {year} nach Bundesland</h2>
         <StateLinks base={(b) => `/kalender/${year}/${b.slug}`} />
       </section>
 
-      <SeoProse blocks={yearProse(year, label, summary)} />
-      <Faq items={yearFaq(year, label, summary)} />
+      <SeoProse blocks={yearProse(year, label, summary, ferienSummary)} />
+      <Faq items={yearFaq(year, label, summary, ferienList)} />
     </PageWithSidebar>
   );
 }
 
-function yearProse(year: number, label: string, summary: ReturnType<typeof yearSummary>): ProseBlock[] {
+function yearProse(year: number, label: string, summary: ReturnType<typeof yearSummary>, ferienSummary = ""): ProseBlock[] {
   const schaltjahr = summary.totalDays === 366;
   const neujahr = weekdayDE(`${year}-01-01`);
   const weihnachten = weekdayDE(`${year}-12-25`);
+  const ferienSatz = ferienSummary
+    ? ` In ${label} sind ${year} Schulferien in diesen Zeiträumen: ${ferienSummary} – die genauen Termine finden Sie in der Tabelle „Schulferien ${year}" weiter oben.`
+    : "";
   return [
     {
       h2: `Kalender ${year} für ${label} im Überblick`,
@@ -201,7 +236,7 @@ function yearProse(year: number, label: string, summary: ReturnType<typeof yearS
     {
       h2: `Feiertage, Brückentage und Ferien ${year}`,
       p: [
-        `Bundesweit gelten neun gesetzliche Feiertage einheitlich in allen 16 Bundesländern; je nach Land kommen regionale Feiertage wie Fronleichnam, Reformationstag oder Allerheiligen hinzu. Für ${label} sind ${year} ${summary.feiertageCount} Feiertage hinterlegt, woraus sich ${summary.arbeitstage} Arbeitstage ergeben. Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen ein langer Zeitraum machen – eine detaillierte Übersicht bietet die Brückentage-Seite.`,
+        `Bundesweit gelten neun gesetzliche Feiertage einheitlich in allen 16 Bundesländern; je nach Land kommen regionale Feiertage wie Fronleichnam, Reformationstag oder Allerheiligen hinzu. Für ${label} sind ${year} ${summary.feiertageCount} Feiertage hinterlegt, woraus sich ${summary.arbeitstage} Arbeitstage ergeben. Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen ein langer Zeitraum machen – eine detaillierte Übersicht bietet die Brückentage-Seite.${ferienSatz}`,
       ],
     },
     {
@@ -213,11 +248,17 @@ function yearProse(year: number, label: string, summary: ReturnType<typeof yearS
   ];
 }
 
-function yearFaq(year: number, label: string, summary: ReturnType<typeof yearSummary>): QA[] {
+function yearFaq(year: number, label: string, summary: ReturnType<typeof yearSummary>, ferienList: FerienPeriod[] = []): QA[] {
   return [
     { q: `Wie viele Tage hat das Jahr ${year}?`, a: `${year} hat ${summary.totalDays} Tage${summary.totalDays === 366 ? " – es ist ein Schaltjahr" : ""}.` },
     { q: `Wie viele Kalenderwochen hat ${year}?`, a: `${year} hat ${summary.isoWeeks} Kalenderwochen (nach ISO 8601, Wochenbeginn Montag).` },
     { q: `Wie viele Feiertage und Arbeitstage hat ${year} in ${label}?`, a: `Für ${label} sind ${year} ${summary.feiertageCount} gesetzliche Feiertage hinterlegt; daraus ergeben sich ${summary.arbeitstage} Arbeitstage.` },
+    ...(ferienList.length
+      ? [{
+          q: `Wann sind ${year} Schulferien in ${label}?`,
+          a: `${year} gibt es in ${label} folgende Schulferien: ${ferienList.map((p) => `${FERIEN_TYP_LABEL[p.typ]} (${formatLongDE(p.start)} – ${formatLongDE(p.end)})`).join("; ")}. Quelle: KMK, Angaben ohne Gewähr.`,
+        }]
+      : []),
     { q: `Ist ${year} ein Schaltjahr?`, a: summary.totalDays === 366 ? `Ja, ${year} ist ein Schaltjahr mit 366 Tagen; der Februar hat 29 Tage.` : `Nein, ${year} ist kein Schaltjahr; der Februar hat 28 Tage.` },
     { q: `Auf welchen Wochentag fällt Neujahr ${year}?`, a: `Der 1. Januar ${year} ist ein ${weekdayDE(`${year}-01-01`)}.` },
     { q: `Kann ich den Kalender ${year} kostenlos ausdrucken?`, a: `Ja. Der Kalender ${year} steht kostenlos als PDF zum Ausdrucken bereit – als Jahresübersicht auf einer Seite oder nach Monaten. Feiertage gibt es zusätzlich als ICS-Datei.` },
