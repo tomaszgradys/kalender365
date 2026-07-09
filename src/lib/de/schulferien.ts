@@ -121,3 +121,27 @@ export function getFerienByTyp(year: number, state: StateCode, typ: FerienTyp): 
   const r = getSchulferien(year, state);
   return r?.periods.find((p) => p.typ === typ) ?? null;
 }
+
+/**
+ * School-holiday periods of a state that overlap a given calendar month.
+ * Differentiates the per-Bundesland monthly calendar pages: months without a
+ * regional holiday would otherwise be textually identical across all states.
+ */
+export function ferienPeriodsInMonth(
+  year: number,
+  month0: number,
+  state: StateCode,
+): { typ: FerienTyp; label: string; start: string; end: string }[] {
+  const rec = getSchulferien(year, state);
+  if (!rec) return [];
+  const mStart = Date.UTC(year, month0, 1);
+  const mEnd = Date.UTC(year, month0 + 1, 0); // last day of the month
+  const out: { typ: FerienTyp; label: string; start: string; end: string }[] = [];
+  for (const p of rec.periods) {
+    const ps = Date.parse(`${p.start}T00:00:00Z`);
+    const pe = Date.parse(`${p.end}T00:00:00Z`);
+    if (pe < mStart || ps > mEnd) continue; // no overlap with this month
+    out.push({ typ: p.typ, label: FERIEN_TYP_LABEL[p.typ], start: p.start, end: p.end });
+  }
+  return out;
+}

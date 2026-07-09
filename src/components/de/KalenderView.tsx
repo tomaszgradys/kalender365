@@ -4,7 +4,7 @@ import { monthMatrix, monthView, yearSummary, feiertageInMonth, type GridDay } f
 import { getFeiertage, getNationalFeiertage } from "@/lib/de/feiertage";
 import { workingDaysInMonth } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
-import { getSchulferien } from "@/lib/de/schulferien";
+import { getSchulferien, ferienPeriodsInMonth } from "@/lib/de/schulferien";
 import { isNavigableYear } from "@/lib/de/year";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import SeoProse, { type ProseBlock } from "@/components/de/SeoProse";
@@ -330,12 +330,22 @@ function monthProse(
   const feiertagText = feiertage.length
     ? `Im ${name} ${year} liegen ${feiertage.length === 1 ? "ein gesetzlicher Feiertag" : `${feiertage.length} gesetzliche Feiertage`}: ${feiertage.map((h) => h.name).join(", ")}.`
     : `Im ${name} ${year} gibt es${region} keinen bundesweiten gesetzlichen Feiertag.`;
+  // Schulferien des Bundeslandes in diesem Monat — differenziert die Monatsseiten
+  // je Bundesland inhaltlich (sonst textlich identisch, wenn kein regionaler
+  // Feiertag im Monat liegt).
+  const ferienPeriods = state ? ferienPeriodsInMonth(year, month0, state.code) : [];
+  const ferienText = state
+    ? ferienPeriods.length
+      ? `In ${state.name} liegen im ${name} ${year} Schulferien: ${ferienPeriods.map((f) => `${f.label} (${formatLongDE(f.start)} – ${formatLongDE(f.end)})`).join("; ")}. Diese Tage sind im Kalender oben orange markiert.`
+      : `In ${state.name} sind im ${name} ${year} keine Schulferien.`
+    : null;
   return [
     {
       h2: `${name} ${year}${region} im Überblick`,
       p: [
         `Der ${name} ${year} hat ${days} Tage. Der Monat beginnt an einem ${erster}. Von den ${counts.total} Tagen sind ${counts.arbeitstage} Arbeitstage und ${counts.freie} freie Tage (Wochenenden und Feiertage${state ? "" : " – bundesweit"}). Der Kalender oben zeigt zu jeder Woche die Kalenderwoche (KW) nach ISO 8601.`,
         feiertagText,
+        ...(ferienText ? [ferienText] : []),
       ],
     },
     {
@@ -357,6 +367,7 @@ function monthFaq(
 ): QA[] {
   const days = DAYS_IN_MONTH_LABEL(year, month0);
   const region = state ? state.name : "Deutschland";
+  const ferienPeriods = state ? ferienPeriodsInMonth(year, month0, state.code) : [];
   return [
     { q: `Wie viele Tage hat der ${name} ${year}?`, a: `Der ${name} ${year} hat ${days} Tage.` },
     { q: `Wie viele Arbeitstage hat der ${name} ${year} in ${region}?`, a: `Der ${name} ${year} hat in ${region} ${counts.arbeitstage} Arbeitstage und ${counts.freie} freie Tage.` },
@@ -364,6 +375,16 @@ function monthFaq(
       q: `Welche Feiertage gibt es im ${name} ${year}?`,
       a: feiertage.length ? `Im ${name} ${year} gibt es: ${feiertage.map((h) => `${h.name} (${formatLongDE(h.date)})`).join(", ")}.` : `Im ${name} ${year} gibt es keinen bundesweiten gesetzlichen Feiertag.`,
     },
+    ...(state
+      ? [
+          {
+            q: `Sind im ${name} ${year} in ${state.name} Schulferien?`,
+            a: ferienPeriods.length
+              ? `Ja. Im ${name} ${year} fallen in ${state.name} folgende Schulferien: ${ferienPeriods.map((f) => `${f.label} (${formatLongDE(f.start)} – ${formatLongDE(f.end)})`).join("; ")}.`
+              : `Im ${name} ${year} sind in ${state.name} keine Schulferien.`,
+          },
+        ]
+      : []),
     { q: `Auf welchen Wochentag fällt der 1. ${name} ${year}?`, a: `Der 1. ${name} ${year} ist ein ${weekdayDE(`${year}-${String(month0 + 1).padStart(2, "0")}-01`)}.` },
   ];
 }
