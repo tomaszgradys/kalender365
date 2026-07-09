@@ -10,17 +10,20 @@ export const TIMEZONE = "Europe/Berlin";
 export const DEFAULT_CITY = { name: "Berlin", lat: 52.52, lon: 13.405 };
 
 // Operator / Impressum data.
-// TODO(legal): confirm the legal entity that operates kalender365.pro and fill
-// in real Impressum details (§5 DDG / §18 MStV require: name, address, contact,
-// USt-IdNr. / Handelsregister if applicable). Placeholders below MUST NOT go
-// live unchanged.
+// Betreiber ist eine polnische Kapitalgesellschaft (EU), die kalender365.pro
+// betreibt. Für das deutsche Impressum (§5 DDG / §18 MStV) werden Name,
+// Anschrift, Kontakt, USt-IdNr. (EU-VAT) und der inhaltlich Verantwortliche
+// angegeben; Register = polnisches KRS (kein deutsches Handelsregister).
 export const COMPANY = {
-  legalName: "TODO: Betreiber (juristische Person oder Einzelperson)",
-  street: "TODO: Straße und Hausnummer",
-  postal: "TODO: PLZ",
-  city: "TODO: Ort",
-  country: "Deutschland",
-  email: "kontakt@kalender365.pro",
-  vatId: "TODO: USt-IdNr. (falls vorhanden)",
-  responsible: "TODO: inhaltlich Verantwortlicher (§18 Abs. 2 MStV)",
+  legalName: "Profivo Sp. z o.o.",
+  street: "ul. Paprotna 8B/14",
+  postal: "51-117",
+  city: "Wrocław",
+  country: "Polen",
+  email: "kontakt@profivo.pl",
+  phone: "+48 459 599 399",
+  vatId: "PL9151835807",
+  register: "KRS 0001181942 (Rejestr Przedsiębiorców, Sąd Rejonowy für Wrocław-Fabryczna)",
+  regon: "542154491",
+  responsible: "Tomasz Gradys",
 } as const;

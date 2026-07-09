@@ -32,12 +32,37 @@ export default function ImpressumPage() {
         <br />
         {COMPANY.country}
       </p>
-      <h2>Kontakt</h2>
-      <p>E-Mail: {COMPANY.email}</p>
-      <h2>Umsatzsteuer-Identifikationsnummer</h2>
-      <p>{COMPANY.vatId}</p>
-      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <h2>Vertreten durch</h2>
       <p>{COMPANY.responsible}</p>
+      <h2>Register</h2>
+      <p>
+        {COMPANY.register}
+        <br />
+        REGON: {COMPANY.regon}
+      </p>
+      <h2>Kontakt</h2>
+      <p>
+        Telefon: {COMPANY.phone}
+        <br />
+        E-Mail: {COMPANY.email}
+      </p>
+      <h2>Umsatzsteuer-Identifikationsnummer</h2>
+      <p>USt-IdNr. gemäß § 27a UStG: {COMPANY.vatId}</p>
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>
+        {COMPANY.responsible}
+        <br />
+        {COMPANY.street}, {COMPANY.postal} {COMPANY.city}, {COMPANY.country}
+      </p>
+      <h2>EU-Streitschlichtung</h2>
+      <p>
+        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
+        <a href="https://ec.europa.eu/consumers/odr/" rel="noopener nofollow">
+          https://ec.europa.eu/consumers/odr/
+        </a>
+        . Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </p>
       <h2>Haftung für Inhalte</h2>
       <p>
         Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und

@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 export default function DatenschutzPage() {
   return (
     <LegalShell title="Datenschutzerklärung">
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        <strong>Hinweis:</strong> Diese Datenschutzerklärung ist eine allgemeine Vorlage. Sie muss vor dem öffentlichen
-        Betrieb an die tatsächlich eingesetzten Dienste (Hosting, Analyse, Werbung) und den verantwortlichen Betreiber
-        angepasst werden.
-      </div>
       <h2>1. Verantwortlicher</h2>
       <p>
-        Verantwortlich für die Datenverarbeitung auf dieser Website ist der im <a href="/impressum">Impressum</a>
-        {" "}genannte Betreiber ({COMPANY.legalName}). Kontakt: {COMPANY.email}.
+        Verantwortlich im Sinne der DSGVO ist:
+        <br />
+        {COMPANY.legalName}, {COMPANY.street}, {COMPANY.postal} {COMPANY.city}, {COMPANY.country}
+        <br />
+        E-Mail: {COMPANY.email} · Telefon: {COMPANY.phone}
+        <br />
+        Weitere Angaben finden Sie im <a href="/impressum">Impressum</a>.
       </p>
       <h2>2. Grundsatz</h2>
       <p>
@@ -29,9 +29,11 @@ export default function DatenschutzPage() {
       </p>
       <h2>3. Hosting und Server-Logs</h2>
       <p>
-        Beim Aufruf der Seiten werden durch den Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse,
-        Zeitpunkt, aufgerufene URL) verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
-        Interesse an einem sicheren, stabilen Betrieb).
+        Diese Website wird bei der Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA) gehostet. Beim Aufruf der
+        Seiten werden technisch notwendige Server-Logs (z. B. IP-Adresse, Zeitpunkt, aufgerufene URL, User-Agent)
+        verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren, stabilen
+        Betrieb). Eine Übermittlung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework (DPF) sowie
+        ergänzender Standardvertragsklauseln (SCC) gemäß Art. 46 DSGVO.
       </p>
       <h2>4. Lokale Speicherung (localStorage)</h2>
       <p>
