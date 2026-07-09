@@ -9,6 +9,7 @@ import { serializeJsonLd } from "@/lib/de/jsonLd";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Faq from "@/components/de/Faq";
 import EventArt from "@/components/de/EventArt";
+import { berlinNow } from "@/lib/de/now";
 
 export const revalidate = 600;
 
@@ -40,6 +41,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   const related = (await getAllPosts()).filter((p) => p.slug !== post.slug).slice(0, 3);
+
+  // Evergreen-Beiträge dürfen {jahr} in Links/Text verwenden → beim Rendern auf
+  // das laufende Jahr aufgelöst, damit z. B. der Feiertage-Leitfaden immer auf
+  // den aktuellen Jahrgang (/feiertage/JAHR) zeigt, ohne veraltete Hardcodings.
+  const bodyHtml = post.bodyHtml.replaceAll("{jahr}", String(berlinNow().year));
 
   const articleLd = {
     "@context": "https://schema.org",
@@ -93,7 +99,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         <article
           className="mt-6 space-y-4 text-[15px] leading-relaxed text-slate-700 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-navy-800 [&_a]:font-medium [&_a]:text-navy-600 [&_a]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_p]:leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
+          dangerouslySetInnerHTML={{ __html: bodyHtml }}
         />
 
         {post.faq && post.faq.length > 0 && <Faq items={post.faq} />}

@@ -148,6 +148,87 @@ export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]>
 
 const SEED: BlogPost[] = [
   {
+    // Evergreen-Pillar zum Thema Feiertage. Andere Suchintention als der
+    // Jahrgangs-Hub /feiertage/JAHR (Terminliste) und der Jahres-Überblick:
+    // erklärt das SYSTEM (bundesweit vs. Ländersache, beweglich/fest, stille
+    // Tage, kein Ersatztag) und verlinkt über {jahr} in die aktuellen Money-Pages.
+    slug: "feiertage-in-deutschland-ueberblick",
+    title: "Feiertage in Deutschland: Der große Überblick",
+    excerpt:
+      "Wie funktionieren Feiertage in Deutschland? Bundesweite und regionale Feiertage, gesetzliche und stille Tage, Ländersache und Brückentage – verständlich erklärt.",
+    category: "Feiertage & Urlaub",
+    publishedAt: "2026-07-10",
+    art: "kalender",
+    bodyHtml: `
+<p>Feiertage sind in Deutschland mehr als freie Tage – sie folgen einem eigenen System aus Bundes- und Landesrecht, kirchlichem Kalender und regionaler Tradition. Dieser Leitfaden erklärt, wie gesetzliche Feiertage entstehen, warum sie sich von Bundesland zu Bundesland unterscheiden und worauf Sie bei der Planung achten sollten.</p>
+
+<h2>Was ist ein gesetzlicher Feiertag?</h2>
+<p>Ein gesetzlicher Feiertag ist ein durch Gesetz bestimmter Tag, an dem grundsätzlich ein Arbeits- und Beschäftigungsverbot gilt und der wie ein Sonntag geschützt ist. Für Arbeitnehmerinnen und Arbeitnehmer bedeutet das in der Regel einen bezahlten freien Tag. Geregelt wird das nicht zentral, sondern über das Grundgesetz in Verbindung mit den <strong>Feiertagsgesetzen der Länder</strong> – nur ein einziger Feiertag ist bundesgesetzlich festgelegt.</p>
+
+<h2>Bundesweite Feiertage: die neun Konstanten</h2>
+<p>In allen 16 Bundesländern gelten <strong>neun Feiertage</strong> einheitlich:</p>
+<ul>
+<li><strong>Neujahr</strong> (1. Januar)</li>
+<li><strong>Karfreitag</strong> und <strong>Ostermontag</strong></li>
+<li><strong>Tag der Arbeit</strong> (1. Mai)</li>
+<li><strong>Christi Himmelfahrt</strong> und <strong>Pfingstmontag</strong></li>
+<li><strong>Tag der Deutschen Einheit</strong> (3. Oktober) – der einzige bundesgesetzliche Feiertag</li>
+<li><strong>1.</strong> und <strong>2. Weihnachtsfeiertag</strong> (25. und 26. Dezember)</li>
+</ul>
+<p>Alle weiteren Feiertage sind Sache der Länder. Die vollständige Liste mit den Terminen für Ihr Bundesland finden Sie unter <a href="/feiertage/{jahr}">Feiertage {jahr}</a>.</p>
+
+<h2>Warum Feiertage Ländersache sind</h2>
+<p>Weil die Länder ihre Feiertage selbst festlegen, hat der Süden traditionell mehr freie Tage als der Norden. Zu den wichtigsten <strong>regionalen Feiertagen</strong> zählen:</p>
+<ul>
+<li><strong>Heilige Drei Könige</strong> (6. Januar) – Baden-Württemberg, Bayern, Sachsen-Anhalt</li>
+<li><strong>Fronleichnam</strong> – überwiegend katholisch geprägte Länder wie Bayern, NRW oder Rheinland-Pfalz</li>
+<li><strong>Reformationstag</strong> (31. Oktober) – die ost- und norddeutschen Länder</li>
+<li><strong>Allerheiligen</strong> (1. November) – die überwiegend katholischen Länder</li>
+<li><strong>Buß- und Bettag</strong> – nur in Sachsen ein gesetzlicher Feiertag</li>
+</ul>
+<p>Dazu kommen Besonderheiten wie <strong>Mariä Himmelfahrt</strong> (Saarland und katholische Gemeinden Bayerns) oder das <strong>Augsburger Friedensfest</strong>, das nur im Stadtgebiet Augsburg gilt. In Summe hat <strong>Bayern</strong> die meisten Feiertage (in Augsburg bis zu 14), während mehrere nord- und ostdeutsche Länder bei rund zehn liegen.</p>
+
+<h2>Bewegliche und feste Feiertage</h2>
+<p>Feste Feiertage haben jedes Jahr dasselbe Datum – etwa Neujahr, der 1. Mai oder Weihnachten. <strong>Bewegliche Feiertage</strong> dagegen hängen am Osterdatum und wandern dadurch von Jahr zu Jahr:</p>
+<ul>
+<li><strong>Karfreitag</strong> – zwei Tage vor Ostersonntag</li>
+<li><strong>Ostermontag</strong> – der Tag nach Ostersonntag</li>
+<li><strong>Christi Himmelfahrt</strong> – 39 Tage nach Ostern (immer ein Donnerstag)</li>
+<li><strong>Pfingstmontag</strong> – 50 Tage nach Ostern</li>
+</ul>
+<p>Das Osterdatum selbst richtet sich nach dem ersten Frühlingsvollmond, weshalb Ostern zwischen dem 22. März und dem 25. April liegen kann. Weil Christi Himmelfahrt stets auf einen Donnerstag fällt, ist der Freitag danach ein klassischer <a href="/brueckentage/{jahr}">Brückentag {jahr}</a>.</p>
+
+<h2>Stille Feiertage und Tanzverbot</h2>
+<p>Manche Feiertage sind zwar arbeitsfrei, unterliegen aber zusätzlich besonderen Schutzregeln – den sogenannten <strong>stillen Feiertagen</strong>. An Tagen wie Karfreitag, Volkstrauertag, Totensonntag oder Allerheiligen gelten je nach Bundesland Einschränkungen für öffentliche Veranstaltungen und Musik, umgangssprachlich als „Tanzverbot“ bekannt. Umfang und Uhrzeiten legt jedes Land eigenständig fest, weshalb ein Feiertag in einem Bundesland „still“ sein kann und im nächsten nicht.</p>
+
+<h2>Kein Ersatztag – und wie Brückentage helfen</h2>
+<p>Anders als etwa in Großbritannien gibt es in Deutschland <strong>keinen Ersatzruhetag</strong>, wenn ein Feiertag auf ein Wochenende fällt. Ein 1. Mai, der auf einen Samstag fällt, ist damit für viele Beschäftigte „verloren“. Genau deshalb lohnt es sich, das Kalenderjahr vorausschauend zu planen: Liegt ein Feiertag auf einem Dienstag oder Donnerstag, verwandelt ein einzelner Urlaubstag ihn in ein langes Wochenende.</p>
+<p>Unser <a href="/urlaubsplaner/{jahr}">Urlaubsplaner {jahr}</a> berechnet für Ihr Bundesland automatisch die effizientesten Kombinationen aus Feiertagen, Brückentagen und Wochenenden. Wie viele reine <a href="/arbeitstage/{jahr}">Arbeitstage {jahr}</a> übrig bleiben und wie sich das Jahr insgesamt verteilt, sehen Sie im <a href="/kalender/{jahr}">Kalender {jahr}</a>.</p>
+
+<h2>Feiertag, Gehalt und Arbeit</h2>
+<p>Für die meisten Angestellten ist ein gesetzlicher Feiertag ein bezahlter freier Tag: Nach dem Entgeltfortzahlungsgesetz erhalten sie das Gehalt, das sie ohne den Ausfall verdient hätten. Wer an einem Feiertag <strong>arbeiten muss</strong> – etwa in Krankenhäusern, Gastronomie oder Schichtbetrieben –, hat oft Anspruch auf Zuschläge; deren Höhe ergibt sich aus Tarif- oder Arbeitsvertrag, nicht aus einem allgemeinen Gesetz. Grundsätzlich gilt an Feiertagen wie an Sonntagen ein <strong>Beschäftigungsverbot</strong>, von dem nur bestimmte Branchen ausgenommen sind. Ob ein Tag für Sie arbeitsfrei ist, hängt also von zwei Dingen ab: ob er in Ihrem Bundesland überhaupt Feiertag ist – und von den Regelungen Ihrer Branche.</p>
+
+<h2>Feiertage im Jahresverlauf</h2>
+<p>Die Feiertage verteilen sich ungleich über das Jahr. Das erste Halbjahr ist dicht: Von Neujahr über die Osterfeiertage und den 1. Mai bis zu Christi Himmelfahrt und Pfingsten reiht sich im Frühjahr ein freier Tag an den nächsten. Der Sommer ist – abgesehen von Fronleichnam und regionalen Terminen – vergleichsweise feiertagsarm, weshalb hier die <a href="/schulferien/{jahr}">Schulferien {jahr}</a> die Urlaubsplanung bestimmen. Im Herbst folgen Tag der Deutschen Einheit, Reformationstag und Allerheiligen, bevor das Jahr mit den Weihnachtsfeiertagen und Neujahr ausklingt. Wer den natürlichen Rhythmus mitdenkt, sieht sich auch die <a href="/jahreszeiten/{jahr}">Jahreszeiten {jahr}</a> an – Frühlings- und Herbstbeginn liegen nah an den beiden feiertagsstärksten Phasen.</p>
+
+<p><em>Hinweis: Dieser Leitfaden gibt einen allgemeinen Überblick und ersetzt keine Rechtsberatung. Ob ein bestimmter Tag in Ihrem Bundesland ein gesetzlicher Feiertag ist, richtet sich nach dem jeweiligen Landesrecht.</em></p>`,
+    faq: [
+      {
+        q: "Wie viele gesetzliche Feiertage gibt es in Deutschland?",
+        a: "Bundesweit gelten neun Feiertage in allen 16 Ländern. Zusammen mit den regionalen Feiertagen kommt jedes Bundesland auf etwa 10 bis 13 gesetzliche Feiertage – Bayern (mit Augsburg bis zu 14) hat die meisten.",
+      },
+      {
+        q: "Welches Bundesland hat die meisten Feiertage?",
+        a: "Bayern hat die meisten gesetzlichen Feiertage, im Stadtgebiet Augsburg sind es durch das Augsburger Friedensfest bis zu 14. Danach folgt Baden-Württemberg. Mehrere nord- und ostdeutsche Länder liegen bei rund zehn.",
+      },
+      {
+        q: "Gibt es einen Ersatztag, wenn ein Feiertag auf ein Wochenende fällt?",
+        a: "Nein. In Deutschland gibt es keinen Ersatzruhetag. Fällt ein Feiertag auf einen Samstag oder Sonntag, entfällt der zusätzliche freie Tag ersatzlos – anders als etwa bei den Bank Holidays in Großbritannien.",
+      },
+    ],
+    source: "seed",
+  },
+  {
     slug: "brueckentage-2026-maximaler-urlaub",
     title: "Brückentage 2026: Mit wenig Urlaub das Maximum herausholen",
     excerpt:
