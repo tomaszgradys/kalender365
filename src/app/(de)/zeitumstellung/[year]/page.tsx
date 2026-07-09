@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,7 +32,12 @@ export default async function ZeitumstellungPage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Zeitumstellung {y}</span></nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: `Zeitumstellung ${y}`, url: `/zeitumstellung/${y}` },
+          ]}
+        />
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Zeitumstellung {y}</h1>
         <p className="mt-2 text-slate-600">Die Uhren werden zweimal im Jahr umgestellt — jeweils am letzten Sonntag im März und Oktober (EU-Regelung, Europe/Berlin).</p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">

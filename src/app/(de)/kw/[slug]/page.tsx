@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -76,11 +77,13 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <Link href={`/kalenderwochen/${year}`} className="hover:text-navy-600">Kalenderwochen {year}</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">KW {week}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: `Kalenderwochen ${year}`, url: `/kalenderwochen/${year}` },
+            { name: `KW ${week}`, url: `/kw/${week}-${year}` },
+          ]}
+        />
 
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">KW {week} {year}{isCurrent && <span className="ml-2 rounded-full bg-brand-green-600 px-2 py-0.5 align-middle text-xs font-bold text-white">aktuelle Woche</span>}</h1>

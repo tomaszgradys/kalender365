@@ -1,5 +1,6 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { berlinNow } from "@/lib/de/now";
@@ -80,11 +81,13 @@ export default async function NamenstagDatumPage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <Link href="/namenstage" className="hover:text-navy-600">Namenstage</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">{label}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: "Namenstage", url: "/namenstage" },
+            { name: label, url: `/namenstage/${datum}` },
+          ]}
+        />
 
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Namenstag am {label}</h1>
         {names.length ? (

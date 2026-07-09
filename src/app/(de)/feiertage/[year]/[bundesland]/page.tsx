@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -73,11 +74,13 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <Link href={`/feiertage/${y}`} className="hover:text-navy-600">Feiertage {y}</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">{state.name}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: `Feiertage ${y}`, url: `/feiertage/${y}` },
+            { name: state.name, url: `/feiertage/${y}/${state.slug}` },
+          ]}
+        />
 
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Feiertage {y} in {state.name}</h1>
         <p className="mt-2 max-w-3xl text-slate-600">

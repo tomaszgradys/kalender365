@@ -1,5 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
-import Link from "next/link";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import type { Metadata } from "next";
 import { berlinNow } from "@/lib/de/now";
 import { MONTH_NAMES_DE } from "@/lib/de/locale";
@@ -44,10 +44,12 @@ export default function BauernregelnPage() {
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Bauernregeln</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: "Bauernregeln", url: "/bauernregeln" },
+          ]}
+        />
 
         <ModuleHero src={heroSrc(MODULE_HERO, "bauernregeln")} alt="Bauernregeln und Lostage" motif="erntedank" uid="hero-bauern" className="mb-5 h-36 w-full sm:h-44" priority />
 

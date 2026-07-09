@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -79,10 +80,13 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }} />
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500 no-print" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Urlaubsplaner {y}</span>
-        </nav>
+        <Breadcrumbs
+          className="no-print"
+          items={[
+            { name: "Start", url: "/" },
+            { name: `Urlaubsplaner ${y}`, url: `/urlaubsplaner/${y}` },
+          ]}
+        />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-black tracking-tight text-navy-800 sm:text-3xl">Urlaubsplaner {y}</h1>

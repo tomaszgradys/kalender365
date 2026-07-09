@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import { formatFullDE, formatLongDE, MONTH_SLUGS_DE, MONTH_NAMES_DE } from "@/lib/de/locale";
 import { isoWeekOf, berlinNow } from "@/lib/de/now";
 import { getAllFeiertage } from "@/lib/de/feiertage";
@@ -76,11 +77,13 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
   return (
     <main className="flex-1">
       <div className="mx-auto w-full max-w-3xl px-4 py-8">
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <Link href={`/kalender/${monthSlug}`} className="hover:text-navy-600">{MONTH_NAMES_DE[p.m0]} {p.y}</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Kalenderblatt</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: `${MONTH_NAMES_DE[p.m0]} ${p.y}`, url: `/kalender/${monthSlug}` },
+            { name: "Kalenderblatt", url: `/kalenderblatt/${p.iso}` },
+          ]}
+        />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
           <div className="text-sm font-semibold uppercase tracking-widest text-brand-green-600">{formatFullDE(p.iso).split(",")[0]}</div>

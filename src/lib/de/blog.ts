@@ -43,6 +43,109 @@ export const CATEGORY_GRADIENT: Record<BlogCategory, string> = {
   "Zeit & Rechner": "from-navy-600 to-brand-green-700",
 };
 
+// Themen-Cluster (Content-Hubs). Jede Kategorie bekommt eine eigene Hub-Seite
+// /blog/kategorie/[slug], die Google als klar organisiertes Silo signalisiert
+// und die Ratgeber-Artikel mit den passenden Werkzeug-/Money-Pages verbindet.
+export type BlogCategoryMeta = {
+  slug: string;
+  title: string;
+  /** Meta-Description der Hub-Seite (140–160 Zeichen). */
+  metaDescription: string;
+  /** Einleitender Absatz oben auf der Hub-Seite. */
+  intro: string;
+  /** Verwandte Werkzeug-/Money-Pages (Brücken vom Themen-Hub in den Kern). */
+  bridges: { href: string; label: string }[];
+};
+
+export const BLOG_CATEGORY_META: Record<BlogCategory, BlogCategoryMeta> = {
+  "Feiertage & Urlaub": {
+    slug: "feiertage-urlaub",
+    title: "Feiertage & Urlaub",
+    metaDescription:
+      "Ratgeber zu Feiertagen, Brückentagen und Urlaubsplanung in Deutschland – wie Sie mit wenig Urlaub das Maximum an freien Tagen herausholen.",
+    intro:
+      "Feiertage sind in Deutschland Ländersache – wer sie geschickt mit Brückentagen kombiniert, macht aus wenigen Urlaubstagen lange freie Blöcke. Hier bündeln wir alle Ratgeber rund um Feiertage, Brückentage und Urlaubsplanung.",
+    bridges: [
+      { href: "/feiertage/{y}", label: "Feiertage {y}" },
+      { href: "/brueckentage/{y}", label: "Brückentage {y}" },
+      { href: "/urlaubsplaner/{y}", label: "Urlaubsplaner {y}" },
+      { href: "/arbeitstage/{y}", label: "Arbeitstage {y}" },
+    ],
+  },
+  "Schulferien": {
+    slug: "schulferien",
+    title: "Schulferien",
+    metaDescription:
+      "Alles rund um die Schulferien in den 16 Bundesländern: Termine, Staffelung, Sommerferien-Countdown und clevere Familienplanung.",
+    intro:
+      "Die Schulferien unterscheiden sich von Bundesland zu Bundesland und werden bewusst gestaffelt. In diesem Themenbereich finden Sie Ratgeber zu Ferienterminen, Reiseplanung und dem Countdown bis zu den nächsten Ferien.",
+    bridges: [
+      { href: "/schulferien/{y}", label: "Schulferien {y}" },
+      { href: "/sommerferien/{y}", label: "Sommerferien {y}" },
+      { href: "/wie-viele-tage-bis-zu-den-sommerferien", label: "Sommerferien-Countdown" },
+    ],
+  },
+  "Kalender-Wissen": {
+    slug: "kalender-wissen",
+    title: "Kalender-Wissen",
+    metaDescription:
+      "Kalenderwissen verständlich erklärt: Kalenderwochen, Schaltjahre, Wochentage, Quartale und wie das deutsche Kalendersystem funktioniert.",
+    intro:
+      "Warum hat manches Jahr 53 Kalenderwochen? Wie werden Quartale gezählt? In diesem Themenbereich erklären wir die Regeln hinter dem Kalender – von der ISO-8601-Kalenderwoche bis zum Schaltjahr.",
+    bridges: [
+      { href: "/kalenderwochen/{y}", label: "Kalenderwochen {y}" },
+      { href: "/kalender/{y}", label: "Kalender {y}" },
+      { href: "/wochentag-rechner", label: "Wochentag-Rechner" },
+    ],
+  },
+  "Mond & Natur": {
+    slug: "mond-natur",
+    title: "Mond & Natur",
+    metaDescription:
+      "Mondphasen, Vollmond- und Neumond-Termine, Mondkalender und Jahreszeiten – Wissenswertes und Brauchtum rund um Mond und Natur.",
+    intro:
+      "Vom Vollmond über die Aussaattage bis zu den Jahreszeiten: In diesem Themenbereich bündeln wir Ratgeber rund um Mondphasen, Mondkalender und den natürlichen Jahreslauf.",
+    bridges: [
+      { href: "/mondkalender/{y}", label: "Mondkalender {y}" },
+      { href: "/mondphasen/{y}", label: "Mondphasen {y}" },
+      { href: "/vollmond/{y}", label: "Vollmond {y}" },
+      { href: "/jahreszeiten/{y}", label: "Jahreszeiten {y}" },
+    ],
+  },
+  "Zeit & Rechner": {
+    slug: "zeit-rechner",
+    title: "Zeit & Rechner",
+    metaDescription:
+      "Zeitumstellung, Tage- und Arbeitstage-Rechner, Altersrechner und Countdowns – praktische Werkzeuge und Erklärungen rund um Zeit und Datum.",
+    intro:
+      "Wie viele Tage bis zum nächsten Termin? Wann wird die Uhr umgestellt? In diesem Themenbereich finden Sie Ratgeber und Erklärungen zu unseren Rechnern und rund um das Thema Zeit.",
+    bridges: [
+      { href: "/zeitumstellung/{y}", label: "Zeitumstellung {y}" },
+      { href: "/tage-rechner", label: "Tage-Rechner" },
+      { href: "/arbeitstage-rechner", label: "Arbeitstage-Rechner" },
+      { href: "/wie-viele-tage-bis", label: "Countdown" },
+    ],
+  },
+};
+
+/** Kategorie-Slug (für /blog/kategorie/[slug]). */
+export function categorySlug(cat: BlogCategory): string {
+  return BLOG_CATEGORY_META[cat].slug;
+}
+
+/** Kategorie zu einem Slug finden (oder null, wenn unbekannt). */
+export function categoryBySlug(slug: string): BlogCategory | null {
+  const hit = (Object.keys(BLOG_CATEGORY_META) as BlogCategory[]).find(
+    (c) => BLOG_CATEGORY_META[c].slug === slug,
+  );
+  return hit ?? null;
+}
+
+/** Alle Beiträge einer Kategorie (neueste zuerst). */
+export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]> {
+  return (await getAllPosts()).filter((p) => p.category === cat);
+}
+
 const SEED: BlogPost[] = [
   {
     slug: "brueckentage-2026-maximaler-urlaub",

@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -40,10 +41,12 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Kalenderwochen {y}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: `Kalenderwochen ${y}`, url: `/kalenderwochen/${y}` },
+          ]}
+        />
         <h1 className="text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">Kalenderwochen {y}</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
           Alle {weeks.length} Kalenderwochen {y} nach ISO 8601. Jede Woche beginnt am Montag; KW 1 ist die Woche,

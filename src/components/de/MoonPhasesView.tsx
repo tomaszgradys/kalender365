@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import { getMoonPhaseInstants, type PhaseType } from "@/lib/de/moonPhases";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
@@ -126,10 +127,12 @@ export default function MoonPhasesView({
 
   return (
     <PageWithSidebar>
-      <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-        <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-        <span className="text-navy-700">{title}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { name: "Start", url: "/" },
+          { name: title, url: only === "full" ? `/vollmond/${year}` : only === "new" ? `/neumond/${year}` : `/mondphasen/${year}` },
+        ]}
+      />
       <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">{title}</h1>
       <p className="mt-2 max-w-2xl text-slate-600">{intro}</p>
 

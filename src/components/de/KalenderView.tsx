@@ -7,6 +7,7 @@ import { BUNDESLAENDER, type Bundesland } from "@/lib/de/bundeslaender";
 import { getSchulferien, ferienPeriodsInMonth, FERIEN_TYP_LABEL, type FerienPeriod } from "@/lib/de/schulferien";
 import { isNavigableYear } from "@/lib/de/year";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import SeoProse, { type ProseBlock } from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import type { QA } from "@/lib/de/jsonLd";
@@ -68,17 +69,20 @@ export function KalenderYear({ year, state }: { year: number; state?: Bundesland
 
   return (
     <PageWithSidebar>
-      <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-        <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-        {state ? (
-          <>
-            <Link href={`/kalender/${year}`} className="hover:text-navy-600">Kalender {year}</Link> <span className="mx-1">/</span>
-            <span className="text-navy-700">{state.name}</span>
-          </>
-        ) : (
-          <span className="text-navy-700">Kalender {year}</span>
-        )}
-      </nav>
+      <Breadcrumbs
+        items={
+          state
+            ? [
+                { name: "Start", url: "/" },
+                { name: `Kalender ${year}`, url: `/kalender/${year}` },
+                { name: state.name, url: `/kalender/${year}/${state.slug}` },
+              ]
+            : [
+                { name: "Start", url: "/" },
+                { name: `Kalender ${year}`, url: `/kalender/${year}` },
+              ]
+        }
+      />
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="text-3xl font-black tracking-tight text-navy-800 sm:text-4xl">Kalender {year}{state ? ` – ${state.name}` : ""}</h1>
@@ -281,11 +285,16 @@ export function KalenderMonth({ year, month0, state }: { year: number; month0: n
 
   return (
     <PageWithSidebar>
-      <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-        <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-        <Link href={state ? `/kalender/${year}/${state.slug}` : `/kalender/${year}`} className="hover:text-navy-600">Kalender {year}</Link> <span className="mx-1">/</span>
-        <span className="text-navy-700">{name}{state ? ` · ${state.name}` : ""}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { name: "Start", url: "/" },
+          { name: `Kalender ${year}`, url: state ? `/kalender/${year}/${state.slug}` : `/kalender/${year}` },
+          {
+            name: `${name}${state ? ` · ${state.name}` : ""}`,
+            url: state ? `/kalender/${mSlug(year, month0)}/${state.slug}` : `/kalender/${mSlug(year, month0)}`,
+          },
+        ]}
+      />
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">{name} {year}{state ? ` – ${state.name}` : ""}</h1>

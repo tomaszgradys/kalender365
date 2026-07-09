@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { berlinNow } from "@/lib/de/now";
@@ -39,10 +40,12 @@ export default function SternzeichenPage() {
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Sternzeichen</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: "Sternzeichen", url: "/sternzeichen" },
+          ]}
+        />
 
         <ModuleHero src={heroSrc(MODULE_HERO, "sternzeichen")} alt="Sternzeichen im Überblick" motif="sterne" uid="hero-sternzeichen" className="mb-5 h-36 w-full sm:h-44" priority />
 

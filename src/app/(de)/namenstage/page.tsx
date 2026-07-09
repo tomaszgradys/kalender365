@@ -1,4 +1,5 @@
 import PageWithSidebar from "@/components/de/PageWithSidebar";
+import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { berlinNow } from "@/lib/de/now";
@@ -49,10 +50,12 @@ export default function NamenstagePage() {
   return (
     <main className="flex-1">
       <PageWithSidebar>
-        <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
-          <span className="text-navy-700">Namenstage</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { name: "Start", url: "/" },
+            { name: "Namenstage", url: "/namenstage" },
+          ]}
+        />
 
         <ModuleHero src={heroSrc(MODULE_HERO, "namenstage")} alt="Namenstage im Kalender" motif="kalender" uid="hero-namen" className="mb-5 h-36 w-full sm:h-44" priority />
 
