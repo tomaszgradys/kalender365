@@ -62,9 +62,12 @@ export default function OpengraphImage() {
           </div>
         </div>
 
-        {/* Fußzeile */}
+        {/* Fußzeile — Häkchen als Inline-SVG (kein Sonderzeichen → keine
+            externe Schriftart nötig, voll selbstständig) */}
         <div style={{ display: "flex", alignItems: "center", fontSize: 28, color: "#64748b" }}>
-          <span style={{ color: GREEN, marginRight: 12 }}>✓</span>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style={{ marginRight: 14 }}>
+            <path d="M20 6 9 17l-5-5" stroke={GREEN} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           Kostenlos für Deutschland und alle 16 Bundesländer
         </div>
       </div>

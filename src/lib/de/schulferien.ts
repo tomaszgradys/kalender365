@@ -59,17 +59,17 @@ export type SchulferienRecord = {
 // --------------------------------------------------------------------------
 // SEED DATA
 // --------------------------------------------------------------------------
-// TODO(data): Populate all 16 Bundesländer for 2026 and 2027 from official
-// sources (KMK: https://www.kmk.org/service/ferien.html and the respective Land
-// ministries). The seed below is generated from schulferien.data.ts, which holds
-// the 2026/2027 dates for all 16 Länder (Ferientermine der Länder, abgeglichen
-// über schulferien.org), carrying source metadata.
+// The seed below is generated from schulferien.data.ts, which holds the 2026 and
+// 2027 dates for all 16 Länder.
 //
-// NOTE: `lastVerifiedAt` is set (→ pages are indexable) because the dates match a
-// reputable published source; all pages additionally carry an "Angaben ohne
-// Gewähr"-Hinweis. TODO(verify): final gegen die offiziellen KMK-PDFs prüfen.
+// NOTE: `lastVerifiedAt` is set (→ pages are indexable). The dates were verified
+// on 2026-07-09 against the three official KMK Ferienkalender PDFs (FER2025_26,
+// FER2026_27, FER2027_28, Stand 09.10.2025) for all 16 states; see the
+// correction log in schulferien.data.ts. All pages additionally carry an
+// "Angaben ohne Gewähr"-Hinweis.
 
 const RETRIEVED_AT = "2026-07-07";
+const VERIFIED_AT = "2026-07-09"; // human-verified against official KMK PDFs
 
 function buildSeed(): SchulferienRecord[] {
   const out: SchulferienRecord[] = [];
@@ -83,12 +83,12 @@ function buildSeed(): SchulferienRecord[] {
         state: stateKey,
         periods: expandPeriods(year, rows),
         meta: {
-          source: "Ferientermine der Länder / KMK (abgeglichen über schulferien.org)",
-          sourceUrl: `https://www.schulferien.org/deutschland/ferien/${year}/`,
+          source: "Kultusministerkonferenz (KMK), offizieller Ferienkalender (Stand 09.10.2025)",
+          sourceUrl: "https://www.kmk.org/service/ferienregelung/ferienkalender.html",
           retrievedAt: RETRIEVED_AT,
           validForSchoolYear: `Kalenderjahr ${year}`,
-          lastVerifiedAt: RETRIEVED_AT,
-          notes: "Angaben ohne Gewähr; vor verbindlicher Planung offizielle Quelle prüfen.",
+          lastVerifiedAt: VERIFIED_AT,
+          notes: "Gegen die offiziellen KMK-Ferienkalender-PDFs geprüft. Angaben ohne Gewähr; vor verbindlicher Planung offizielle Quelle prüfen.",
         },
       });
     }

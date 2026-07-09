@@ -10,20 +10,11 @@ import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender"
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import type { QA } from "@/lib/de/jsonLd";
-
-const NAV_MIN = 2015;
-const NAV_MAX = 2035;
+import { NAV_YEARS, parseYear, isNavigableYear } from "@/lib/de/year";
 
 export function generateStaticParams() {
-  const years = Array.from({ length: NAV_MAX - NAV_MIN + 1 }, (_, i) => NAV_MIN + i);
-  return years.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
+  return NAV_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
 }
-function parseYear(raw: string): number | null {
-  if (!/^\d{4}$/.test(raw)) return null;
-  const y = Number(raw);
-  return y >= 1900 && y <= 2100 ? y : null;
-}
-const isNavigable = (y: number) => y >= NAV_MIN && y <= NAV_MAX;
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string; bundesland: string }> }): Promise<Metadata> {
   const { year, bundesland } = await params;
@@ -34,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Feiertage ${y} ${state.name} – gesetzliche Feiertage & Brückentage`,
     description: `Alle gesetzlichen Feiertage ${y} in ${state.name} mit Datum, Wochentag, Brückentagen und Arbeitstagen. Kalender zum Ausdrucken.`,
     alternates: { canonical: `/feiertage/${y}/${state.slug}` },
-    ...(isNavigable(y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isNavigableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

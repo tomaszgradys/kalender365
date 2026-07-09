@@ -8,19 +8,11 @@ import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
-
-const NAV_MIN = 2015;
-const NAV_MAX = 2035;
+import { NAV_YEARS, parseYear, isNavigableYear } from "@/lib/de/year";
 
 export function generateStaticParams() {
-  return Array.from({ length: NAV_MAX - NAV_MIN + 1 }, (_, i) => ({ year: String(NAV_MIN + i) }));
+  return NAV_YEARS.map((y) => ({ year: String(y) }));
 }
-function parseYear(raw: string): number | null {
-  if (!/^\d{4}$/.test(raw)) return null;
-  const y = Number(raw);
-  return y >= 1900 && y <= 2100 ? y : null;
-}
-const isNavigable = (y: number) => y >= NAV_MIN && y <= NAV_MAX;
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
   const { year } = await params;
@@ -30,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Feiertage ${y} Deutschland – alle gesetzlichen Feiertage`,
     description: `Alle gesetzlichen Feiertage ${y} in Deutschland mit Datum, Wochentag und Bundesland. Bundesweite und regionale Feiertage im Überblick, mit Bundesland-Auswahl.`,
     alternates: { canonical: `/feiertage/${y}` },
-    ...(isNavigable(y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isNavigableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
