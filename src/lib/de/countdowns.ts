@@ -32,6 +32,12 @@ export type CountdownEvent = {
   emoji: string;
   // resolve the next occurrence date (>= today) as {year, month0, day}
   resolve: (now: Date) => { year: number; month0: number; day: number };
+  /** 1–2 Sätze: was ist der Tag, worauf zählt man herunter. Für SEO-Text/Intent. */
+  about: string;
+  /** true = bewegliches Datum (jedes Jahr anders), false = festes Kalenderdatum. */
+  beweglich: boolean;
+  /** Kurzform des festen Datums, z. B. "24. Dezember" (nur bei festem Datum). */
+  fixesDatum?: string;
 };
 
 function nextFixed(month0: number, day: number) {
@@ -55,20 +61,20 @@ function fromDate(compute: (year: number) => Date) {
 }
 
 export const COUNTDOWNS: CountdownEvent[] = [
-  { slug: "weihnachten", title: "Weihnachten", emoji: "🎄", resolve: nextFixed(11, 24) },
-  { slug: "silvester", title: "Silvester", emoji: "🎆", resolve: nextFixed(11, 31) },
-  { slug: "neujahr", title: "Neujahr", emoji: "🥂", resolve: nextFixed(0, 1) },
-  { slug: "ostern", title: "Ostern", emoji: "🐣", resolve: fromDate((y) => easterSunday(y)) },
-  { slug: "nikolaus", title: "Nikolaus", emoji: "🎅", resolve: nextFixed(11, 6) },
-  { slug: "halloween", title: "Halloween", emoji: "🎃", resolve: nextFixed(9, 31) },
-  { slug: "valentinstag", title: "Valentinstag", emoji: "❤️", resolve: nextFixed(1, 14) },
-  { slug: "muttertag", title: "Muttertag", emoji: "💐", resolve: fromDate(anlass("muttertag")) },
-  { slug: "vatertag", title: "Vatertag", emoji: "🍺", resolve: fromDate(anlass("vatertag")) },
-  { slug: "rosenmontag", title: "Rosenmontag", emoji: "🎉", resolve: fromDate(anlass("rosenmontag")) },
-  { slug: "weiberfastnacht", title: "Weiberfastnacht", emoji: "🎭", resolve: fromDate(anlass("weiberfastnacht")) },
-  { slug: "aschermittwoch", title: "Aschermittwoch", emoji: "✝️", resolve: fromDate(anlass("aschermittwoch")) },
-  { slug: "erster-advent", title: "1. Advent", emoji: "🕯️", resolve: fromDate(anlass("erster-advent")) },
-  { slug: "sommeranfang", title: "Sommeranfang", emoji: "☀️", resolve: fromDate((y) => getSeasonDate(y, 1)) },
+  { slug: "weihnachten", title: "Weihnachten", emoji: "🎄", resolve: nextFixed(11, 24), beweglich: false, fixesDatum: "24. Dezember", about: "Heiligabend am 24. Dezember läutet das Weihnachtsfest ein, gefolgt vom 1. und 2. Weihnachtsfeiertag (25. und 26. Dezember). Beide Feiertage sind bundesweit gesetzlich, Heiligabend selbst ist ein normaler Werktag – vielerorts aber ab mittags frei." },
+  { slug: "silvester", title: "Silvester", emoji: "🎆", resolve: nextFixed(11, 31), beweglich: false, fixesDatum: "31. Dezember", about: "Silvester am 31. Dezember ist der letzte Tag des Jahres. Er ist kein gesetzlicher Feiertag, wird aber traditionell mit Feuerwerk und dem Countdown zum Jahreswechsel begangen." },
+  { slug: "neujahr", title: "Neujahr", emoji: "🥂", resolve: nextFixed(0, 1), beweglich: false, fixesDatum: "1. Januar", about: "Neujahr am 1. Januar ist der erste Tag des neuen Jahres und bundesweit ein gesetzlicher Feiertag." },
+  { slug: "ostern", title: "Ostern", emoji: "🐣", resolve: fromDate((y) => easterSunday(y)), beweglich: true, about: "Ostern ist ein bewegliches Fest: Ostersonntag fällt auf den ersten Sonntag nach dem ersten Frühlingsvollmond, frühestens auf den 22. März, spätestens auf den 25. April. Karfreitag und Ostermontag sind bundesweite gesetzliche Feiertage." },
+  { slug: "nikolaus", title: "Nikolaus", emoji: "🎅", resolve: nextFixed(11, 6), beweglich: false, fixesDatum: "6. Dezember", about: "Der Nikolaustag am 6. Dezember erinnert an den heiligen Nikolaus von Myra. Er ist kein gesetzlicher Feiertag; traditionell werden am Vorabend die Stiefel gefüllt." },
+  { slug: "halloween", title: "Halloween", emoji: "🎃", resolve: nextFixed(9, 31), beweglich: false, fixesDatum: "31. Oktober", about: "Halloween wird jedes Jahr am 31. Oktober gefeiert, dem Vorabend von Allerheiligen. Es ist kein gesetzlicher Feiertag – am selben Tag ist in mehreren Bundesländern der Reformationstag." },
+  { slug: "valentinstag", title: "Valentinstag", emoji: "❤️", resolve: nextFixed(1, 14), beweglich: false, fixesDatum: "14. Februar", about: "Der Valentinstag am 14. Februar gilt als Tag der Liebenden. Er ist kein gesetzlicher Feiertag, wird aber traditionell mit Blumen und kleinen Geschenken begangen." },
+  { slug: "muttertag", title: "Muttertag", emoji: "💐", resolve: fromDate(anlass("muttertag")), beweglich: true, about: "Der Muttertag ist beweglich und fällt in Deutschland immer auf den zweiten Sonntag im Mai. Er ist kein gesetzlicher Feiertag." },
+  { slug: "vatertag", title: "Vatertag", emoji: "🍺", resolve: fromDate(anlass("vatertag")), beweglich: true, about: "Der Vatertag wird in Deutschland an Christi Himmelfahrt gefeiert – 39 Tage nach Ostersonntag und damit jedes Jahr an einem Donnerstag. Christi Himmelfahrt ist ein bundesweiter gesetzlicher Feiertag." },
+  { slug: "rosenmontag", title: "Rosenmontag", emoji: "🎉", resolve: fromDate(anlass("rosenmontag")), beweglich: true, about: "Der Rosenmontag ist der Höhepunkt des Straßenkarnevals, 48 Tage vor Ostersonntag. Er ist kein gesetzlicher Feiertag, in den Karnevalshochburgen aber vielerorts arbeitsfrei." },
+  { slug: "weiberfastnacht", title: "Weiberfastnacht", emoji: "🎭", resolve: fromDate(anlass("weiberfastnacht")), beweglich: true, about: "Weiberfastnacht (Altweiber) eröffnet den Straßenkarneval am Donnerstag vor Rosenmontag, also 52 Tage vor Ostern. Ein gesetzlicher Feiertag ist der Tag nicht." },
+  { slug: "aschermittwoch", title: "Aschermittwoch", emoji: "✝️", resolve: fromDate(anlass("aschermittwoch")), beweglich: true, about: "Aschermittwoch beendet den Karneval und beginnt die 40-tägige Fastenzeit vor Ostern. Er liegt 46 Tage vor Ostersonntag und ist kein gesetzlicher Feiertag." },
+  { slug: "erster-advent", title: "1. Advent", emoji: "🕯️", resolve: fromDate(anlass("erster-advent")), beweglich: true, about: "Der 1. Advent ist der vierte Sonntag vor dem 25. Dezember und markiert den Beginn der Adventszeit und des Kirchenjahres. Ein gesetzlicher Feiertag ist er nicht." },
+  { slug: "sommeranfang", title: "Sommeranfang", emoji: "☀️", resolve: fromDate((y) => getSeasonDate(y, 1)), beweglich: true, about: "Der kalendarische (astronomische) Sommeranfang fällt auf die Sommersonnenwende – den längsten Tag des Jahres, meist am 20. oder 21. Juni. Der meteorologische Sommer beginnt dagegen fix am 1. Juni." },
 ];
 
 export function getCountdown(slug: string): CountdownEvent | null {
