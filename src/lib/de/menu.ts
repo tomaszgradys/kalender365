@@ -40,6 +40,19 @@ export const MENU: MenuSection[] = [
     ],
   },
   {
+    title: "Brauchtum & Anlässe",
+    items: [
+      { label: "Besondere Tage {y}", href: "/besondere-tage/{y}", emoji: "✨" },
+      { label: "Muttertag {y}", href: "/besondere-tage/{y}/muttertag", emoji: "💐" },
+      { label: "Vatertag {y}", href: "/besondere-tage/{y}/vatertag", emoji: "🍺" },
+      { label: "Karneval {y}", href: "/besondere-tage/{y}/rosenmontag", emoji: "🎉" },
+      { label: "Advent {y}", href: "/besondere-tage/{y}/erster-advent", emoji: "🕯️" },
+      { label: "Namenstage", href: "/namenstage", emoji: "📛" },
+      { label: "Bauernregeln", href: "/bauernregeln", emoji: "🌾" },
+      { label: "Sternzeichen", href: "/sternzeichen", emoji: "⭐" },
+    ],
+  },
+  {
     title: "Mond, Sonne & Natur",
     items: [
       { label: "Mondphasen {y}", href: "/mondphasen/{y}", emoji: "🌙" },

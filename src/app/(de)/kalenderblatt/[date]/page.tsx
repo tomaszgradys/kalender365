@@ -7,6 +7,10 @@ import { getAllFeiertage } from "@/lib/de/feiertage";
 import { getMoonPhaseInstants } from "@/lib/de/moonPhases";
 import { getSunTimes, DEFAULT_LOCATION } from "@/lib/de/sun";
 import { isNavigableYear } from "@/lib/de/year";
+import { getNamenstage } from "@/lib/de/namenstage";
+import { getBauernregel } from "@/lib/de/bauernregeln";
+import { sternzeichenByDate } from "@/lib/de/sternzeichen";
+import { getAnlaesseAmTag } from "@/lib/de/besondereTage";
 
 function pad(n: number) {
   return n.toString().padStart(2, "0");
@@ -59,6 +63,11 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
   const feiertag = getAllFeiertage(p.y).find((h) => h.date === p.iso);
   const moon = getMoonPhaseInstants(p.y).find((m) => m.date === p.iso) ?? null;
   const sun = getSunTimes(p.y, p.m0, p.d);
+  const namen = getNamenstage(p.m0, p.d);
+  const regel = getBauernregel(p.m0, p.d);
+  const zodiac = sternzeichenByDate(p.m0, p.d);
+  const anlaesse = getAnlaesseAmTag(p.y, p.iso);
+  const mmdd = `${pad(p.m0 + 1)}-${pad(p.d)}`;
 
   const prevDate = new Date(Date.UTC(p.y, p.m0, p.d - 1)).toISOString().slice(0, 10);
   const nextDate = new Date(Date.UTC(p.y, p.m0, p.d + 1)).toISOString().slice(0, 10);
@@ -116,6 +125,41 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
               <p className="mt-1 text-sm text-slate-500">Keine Hauptmondphase an diesem Tag.</p>
             )}
             <Link href={`/mondphasen/${p.y}`} className="mt-1 inline-block text-xs font-medium text-navy-600 hover:underline">Alle Mondphasen {p.y} →</Link>
+          </div>
+        </div>
+
+        {anlaesse.length > 0 && (
+          <div className="mt-4 rounded-2xl border border-brand-green-100 bg-brand-green-50/50 p-4">
+            <h2 className="text-sm font-bold text-navy-700">✨ Anlässe an diesem Tag</h2>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {anlaesse.map((a) => (
+                <Link key={a.slug} href={`/besondere-tage/${p.y}/${a.slug}`} className="rounded-full border border-brand-green-200 bg-white px-3 py-1 text-sm font-medium text-brand-green-700 hover:border-brand-green-400">
+                  {a.emoji} {a.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <h2 className="text-sm font-bold text-navy-700">📛 Namenstag</h2>
+            {namen.length ? (
+              <p className="mt-1 text-sm text-slate-700">{namen.join(", ")}</p>
+            ) : (
+              <p className="mt-1 text-sm text-slate-500">Kein Eintrag.</p>
+            )}
+            <Link href={`/namenstage/${mmdd}`} className="mt-1 inline-block text-xs font-medium text-navy-600 hover:underline">Alle Namenstage →</Link>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <h2 className="text-sm font-bold text-navy-700">⭐ Sternzeichen</h2>
+            <p className="mt-1 text-sm text-slate-700">{zodiac.symbol} {zodiac.name}</p>
+            <Link href={`/sternzeichen/${zodiac.slug}`} className="mt-1 inline-block text-xs font-medium text-navy-600 hover:underline">Zum Sternzeichen →</Link>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+            <h2 className="text-sm font-bold text-navy-700">🌾 Bauernregel</h2>
+            <p className="mt-1 text-sm italic text-slate-700">„{regel}“</p>
+            <Link href="/bauernregeln" className="mt-1 inline-block text-xs font-medium text-navy-600 hover:underline">Mehr Bauernregeln →</Link>
           </div>
         </div>
 

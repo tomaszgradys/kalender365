@@ -36,6 +36,15 @@ export const routes = {
   weihnachtsferienState: (y: number, s: Bundesland) => `/weihnachtsferien/${y}/${s.slug}`,
   osterferienState: (y: number, s: Bundesland) => `/osterferien/${y}/${s.slug}`,
 
+  // Brauchtum & Anlässe
+  besondereTage: (y: number) => `/besondere-tage/${y}`,
+  besondererTag: (y: number, slug: string) => `/besondere-tage/${y}/${slug}`,
+  namenstage: () => `/namenstage`,
+  namenstag: (mmdd: string) => `/namenstage/${mmdd}`,
+  bauernregeln: () => `/bauernregeln`,
+  sternzeichen: () => `/sternzeichen`,
+  sternzeichenSign: (slug: string) => `/sternzeichen/${slug}`,
+
   // Zeit, Natur, Hobby
   kalenderwochen: (y: number) => `/kalenderwochen/${y}`,
   kalenderwoche: (kw: number, y: number) => `/kw/${kw}-${y}`,

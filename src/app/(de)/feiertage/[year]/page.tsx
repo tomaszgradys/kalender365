@@ -151,6 +151,17 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
           <p className="mt-2 text-xs text-slate-400">Abkürzungen: BW Baden-Württemberg, BY Bayern, BE Berlin, BB Brandenburg, HB Bremen, HH Hamburg, HE Hessen, MV Mecklenburg-Vorpommern, NI Niedersachsen, NW Nordrhein-Westfalen, RP Rheinland-Pfalz, SL Saarland, SN Sachsen, ST Sachsen-Anhalt, SH Schleswig-Holstein, TH Thüringen.</p>
         </section>
 
+        {/* BESONDERE TAGE */}
+        <section className="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border border-brand-green-100 bg-brand-green-50/40 p-4">
+          <p className="text-sm text-slate-600">
+            <strong className="text-navy-800">Keine gesetzlichen Feiertage, aber wichtig:</strong> Muttertag, Vatertag,
+            Karneval, Advent &amp; Co.
+          </p>
+          <Link href={`/besondere-tage/${y}`} className="rounded-lg bg-navy-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-navy-700">
+            ✨ Besondere Tage {y}
+          </Link>
+        </section>
+
         {/* BUNDESLÄNDER LINKS */}
         <section className="mt-8">
           <h2 className="mb-3 text-xl font-bold text-navy-800">Feiertage nach Bundesland</h2>

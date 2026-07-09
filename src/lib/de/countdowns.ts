@@ -3,8 +3,16 @@
 
 import { easterSunday } from "./feiertage";
 import { getSeasonDate } from "./astroYear";
+import { getBesondererTag } from "./besondereTage";
 
 const TZ = "Europe/Berlin";
+
+/** Datum-Resolver eines besonderen Tages (z. B. Muttertag) für Countdowns. */
+function anlass(slug: string): (year: number) => Date {
+  const e = getBesondererTag(slug);
+  if (!e) throw new Error(`Unbekannter Anlass: ${slug}`);
+  return e.date;
+}
 
 /** Epoch ms of local (Berlin) midnight for a calendar date. */
 export function berlinMidnight(year: number, month0: number, day: number): number {
@@ -54,6 +62,12 @@ export const COUNTDOWNS: CountdownEvent[] = [
   { slug: "nikolaus", title: "Nikolaus", emoji: "🎅", resolve: nextFixed(11, 6) },
   { slug: "halloween", title: "Halloween", emoji: "🎃", resolve: nextFixed(9, 31) },
   { slug: "valentinstag", title: "Valentinstag", emoji: "❤️", resolve: nextFixed(1, 14) },
+  { slug: "muttertag", title: "Muttertag", emoji: "💐", resolve: fromDate(anlass("muttertag")) },
+  { slug: "vatertag", title: "Vatertag", emoji: "🍺", resolve: fromDate(anlass("vatertag")) },
+  { slug: "rosenmontag", title: "Rosenmontag", emoji: "🎉", resolve: fromDate(anlass("rosenmontag")) },
+  { slug: "weiberfastnacht", title: "Weiberfastnacht", emoji: "🎭", resolve: fromDate(anlass("weiberfastnacht")) },
+  { slug: "aschermittwoch", title: "Aschermittwoch", emoji: "✝️", resolve: fromDate(anlass("aschermittwoch")) },
+  { slug: "erster-advent", title: "1. Advent", emoji: "🕯️", resolve: fromDate(anlass("erster-advent")) },
   { slug: "sommeranfang", title: "Sommeranfang", emoji: "☀️", resolve: fromDate((y) => getSeasonDate(y, 1)) },
 ];
 

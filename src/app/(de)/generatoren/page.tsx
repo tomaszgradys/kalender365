@@ -21,6 +21,10 @@ export default function GeneratorenPage() {
     { href: `/urlaubsplaner/${y}`, emoji: "🏖️", label: "Urlaubsplaner", desc: "Brückentage optimal nutzen" },
     { href: `/kalenderwochen/${y}`, emoji: "🔢", label: "Kalenderwochen", desc: "Alle KW nach ISO 8601" },
     { href: `/brueckentage/${y}`, emoji: "🌉", label: "Brückentage", desc: "Lange Wochenenden planen" },
+    { href: `/besondere-tage/${y}`, emoji: "✨", label: "Besondere Tage", desc: "Muttertag, Karneval, Advent …" },
+    { href: "/namenstage", emoji: "📛", label: "Namenstage", desc: "Namenstag heute & A–Z" },
+    { href: "/bauernregeln", emoji: "🌾", label: "Bauernregeln", desc: "Lostage & Wetterregeln" },
+    { href: "/sternzeichen", emoji: "⭐", label: "Sternzeichen", desc: "Daten & Eigenschaften" },
   ];
   return (
     <main className="flex-1">

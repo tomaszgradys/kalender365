@@ -9,6 +9,9 @@ import { stateByCode } from "@/lib/de/bundeslaender";
 import { getAllPosts } from "@/lib/de/blog";
 import { COUNTDOWNS } from "@/lib/de/countdowns";
 import { isoWeeksInYear } from "@/lib/de/weeks";
+import { BESONDERE_TAGE } from "@/lib/de/besondereTage";
+import { allNamenstage } from "@/lib/de/namenstage";
+import { STERNZEICHEN } from "@/lib/de/sternzeichen";
 
 const NOW = berlinToday();
 
@@ -41,6 +44,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/wie-viele-tage-bis-zu-den-sommerferien`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/countdown`, lastModified: NOW, changeFrequency: "monthly" },
     ...COUNTDOWNS.map((c) => ({ url: `${SITE_URL}/wie-viele-tage-bis/${c.slug}`, lastModified: NOW, changeFrequency: "daily" as const })),
+    // Brauchtum & Anlässe (jahresunabhängig).
+    { url: `${SITE_URL}/namenstage`, lastModified: NOW, changeFrequency: "daily" },
+    ...allNamenstage().map((e) => ({ url: `${SITE_URL}/namenstage/${e.mmdd}`, lastModified: NOW, changeFrequency: "yearly" as const })),
+    { url: `${SITE_URL}/bauernregeln`, lastModified: NOW, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/sternzeichen`, lastModified: NOW, changeFrequency: "monthly" },
+    ...STERNZEICHEN.map((z) => ({ url: `${SITE_URL}/sternzeichen/${z.slug}`, lastModified: NOW, changeFrequency: "yearly" as const })),
   ];
 
   const thisYear = berlinNow().year;
@@ -52,6 +61,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/kalenderwochen/${y}`, lastModified: NOW, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/urlaubsplaner/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    entries.push({ url: `${SITE_URL}/besondere-tage/${y}`, lastModified: NOW, changeFrequency: "monthly" });
+    for (const e of BESONDERE_TAGE) {
+      entries.push({ url: `${SITE_URL}/besondere-tage/${y}/${e.slug}`, lastModified: NOW, changeFrequency: "monthly" });
+    }
     // Einzelne Kalenderwochen nur für aktuelles + nächstes Jahr (Umfang).
     if (y === thisYear || y === thisYear + 1) {
       for (let w = 1; w <= isoWeeksInYear(y); w++) {

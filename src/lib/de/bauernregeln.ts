@@ -52,3 +52,20 @@ export function getBauernregel(month0: number, day: number): string {
   const doy = Math.floor((Date.UTC(2001, month0, day) - Date.UTC(2001, 0, 1)) / 86400000);
   return POOL[doy % POOL.length];
 }
+
+export type DatierteRegel = { mmdd: string; month0: number; day: number; text: string };
+
+/** Alle datumsgebundenen Bauernregeln (Lostage), chronologisch. */
+export function getDatierteBauernregeln(): DatierteRegel[] {
+  return Object.keys(DATED)
+    .sort()
+    .map((mmdd) => {
+      const [m, d] = mmdd.split("-").map(Number);
+      return { mmdd, month0: m - 1, day: d, text: DATED[mmdd] };
+    });
+}
+
+/** Allgemeine (nicht datumsgebundene) Bauern- und Wetterregeln. */
+export function getAllgemeineBauernregeln(): string[] {
+  return [...POOL];
+}

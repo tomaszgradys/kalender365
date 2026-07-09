@@ -4,6 +4,7 @@
 // deterministic (Feiertage, Schulferien, Astronomie); no prose is generated.
 
 import { getAllFeiertage } from "./feiertage";
+import { getBesondereTage } from "./besondereTage";
 import { getSchulferien, statesWithData, FERIEN_TYP_LABEL } from "./schulferien";
 import { getSeasons, getDSTChanges } from "./astroYear";
 import { getMoonPhaseInstants } from "./moonPhases";
@@ -14,7 +15,7 @@ import { formatLongDE, weekdayDE } from "./locale";
 export type RadarEvent = {
   date: string; // YYYY-MM-DD
   daysAway: number; // 0 = heute, positiv = in Zukunft
-  kind: "feiertag" | "ferien" | "astro" | "mond";
+  kind: "feiertag" | "anlass" | "ferien" | "astro" | "mond";
   label: string; // human-readable German
 };
 
@@ -63,6 +64,20 @@ export function getRadar(from = todayIso()): RadarEvent[] {
         daysAway: daysAway(f.date, from),
         kind: "feiertag",
         label: `Feiertag „${f.name}" am ${formatLongDE(f.date)} (${weekdayDE(f.date)}) — ${where}`,
+      });
+    }
+  }
+
+  // --- Besondere Tage / Anlässe (Karneval, Muttertag, Advent …) ---
+  for (const y of years) {
+    for (const a of getBesondereTage(y)) {
+      if (!inWindow(a.iso)) continue;
+      const region = a.regionNote ? ` (${a.regionNote})` : "";
+      events.push({
+        date: a.iso,
+        daysAway: daysAway(a.iso, from),
+        kind: "anlass",
+        label: `Anlass „${a.name}" am ${formatLongDE(a.iso)} (${weekdayDE(a.iso)})${region}`,
       });
     }
   }

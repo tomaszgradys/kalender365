@@ -136,3 +136,29 @@ export function getNamenstage(month0: number, day: number): string[] {
   const key = `${String(month0 + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   return NAMENSTAGE[key] ?? [];
 }
+
+/** Namenstag(e) zu einem "MM-DD"-Schlüssel. */
+export function getNamenstageByKey(mmdd: string): string[] {
+  return NAMENSTAGE[mmdd] ?? [];
+}
+
+export type NamenstagEintrag = { mmdd: string; month0: number; day: number; names: string[] };
+
+/** Alle Einträge, chronologisch. */
+export function allNamenstage(): NamenstagEintrag[] {
+  return Object.keys(NAMENSTAGE)
+    .sort()
+    .map((mmdd) => {
+      const [m, d] = mmdd.split("-").map(Number);
+      return { mmdd, month0: m - 1, day: d, names: NAMENSTAGE[mmdd] };
+    });
+}
+
+/** Umgekehrter Index: Vorname → "MM-DD" (für „Wann hat … Namenstag?“). */
+export function namensIndex(): { name: string; mmdd: string }[] {
+  const out: { name: string; mmdd: string }[] = [];
+  for (const [mmdd, names] of Object.entries(NAMENSTAGE)) {
+    for (const name of names) out.push({ name, mmdd });
+  }
+  return out.sort((a, b) => a.name.localeCompare(b.name, "de"));
+}
