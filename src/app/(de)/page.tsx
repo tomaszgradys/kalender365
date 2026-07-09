@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { berlinNow, isoWeekOf } from "@/lib/de/now";
-import { formatFullDE } from "@/lib/de/locale";
+import { formatFullDE, formatLongDE, weekdayDE } from "@/lib/de/locale";
 import { getAllFeiertage } from "@/lib/de/feiertage";
 import { MENU, resolveHref } from "@/lib/de/menu";
 import { yearSummary } from "@/lib/de/calendar";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
+import { getBesondereTage } from "@/lib/de/besondereTage";
+import EventArt from "@/components/de/EventArt";
 import TearOff from "@/components/de/TearOff";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import SeoProse from "@/components/de/SeoProse";
@@ -39,6 +41,14 @@ export default function HomePage() {
 
   const beliebt = MENU[0].items;
   const kategorien = MENU.slice(1);
+
+  // Nächste besondere Tage (Anlässe) ab heute, ggf. über den Jahreswechsel.
+  const naechsteAnlaesse = (() => {
+    const list = getBesondereTage(cy).filter((e) => e.iso >= isoToday);
+    if (list.length < 4) list.push(...getBesondereTage(cy + 1).slice(0, 4 - list.length));
+    return list.slice(0, 4);
+  })();
+  const tageBis = (iso: string) => Math.round((Date.parse(`${iso}T00:00:00Z`) - Date.parse(`${isoToday}T00:00:00Z`)) / 86400000);
 
   return (
     <main className="flex-1">
@@ -104,6 +114,34 @@ export default function HomePage() {
                 <span className="text-sm font-semibold text-navy-800">{resolveHref(c.label, cy)}</span>
               </Link>
             ))}
+          </div>
+        </section>
+
+        {/* NÄCHSTE ANLÄSSE */}
+        <section className="mt-10">
+          <div className="mb-4 flex items-end justify-between gap-3">
+            <h2 className="text-xl font-bold text-navy-800">Nächste Anlässe</h2>
+            <Link href={`/besondere-tage/${cy}`} className="text-sm font-medium text-navy-600 hover:underline">Alle besonderen Tage →</Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {naechsteAnlaesse.map((e) => {
+              const days = tageBis(e.iso);
+              const rel = days === 0 ? "heute" : days === 1 ? "morgen" : `in ${days} Tagen`;
+              return (
+                <Link
+                  key={`${e.iso}-${e.slug}`}
+                  href={`/besondere-tage/${e.iso.slice(0, 4)}/${e.slug}`}
+                  className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-0.5 hover:border-navy-300 hover:shadow-md"
+                >
+                  <EventArt motif={e.motif} uid={`home-${e.slug}`} className="h-24 w-full" rounded={false} />
+                  <div className="p-4">
+                    <div className="font-bold text-navy-800">{e.emoji} {e.name}</div>
+                    <div className="mt-0.5 text-sm text-slate-600">{weekdayDE(e.iso)}, {formatLongDE(e.iso)}</div>
+                    <div className="mt-1 inline-block rounded-full bg-brand-green-50 px-2 py-0.5 text-xs font-semibold text-brand-green-700">{rel}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
