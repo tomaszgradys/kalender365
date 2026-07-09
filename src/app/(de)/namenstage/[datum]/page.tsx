@@ -40,6 +40,9 @@ export async function generateMetadata({ params }: { params: Promise<{ datum: st
       ? `Am ${label} haben ${names.join(", ")} Namenstag. Bedeutung, Datum und Kalenderblatt zum ${label}.`
       : `Namenstag am ${label} im Heiligenkalender.`,
     alternates: { canonical: `/namenstage/${datum}` },
+    // Dünne Tage ohne hinterlegten Namenstag (rund 240 von 366) werden von
+    // jedem Kalenderblatt verlinkt – bleiben crawlbar, aber aus dem Index.
+    ...(names.length ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
