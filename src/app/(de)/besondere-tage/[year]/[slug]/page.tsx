@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, isNavigableYear, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { berlinNow, berlinToday } from "@/lib/de/now";
 import { formatFullDE, formatLongDE, weekdayDE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { BESONDERE_TAGE, getBesondererTag } from "@/lib/de/besondereTage";
@@ -18,7 +18,7 @@ import { SITE_URL } from "@/lib/de/site";
 
 export function generateStaticParams() {
   const out: { year: string; slug: string }[] = [];
-  for (const y of NAV_YEARS) for (const e of BESONDERE_TAGE) out.push({ year: String(y), slug: e.slug });
+  for (const y of PRERENDER_YEARS) for (const e of BESONDERE_TAGE) out.push({ year: String(y), slug: e.slug });
   return out;
 }
 

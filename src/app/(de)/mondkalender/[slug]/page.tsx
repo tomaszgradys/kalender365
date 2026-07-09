@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, isIndexableYear } from "@/lib/de/year";
 import { berlinNow } from "@/lib/de/now";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE, WEEKDAY_SHORT_DE, formatLongDE } from "@/lib/de/locale";
 import {
@@ -26,7 +26,7 @@ const TAG_ORDER: MondTag[] = ["Frucht", "Wurzel", "Blüte", "Blatt"];
 
 export function generateStaticParams() {
   const out: { slug: string }[] = [];
-  for (const y of NAV_YEARS) {
+  for (const y of PRERENDER_YEARS) {
     out.push({ slug: String(y) });
     for (const ms of MONTH_SLUGS_DE) out.push({ slug: `${ms}-${y}` });
   }

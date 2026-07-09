@@ -38,6 +38,16 @@ export function indexableYears(now: number = berlinNow().year): number[] {
   return out;
 }
 
+/**
+ * Prerender-Fenster = Index-Fenster. Nur diese Jahrgänge werden zur Build-Zeit
+ * statisch erzeugt; ältere/fernere Jahre rendern on-demand (dynamicParams) —
+ * sie existieren weiterhin (200, noindex,follow), belegen aber keinen Build-
+ * Umfang. Weil on-demand zur Laufzeit gerendert wird, ist deren robots-Meta
+ * immer relativ zum tatsächlichen Jahr korrekt (selbstkorrigierend).
+ * Zur Build-Zeit ausgewertet.
+ */
+export const PRERENDER_YEARS = indexableYears();
+
 /** robots meta for programmatic year pages: noindex outside the index window. */
 export function yearRobots(y: number) {
   return isIndexableYear(y) ? {} : { robots: { index: false, follow: true } };

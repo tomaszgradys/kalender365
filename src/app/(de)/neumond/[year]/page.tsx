@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import MoonPhasesView from "@/components/de/MoonPhasesView";
 
 export function generateStaticParams() {
-  return NAV_YEARS.map((y) => ({ year: String(y) }));
+  return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
 }
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
   const { year } = await params;

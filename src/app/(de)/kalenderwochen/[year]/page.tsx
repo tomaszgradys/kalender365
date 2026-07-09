@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { allWeeks } from "@/lib/de/weeks";
 import { formatShortDE } from "@/lib/de/locale";
 import { berlinISOWeek } from "@/lib/de/now";
@@ -12,7 +12,7 @@ import Faq from "@/components/de/Faq";
 export const revalidate = 3600;
 
 export function generateStaticParams() {
-  return NAV_YEARS.map((y) => ({ year: String(y) }));
+  return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {

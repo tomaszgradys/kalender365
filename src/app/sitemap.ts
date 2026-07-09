@@ -13,6 +13,12 @@ import { BESONDERE_TAGE } from "@/lib/de/besondereTage";
 import { allNamenstage } from "@/lib/de/namenstage";
 import { STERNZEICHEN } from "@/lib/de/sternzeichen";
 
+// ISR: Sitemap täglich neu generieren. So verschiebt sich das Index-Fenster
+// (indexableYears()) zum Jahreswechsel automatisch — ohne Redeploy und ohne
+// Cron/Deploy-Hook. Nebeneffekt: neue Blog-Beiträge landen binnen 24 h in der
+// Sitemap. Rendering-Kosten sind minimal (nur der Sitemap-Request, selten).
+export const revalidate = 86400;
+
 // Stabiles <lastmod> statt „heute überall": ein Datum, das sich nur ändert, wenn
 // sich Inhalte real ändern. Vergangene Jahre werden auf Jahresende eingefroren
 // (der Inhalt eines abgelaufenen Jahres ändert sich nicht mehr) → Googlebot

@@ -8,10 +8,10 @@ import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
-import { NAV_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
 
 export function generateStaticParams() {
-  return NAV_YEARS.map((y) => ({ year: String(y) }));
+  return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, isIndexableYear } from "@/lib/de/year";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { parseKalenderSlug } from "@/lib/de/calendar";
 import { stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
@@ -11,7 +11,7 @@ import { KalenderYear, KalenderMonth } from "@/components/de/KalenderView";
 export function generateStaticParams() {
   const nowY = new Date().getUTCFullYear();
   const params: { slug: string; bundesland: string }[] = [];
-  for (const y of NAV_YEARS) {
+  for (const y of PRERENDER_YEARS) {
     for (const slug of STATE_SLUGS) params.push({ slug: String(y), bundesland: slug });
   }
   for (const y of [nowY, nowY + 1]) {

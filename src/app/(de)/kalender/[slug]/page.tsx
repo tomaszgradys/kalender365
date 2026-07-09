@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, isIndexableYear } from "@/lib/de/year";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { parseKalenderSlug } from "@/lib/de/calendar";
 import { KalenderYear, KalenderMonth } from "@/components/de/KalenderView";
 
 export function generateStaticParams() {
   const params: { slug: string }[] = [];
-  for (const y of NAV_YEARS) {
+  for (const y of PRERENDER_YEARS) {
     params.push({ slug: String(y) });
     for (const ms of MONTH_SLUGS_DE) params.push({ slug: `${ms}-${y}` });
   }

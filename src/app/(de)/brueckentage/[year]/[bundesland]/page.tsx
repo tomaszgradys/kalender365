@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, yearRobots } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { formatLongDE } from "@/lib/de/locale";
 import { getBrueckentage, getLangeWochenenden } from "@/lib/de/brueckentage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
@@ -10,7 +10,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
-  return NAV_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
+  return PRERENDER_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string; bundesland: string }> }): Promise<Metadata> {

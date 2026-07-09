@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
+import { PRERENDER_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
 import { berlinNow, berlinToday } from "@/lib/de/now";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import {
@@ -20,7 +20,7 @@ import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
 import { SITE_URL } from "@/lib/de/site";
 
 export function generateStaticParams() {
-  return NAV_YEARS.map((y) => ({ year: String(y) }));
+  return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
