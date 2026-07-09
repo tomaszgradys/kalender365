@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { parseKalenderSlug } from "@/lib/de/calendar";
 import { stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `Kalender ${parsed.year} ${state.name} – Feiertage & Ferien`,
       description: `Jahreskalender ${parsed.year} für ${state.name} mit gesetzlichen Feiertagen, Kalenderwochen und Arbeitstagen. Zum Ausdrucken.`,
       alternates: { canonical: `/kalender/${parsed.year}/${state.slug}` },
-      ...(isNavigableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
+      ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
     };
   }
   const mName = MONTH_NAMES_DE[parsed.month0];
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `Kalender ${mName} ${parsed.year} ${state.name} – Feiertage & KW`,
     description: `Monatskalender ${mName} ${parsed.year} für ${state.name} mit Kalenderwochen, Feiertagen und Arbeitstagen.`,
     alternates: { canonical: `/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}/${state.slug}` },
-    ...(isNavigableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

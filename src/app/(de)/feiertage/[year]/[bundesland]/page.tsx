@@ -10,7 +10,7 @@ import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender"
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import type { QA } from "@/lib/de/jsonLd";
-import { NAV_YEARS, parseYear, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
 
 export function generateStaticParams() {
   return NAV_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Feiertage ${y} ${state.name} – gesetzliche Feiertage & Brückentage`,
     description: `Alle gesetzlichen Feiertage ${y} in ${state.name} mit Datum, Wochentag, Brückentagen und Arbeitstagen. Kalender zum Ausdrucken.`,
     alternates: { canonical: `/feiertage/${y}/${state.slug}` },
-    ...(isNavigableYear(y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

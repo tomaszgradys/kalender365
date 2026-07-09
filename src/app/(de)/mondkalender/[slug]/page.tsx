@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
 import { berlinNow } from "@/lib/de/now";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE, WEEKDAY_SHORT_DE, formatLongDE } from "@/lib/de/locale";
 import {
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = parse(slug);
   if (!p) return {};
-  const robots = isNavigableYear(p.year) ? {} : { robots: { index: false, follow: true } };
+  const robots = isIndexableYear(p.year) ? {} : { robots: { index: false, follow: true } };
   if (p.kind === "year") {
     return {
       title: `Mondkalender ${p.year} – Aussaattage & Gärtnern nach dem Mond`,

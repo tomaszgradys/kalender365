@@ -6,7 +6,7 @@ import { isoWeekOf, berlinNow } from "@/lib/de/now";
 import { getAllFeiertage } from "@/lib/de/feiertage";
 import { getMoonPhaseInstants } from "@/lib/de/moonPhases";
 import { getSunTimes, DEFAULT_LOCATION } from "@/lib/de/sun";
-import { isNavigableYear } from "@/lib/de/year";
+import { isIndexableYear } from "@/lib/de/year";
 import { getNamenstage } from "@/lib/de/namenstage";
 import { getBauernregel } from "@/lib/de/bauernregeln";
 import { sternzeichenByDate } from "@/lib/de/sternzeichen";
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
     title: `Kalenderblatt ${formatLongDE(p.iso)} – Tag, KW, Feiertag & Mond`,
     description: `Kalenderblatt für den ${formatFullDE(p.iso)}: Kalenderwoche, Tag des Jahres, Feiertage, Mondphase sowie Sonnenauf- und -untergang.`,
     alternates: { canonical: `/kalenderblatt/${p.iso}` },
-    ...(isNavigableYear(p.y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(p.y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

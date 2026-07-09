@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, COMPANY, CONTENT_VERSION } from "@/lib/de/site";
-import { NAV_YEARS } from "@/lib/de/year";
+import { indexableYears } from "@/lib/de/year";
 import { STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { berlinNow, berlinToday } from "@/lib/de/now";
@@ -62,7 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...STERNZEICHEN.map((z) => ({ url: `${SITE_URL}/sternzeichen/${z.slug}`, lastModified: CONTENT_DATE, changeFrequency: "yearly" as const })),
   ];
 
-  for (const y of NAV_YEARS) {
+  // Nur das enge Index-Fenster (aktuelles Jahr −1 … +5) in die Sitemap — Jahre mit
+  // realer Suchnachfrage. Ältere/fernere Jahrgänge existieren weiterhin (200,
+  // navigierbar), sind aber noindex und bleiben aus der Sitemap → Crawl-Budget
+  // konzentriert sich auf die relevanten Jahre.
+  for (const y of indexableYears()) {
     const lm = yearLastmod(y);
     entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: lm, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: lm, changeFrequency: "monthly" });

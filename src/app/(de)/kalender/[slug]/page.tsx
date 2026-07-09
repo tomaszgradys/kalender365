@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, isIndexableYear } from "@/lib/de/year";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { parseKalenderSlug } from "@/lib/de/calendar";
 import { KalenderYear, KalenderMonth } from "@/components/de/KalenderView";
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `Kalender ${parsed.year} Deutschland – Feiertage, KW & PDF`,
       description: `Jahreskalender ${parsed.year} für Deutschland mit Kalenderwochen, Feiertagen, Arbeitstagen und PDF-Kalendern zum Ausdrucken.`,
       alternates: { canonical: `/kalender/${parsed.year}` },
-      ...(isNavigableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
+      ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
     };
   }
   const mName = MONTH_NAMES_DE[parsed.month0];
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `Kalender ${mName} ${parsed.year} – Feiertage, KW & Arbeitstage`,
     description: `Monatskalender ${mName} ${parsed.year} mit Kalenderwochen, Feiertagen und Arbeitstagen. Auch nach Bundesland und zum Ausdrucken.`,
     alternates: { canonical: `/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}` },
-    ...(isNavigableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

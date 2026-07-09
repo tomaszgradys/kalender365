@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, parseYear, isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { berlinNow, berlinToday } from "@/lib/de/now";
 import { formatFullDE, formatLongDE, weekdayDE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { BESONDERE_TAGE, getBesondererTag } from "@/lib/de/besondereTage";
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `${e.name} ${y} – Datum, Termin & Bedeutung`,
     description: `${e.name} ${y} ist am ${formatLongDE(iso)} (${weekdayDE(iso)}). ${e.intro}`.slice(0, 300),
     alternates: { canonical: `/besondere-tage/${y}/${e.slug}` },
-    ...(isNavigableYear(y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

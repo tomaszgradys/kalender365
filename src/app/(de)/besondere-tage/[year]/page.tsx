@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, parseYear, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
 import { berlinNow, berlinToday } from "@/lib/de/now";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
 import {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Besondere Tage ${y} – Muttertag, Vatertag, Karneval & Advent`,
     description: `Alle wichtigen Anlässe ${y} auf einen Blick: Muttertag, Vatertag, Karneval (Rosenmontag, Weiberfastnacht), Advent, Nikolaus, Halloween, Silvester & mehr – mit Datum und Wochentag.`,
     alternates: { canonical: `/besondere-tage/${y}` },
-    ...(isNavigableYear(y) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

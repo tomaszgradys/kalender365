@@ -2,7 +2,7 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isNavigableYear } from "@/lib/de/year";
+import { NAV_YEARS, isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { getISOWeekRange, isoWeeksInYear, isValidWeek } from "@/lib/de/weeks";
 import { MONTH_NAMES_DE, WEEKDAY_NAMES_DE, formatLongDE, formatShortDE } from "@/lib/de/locale";
 import { getNationalFeiertage } from "@/lib/de/feiertage";
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `KW ${p.week} ${p.year} – Datum, Wochentage & Kalenderwoche`,
     description: `Kalenderwoche ${p.week} ${p.year}: vom ${formatShortDE(iso(r.start))} bis ${formatShortDE(iso(r.end))}. Alle Tage der KW ${p.week} nach ISO 8601.`,
     alternates: { canonical: `/kw/${p.week}-${p.year}` },
-    ...(isNavigableYear(p.year) ? {} : { robots: { index: false, follow: true } }),
+    ...(isIndexableYear(p.year) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
