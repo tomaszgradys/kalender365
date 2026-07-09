@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import BlogCard from "@/components/de/BlogCard";
 import BlogPagination from "@/components/de/BlogPagination";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
@@ -38,7 +38,7 @@ export default async function BlogSeitePage({ params }: { params: Promise<{ n: s
   const { n } = await params;
   const p = parsePage(n);
   if (!p) notFound();
-  if (p === 1) redirect("/blog"); // Seite 1 lebt unter /blog (kein Duplikat).
+  if (p === 1) permanentRedirect("/blog"); // Seite 1 lebt unter /blog (308, kein Duplikat).
 
   const { posts, page, totalPages, total } = await getBlogPage(p);
   // Angeforderte Seite jenseits der letzten → 404 (keine leere, dünne Seite).
