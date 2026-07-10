@@ -8,6 +8,15 @@ import { berlinNow } from "./now";
 import { formatLongDE, MONTH_NAMES_DE } from "./locale";
 import { sanitizeHtml } from "./sanitize";
 import { radarForPrompt } from "./blogRadar";
+import { validateDraft } from "./blogQuality";
+
+/** Draft hat die Qualitätskontrolle nicht bestanden — nicht veröffentlichen. */
+export class QualityError extends Error {
+  constructor(public reasons: string[]) {
+    super(`Qualitätskontrolle fehlgeschlagen: ${reasons.join("; ")}`);
+    this.name = "QualityError";
+  }
+}
 
 const MODEL = "claude-opus-4-8";
 
@@ -91,10 +100,13 @@ Slugs: ${(opts.avoidSlugs ?? []).slice(0, 60).join(", ") || "(keine)"}`;
 
   // output_config (effort + structured JSON output) is GA on the wire; the SDK
   // param type may lag, so build the body then cast at the call boundary.
+  // Kein `thinking: adaptive` bei strukturierter JSON-Ausgabe: es teilt sich das
+  // max_tokens-Budget mit dem Artikel und kann den bodyHtml mitten im Satz
+  // abschneiden (Projekt-Lernkurve aus den Klonen). Die Reasoning-Tiefe steuert
+  // stattdessen output_config.effort. max_tokens großzügig für Headroom.
   const params = {
     model: MODEL,
-    max_tokens: 8000,
-    thinking: { type: "adaptive" as const },
+    max_tokens: 12000,
     system,
     messages: [{ role: "user" as const, content: user }],
     output_config: {
@@ -132,6 +144,14 @@ Slugs: ${(opts.avoidSlugs ?? []).slice(0, 60).join(", ") || "(keine)"}`;
   const slug = slugify(parsed.slug || parsed.title);
   const publishedAt = `${year}-${String(month0 + 1).padStart(2, "0")}-${String(berlinNow().day).padStart(2, "0")}`;
   const title = parsed.title.trim();
+  const bodyHtml = sanitizeHtml(parsed.bodyHtml.trim());
+
+  // Qualitätskontrolle VOR der (kostenpflichtigen) Titelbild-Generierung: ein
+  // zu kurzer, abgeschnittener oder falsch verlinkter Entwurf wird gar nicht
+  // erst bebildert und nicht veröffentlicht.
+  const quality = validateDraft({ title, slug, excerpt: parsed.excerpt.trim(), category: parsed.category, bodyHtml });
+  if (!quality.ok) throw new QualityError(quality.reasons);
+
   const coverUrl = await genCoverImage(parsed.imagePrompt || title);
 
   return {
@@ -139,7 +159,7 @@ Slugs: ${(opts.avoidSlugs ?? []).slice(0, 60).join(", ") || "(keine)"}`;
     slug,
     excerpt: parsed.excerpt.trim(),
     category: parsed.category,
-    bodyHtml: sanitizeHtml(parsed.bodyHtml.trim()),
+    bodyHtml,
     publishedAt,
     cover: coverUrl ? { src: coverUrl, alt: title } : undefined,
   };

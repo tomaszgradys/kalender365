@@ -53,6 +53,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt,
     datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
     articleSection: post.category,
     inLanguage: "de-DE",
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
@@ -74,7 +75,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         <span className="text-xs font-semibold uppercase tracking-wide text-brand-green-600">{post.category}</span>
         <h1 className="mt-1 text-2xl font-black text-navy-800 sm:text-3xl">{post.title}</h1>
-        <p className="mt-2 text-sm text-slate-400">{formatLongDE(post.publishedAt)}</p>
+        <p className="mt-2 text-sm text-slate-400">
+          <span>{formatLongDE(post.publishedAt)}</span>
+          <span className="mx-1.5">·</span>
+          <Link href="/ueber-uns" className="hover:text-navy-600">Redaktion {SITE_NAME}</Link>
+        </p>
 
         <div className="mt-6 overflow-hidden rounded-2xl">
           {post.cover?.src ? (

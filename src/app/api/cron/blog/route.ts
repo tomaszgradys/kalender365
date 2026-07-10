@@ -1,6 +1,6 @@
 import { getSeedPosts } from "@/lib/de/blog";
 import { existingSlugs, insertDbPost, dbConfigured } from "@/lib/de/db";
-import { generatePost } from "@/lib/de/blogGen";
+import { generatePost, QualityError } from "@/lib/de/blogGen";
 import { cronAuthorized } from "@/lib/de/cronAuth";
 
 export const runtime = "nodejs";
@@ -21,17 +21,36 @@ export async function GET(req: Request) {
     const seedTitles = getSeedPosts().map((p) => p.title);
     const dbSlugs = [...(await existingSlugs())];
 
-    const post = await generatePost({
-      avoidSlugs: [...seedSlugs, ...dbSlugs],
-      avoidTitles: seedTitles,
-    });
+    // Bis zu 2 Versuche: schlägt die Qualitätskontrolle fehl, einmal neu
+    // generieren. Qualität vor Kadenz — lieber heute kein Beitrag als ein
+    // schlechter. Andere Fehler (API/DB) werden nicht wiederholt.
+    let lastReasons: string[] = [];
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      let post;
+      try {
+        post = await generatePost({
+          avoidSlugs: [...seedSlugs, ...dbSlugs],
+          avoidTitles: seedTitles,
+        });
+      } catch (e) {
+        if (e instanceof QualityError) {
+          lastReasons = e.reasons;
+          continue; // neu versuchen
+        }
+        throw e;
+      }
 
-    if (seedSlugs.includes(post.slug) || dbSlugs.includes(post.slug)) {
-      return Response.json({ ok: false, error: "Slug bereits vorhanden", slug: post.slug }, { status: 409 });
+      if (seedSlugs.includes(post.slug) || dbSlugs.includes(post.slug)) {
+        lastReasons = [`Slug bereits vorhanden: ${post.slug}`];
+        continue;
+      }
+
+      await insertDbPost(post);
+      return Response.json({ ok: true, slug: post.slug, title: post.title, category: post.category, attempt });
     }
 
-    await insertDbPost(post);
-    return Response.json({ ok: true, slug: post.slug, title: post.title, category: post.category });
+    // Beide Versuche unter dem Qualitätsniveau → bewusst nichts veröffentlichen.
+    return Response.json({ ok: false, skipped: true, reason: "Qualitätskontrolle", details: lastReasons }, { status: 200 });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Unbekannter Fehler";
     return Response.json({ ok: false, error: msg }, { status: 500 });
