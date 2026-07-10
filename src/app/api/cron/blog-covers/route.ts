@@ -3,22 +3,14 @@
 // ursprünglichen Generieren kurzzeitig nicht erreichbar war).
 import { postsMissingCover, updateDbPostCover, dbConfigured } from "@/lib/de/db";
 import { genCoverImage } from "@/lib/de/blogGen";
+import { cronAuthorized } from "@/lib/de/cronAuth";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
-function authorized(req: Request): boolean {
-  const secret = process.env.CRON_SECRET;
-  if (!secret) return true;
-  const auth = req.headers.get("authorization");
-  if (auth === `Bearer ${secret}`) return true;
-  const url = new URL(req.url);
-  return url.searchParams.get("secret") === secret;
-}
-
 export async function GET(req: Request) {
-  if (!authorized(req)) return new Response("Unauthorized", { status: 401 });
+  if (!cronAuthorized(req)) return new Response("Unauthorized", { status: 401 });
   if (!process.env.FAL_KEY) {
     return Response.json({ ok: false, error: "FAL_KEY fehlt" }, { status: 503 });
   }

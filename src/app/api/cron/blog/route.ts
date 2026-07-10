@@ -1,22 +1,14 @@
 import { getSeedPosts } from "@/lib/de/blog";
 import { existingSlugs, insertDbPost, dbConfigured } from "@/lib/de/db";
 import { generatePost } from "@/lib/de/blogGen";
+import { cronAuthorized } from "@/lib/de/cronAuth";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
-function authorized(req: Request): boolean {
-  const secret = process.env.CRON_SECRET;
-  if (!secret) return true; // no secret configured → allow (e.g. local dev)
-  const auth = req.headers.get("authorization");
-  if (auth === `Bearer ${secret}`) return true; // Vercel Cron sends this
-  const url = new URL(req.url);
-  return url.searchParams.get("secret") === secret;
-}
-
 export async function GET(req: Request) {
-  if (!authorized(req)) return new Response("Unauthorized", { status: 401 });
+  if (!cronAuthorized(req)) return new Response("Unauthorized", { status: 401 });
   if (!process.env.ANTHROPIC_API_KEY) {
     return Response.json({ ok: false, error: "ANTHROPIC_API_KEY fehlt" }, { status: 503 });
   }

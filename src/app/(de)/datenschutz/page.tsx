@@ -40,12 +40,21 @@ export default function DatenschutzPage() {
         Zur Verbesserung der Bedienung speichern wir Ihre zuletzt gewählte Auswahl (z. B. Ihr Bundesland) lokal in
         Ihrem Browser. Diese Daten verlassen Ihr Gerät nicht und werden nicht an uns übertragen.
       </p>
-      <h2>5. Ihre Rechte</h2>
+      <h2>5. Kontaktaufnahme per E-Mail</h2>
+      <p>
+        Wenn Sie uns per E-Mail kontaktieren, verarbeiten wir Ihre Angaben (E-Mail-Adresse, Inhalt der Nachricht)
+        ausschließlich zur Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+        Interesse an der Beantwortung von Anfragen), bei vertragsbezogenen Anliegen Art. 6 Abs. 1 lit. b DSGVO. Wir
+        löschen diese Daten, sobald Ihre Anfrage abschließend geklärt ist und keine gesetzlichen
+        Aufbewahrungspflichten entgegenstehen. Ein Kontaktformular betreiben wir nicht; es werden keine Daten über
+        die Website an uns übermittelt.
+      </p>
+      <h2>6. Ihre Rechte</h2>
       <p>
         Sie haben nach der DSGVO das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
         Datenübertragbarkeit und Widerspruch sowie ein Beschwerderecht bei einer Aufsichtsbehörde.
       </p>
-      <h2>6. Cookies</h2>
+      <h2>7. Cookies</h2>
       <p>
         Einzelheiten zu eingesetzten Cookies finden Sie in den <a href="/cookies">Cookie-Einstellungen</a>.
       </p>

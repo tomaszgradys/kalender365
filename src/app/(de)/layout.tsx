@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { geistSans, geistMono } from "@/lib/fonts";
 import { SITE_URL, SITE_NAME } from "@/lib/de/site";
+import { serializeJsonLd } from "@/lib/de/jsonLd";
 import { berlinNow } from "@/lib/de/now";
 import Header from "@/components/de/Header";
 import Footer from "@/components/de/Footer";
@@ -74,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-[var(--background)] text-navy-900">
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(orgLd) }} />
         <Header year={year} />
         {children}
         <Footer />

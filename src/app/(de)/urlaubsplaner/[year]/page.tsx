@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear, yearRobots, isNavigableYear } from "@/lib/de/year";
 import { SITE_URL } from "@/lib/de/site";
+import { serializeJsonLd } from "@/lib/de/jsonLd";
 import UrlaubsplanerClient from "@/components/de/UrlaubsplanerClient";
 
 export function generateStaticParams() {
@@ -77,8 +78,8 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
 
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(appLd) }} />
       <PageWithSidebar>
         <Breadcrumbs
           className="no-print"
