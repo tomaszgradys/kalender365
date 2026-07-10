@@ -10,6 +10,7 @@ import { getNationalFeiertage } from "@/lib/de/feiertage";
 import { berlinISOWeek } from "@/lib/de/now";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 // Prerender the current and next year's weeks; older/future weeks via ISR.
 export function generateStaticParams() {
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `KW ${p.week} ${p.year} – Datum, Wochentage & Kalenderwoche`,
     description: `Kalenderwoche ${p.week} ${p.year}: vom ${formatShortDE(iso(r.start))} bis ${formatShortDE(iso(r.end))}. Alle Tage der KW ${p.week} nach ISO 8601.`,
     alternates: { canonical: `/kw/${p.week}-${p.year}` },
+    openGraph: ogMeta(`/kw/${p.week}-${p.year}`),
     ...(isIndexableYear(p.year) ? {} : { robots: { index: false, follow: true } }),
   };
 }

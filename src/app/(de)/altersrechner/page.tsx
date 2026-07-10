@@ -5,11 +5,13 @@ import { AltersRechner } from "@/components/de/Rechner";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import RelatedLinks from "@/components/de/RelatedLinks";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Altersrechner – Alter genau berechnen",
   description: "Berechnen Sie Ihr genaues Alter in Jahren, Monaten und Tagen – plus Gesamttage, Wochentag der Geburt und Countdown bis zum nächsten Geburtstag.",
   alternates: { canonical: "/altersrechner" },
+  openGraph: ogMeta("/altersrechner", { defaultImage: true }),
 };
 
 export default function AltersRechnerPage() {

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
 import { COMPANY, SITE_NAME } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
   description: `Datenschutzerklärung von ${SITE_NAME} gemäß DSGVO.`,
   alternates: { canonical: "/datenschutz" },
+  openGraph: ogMeta("/datenschutz", { defaultImage: true }),
 };
 
 export default function DatenschutzPage() {

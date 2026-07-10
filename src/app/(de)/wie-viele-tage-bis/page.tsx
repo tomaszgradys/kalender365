@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { COUNTDOWNS, berlinMidnight } from "@/lib/de/countdowns";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 3600;
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: "Countdown – Wie viele Tage bis Weihnachten, Ostern & mehr",
   description: "Countdowns bis zu den beliebtesten Terminen: Weihnachten, Silvester, Ostern, Sommeranfang, Sommerferien und mehr – mit genauem Datum.",
   alternates: { canonical: "/wie-viele-tage-bis" },
+  openGraph: ogMeta("/wie-viele-tage-bis", { defaultImage: true }),
 };
 
 function pad(n: number) {

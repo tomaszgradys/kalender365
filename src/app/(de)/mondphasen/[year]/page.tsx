@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import MoonPhasesView from "@/components/de/MoonPhasesView";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Mondphasen ${y} – Vollmond, Neumond & Uhrzeiten`,
     description: `Alle Mondphasen ${y} mit genauen Uhrzeiten (Europe/Berlin): Neumond, Erstes Viertel, Vollmond, Letztes Viertel – inkl. Sternzeichen und Blue Moon.`,
     alternates: { canonical: `/mondphasen/${y}` },
+    openGraph: ogMeta(`/mondphasen/${y}`),
     ...yearRobots(y),
   };
 }

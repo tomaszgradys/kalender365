@@ -10,6 +10,7 @@ import { sternzeichenByDate } from "@/lib/de/sternzeichen";
 import { getBauernregel } from "@/lib/de/bauernregeln";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 86400;
 
@@ -41,6 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ datum: st
       ? `Am ${label} haben ${names.join(", ")} Namenstag. Bedeutung, Datum und Kalenderblatt zum ${label}.`
       : `Namenstag am ${label} im Heiligenkalender.`,
     alternates: { canonical: `/namenstage/${datum}` },
+    openGraph: ogMeta(`/namenstage/${datum}`, { defaultImage: true }),
     // Dünne Tage ohne hinterlegten Namenstag (rund 240 von 366) werden von
     // jedem Kalenderblatt verlinkt – bleiben crawlbar, aber aus dem Index.
     ...(names.length ? {} : { robots: { index: false, follow: true } }),

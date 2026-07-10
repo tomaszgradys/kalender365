@@ -6,11 +6,13 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import RelatedLinks from "@/components/de/RelatedLinks";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Tage-Rechner – Tage zwischen zwei Daten berechnen",
   description: "Berechnen Sie kostenlos die Anzahl der Tage zwischen zwei Daten – mit und ohne Start-/Endtag.",
   alternates: { canonical: "/tage-rechner" },
+  openGraph: ogMeta("/tage-rechner", { defaultImage: true }),
 };
 
 export default function TageRechnerPage() {

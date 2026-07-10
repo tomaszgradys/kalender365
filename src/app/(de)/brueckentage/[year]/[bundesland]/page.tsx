@@ -9,6 +9,8 @@ import { getBrueckentage, getLangeWochenenden } from "@/lib/de/brueckentage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Brückentage ${y} ${state.name} – Urlaub clever planen`,
     description: `Die besten Brückentage ${y} in ${state.name}: mit wenigen Urlaubstagen lange Wochenenden. Alle Termine mit Feiertagen und Empfehlung nach Effizienz.`,
     alternates: { canonical: `/brueckentage/${y}/${state.slug}` },
+    openGraph: ogMeta(`/brueckentage/${y}/${state.slug}`),
     ...yearRobots(y),
   };
 }
@@ -116,6 +119,7 @@ export default async function BrueckentageStatePage({ params }: { params: Promis
             { q: "Habe ich Anspruch auf freie Brückentage?", a: "Nein, ein Brückentag ist ein regulärer Arbeitstag und muss als Urlaub beantragt werden. Manche Betriebe schließen an Brückentagen aber freiwillig." },
           ]}
         />
+        <ShareButtons title={`Brückentage ${y} in ${state.name}`} />
       </PageWithSidebar>
     </div>
   );

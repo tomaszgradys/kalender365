@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { berlinNow } from "@/lib/de/now";
 import KalenderAusdrucken from "@/components/de/KalenderAusdrucken";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Kalender ${y} zum Ausdrucken – kostenlos als PDF & Excel`,
     description: `Kalender ${y} kostenlos als PDF und Excel zum Ausdrucken: Jahreskalender (Quer- & Hochformat), Jahresplaner, Halbjahres- und Monatskalender mit Kalenderwochen und Feiertagen, auch nach Bundesland.`,
     alternates: { canonical: isCurrent ? "/kalender-zum-ausdrucken" : `/kalender-zum-ausdrucken/${y}` },
+    openGraph: ogMeta(isCurrent ? "/kalender-zum-ausdrucken" : `/kalender-zum-ausdrucken/${y}`, { defaultImage: true }),
     ...yearRobots(y),
   };
 }

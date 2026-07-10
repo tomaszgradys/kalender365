@@ -10,8 +10,10 @@ import { arbeitstageInYear } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
 import type { QA } from "@/lib/de/jsonLd";
 import { PRERENDER_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Feiertage ${y} ${state.name} – gesetzliche Feiertage & Brückentage`,
     description: `Alle gesetzlichen Feiertage ${y} in ${state.name} mit Datum, Wochentag, Brückentagen und Arbeitstagen. Kalender zum Ausdrucken.`,
     alternates: { canonical: `/feiertage/${y}/${state.slug}` },
+    openGraph: ogMeta(`/feiertage/${y}/${state.slug}`),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
@@ -185,6 +188,7 @@ export default async function FeiertageStatePage({ params }: { params: Promise<{
           ]}
         />
         <Faq items={faq} />
+        <ShareButtons title={`Feiertage ${y} in ${state.name}`} />
       </PageWithSidebar>
     </div>
   );

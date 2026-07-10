@@ -6,11 +6,13 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import RelatedLinks from "@/components/de/RelatedLinks";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Wochentag-Rechner – an welchem Wochentag liegt ein Datum?",
   description: "Finden Sie heraus, auf welchen Wochentag ein beliebiges Datum fällt – für Geburtstage, Termine und Jubiläen.",
   alternates: { canonical: "/wochentag-rechner" },
+  openGraph: ogMeta("/wochentag-rechner", { defaultImage: true }),
 };
 
 export default function WochentagRechnerPage() {

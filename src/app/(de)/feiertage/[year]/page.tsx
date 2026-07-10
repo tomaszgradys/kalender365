@@ -9,7 +9,9 @@ import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
 import { PRERENDER_YEARS, parseYear, isIndexableYear } from "@/lib/de/year";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Feiertage ${y} Deutschland – alle gesetzlichen Feiertage`,
     description: `Alle gesetzlichen Feiertage ${y} in Deutschland mit Datum, Wochentag und Bundesland. Bundesweite und regionale Feiertage im Überblick, mit Bundesland-Auswahl.`,
     alternates: { canonical: `/feiertage/${y}` },
+    openGraph: ogMeta(`/feiertage/${y}`),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
@@ -260,6 +263,7 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
           ]}
         />
         <Faq items={faq} />
+        <ShareButtons title={`Feiertage ${y} in Deutschland`} />
       </PageWithSidebar>
     </div>
   );

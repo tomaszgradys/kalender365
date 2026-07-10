@@ -7,6 +7,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
 import { SITE_URL } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 86400;
 
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `Sternzeichen ${z.name} – Datum, Element & Eigenschaften`,
     description: `${z.name} (${z.zeitraum}): Element ${z.element}, Planet ${z.planet}. ${z.kurz} Alles zum Tierkreiszeichen ${z.name}.`,
     alternates: { canonical: `/sternzeichen/${z.slug}` },
+    openGraph: ogMeta(`/sternzeichen/${z.slug}`),
   };
 }
 

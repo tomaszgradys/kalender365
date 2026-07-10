@@ -15,6 +15,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
 import { SITE_URL } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   const out: { year: string; slug: string }[] = [];
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `${e.name} ${y} – Datum, Termin & Bedeutung`,
     description: `${e.name} ${y} ist am ${formatLongDE(iso)} (${weekdayDE(iso)}). ${e.intro}`.slice(0, 300),
     alternates: { canonical: `/besondere-tage/${y}/${e.slug}` },
+    openGraph: ogMeta(`/besondere-tage/${y}/${e.slug}`, { defaultImage: true }),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }

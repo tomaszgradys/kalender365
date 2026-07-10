@@ -7,6 +7,7 @@ import { berlinNow } from "./now";
 import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from "./ogImage";
 import FerienTypView from "@/components/de/FerienTypView";
 import FerienTypYearView from "@/components/de/FerienTypYearView";
+import { ogMeta } from "./ogMeta";
 
 type Params = { year: string; bundesland: string };
 
@@ -29,6 +30,7 @@ export function makeFerienTypRoute(typ: FerienTyp) {
       title: `${label} ${y} ${state.name} – Termine & Ferienkalender`,
       description: `${label} ${y} in ${state.name}: genaue Termine, Dauer und Ferienkalender. Quelle: Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}/${state.slug}` },
+      openGraph: ogMeta(`/${typ}/${y}/${state.slug}`),
       ...(indexable ? {} : { robots: { index: false, follow: true } }),
     };
   }
@@ -73,6 +75,7 @@ export function makeFerienTypYearRoute(typ: FerienTyp) {
       title: `${label} ${y} – Termine aller Bundesländer im Überblick`,
       description: `${label} ${y} in Deutschland: Termine und Dauer für alle 16 Bundesländer auf einen Blick. Quelle: offizielle Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}` },
+      openGraph: ogMeta(`/${typ}/${y}`),
       ...(isFerienTypYearIndexable(y, typ) ? {} : { robots: { index: false, follow: true } }),
     };
   }

@@ -5,6 +5,7 @@ import { berlinNow } from "@/lib/de/now";
 import SonnenzeitenClient from "@/components/de/SonnenzeitenClient";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 3600;
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Sonnenaufgang & Sonnenuntergang – Zeiten für Deutschland",
   description: "Sonnenaufgang, Sonnenuntergang und Tageslänge für deutsche Städte – tagesgenau, mit Ortsauswahl. Zeiten in MEZ/MESZ.",
   alternates: { canonical: "/sonnenaufgang-sonnenuntergang" },
+  openGraph: ogMeta("/sonnenaufgang-sonnenuntergang", { defaultImage: true }),
 };
 
 export default function SonnenzeitenPage() {

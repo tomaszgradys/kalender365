@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
 import { SITE_NAME } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Nutzungsbedingungen",
   description: `Nutzungsbedingungen für ${SITE_NAME}.`,
   alternates: { canonical: "/nutzungsbedingungen" },
+  openGraph: ogMeta("/nutzungsbedingungen", { defaultImage: true }),
 };
 
 export default function NutzungsbedingungenPage() {

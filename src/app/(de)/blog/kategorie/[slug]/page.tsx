@@ -5,6 +5,7 @@ import BlogCard from "@/components/de/BlogCard";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Breadcrumbs from "@/components/de/Breadcrumbs";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 import {
   BLOG_CATEGORIES,
   BLOG_CATEGORY_META,
@@ -38,6 +39,7 @@ export async function generateMetadata({
     title: `${meta.title} – Ratgeber & Wissen`,
     description: meta.metaDescription,
     alternates: { canonical: `/blog/kategorie/${meta.slug}` },
+    openGraph: ogMeta(`/blog/kategorie/${meta.slug}`, { defaultImage: true }),
   };
 }
 

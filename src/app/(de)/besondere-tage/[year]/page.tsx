@@ -18,6 +18,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
 import { SITE_URL } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Besondere Tage ${y} – Muttertag, Vatertag, Karneval & Advent`,
     description: `Alle wichtigen Anlässe ${y} auf einen Blick: Muttertag, Vatertag, Karneval (Rosenmontag, Weiberfastnacht), Advent, Nikolaus, Halloween, Silvester & mehr – mit Datum und Wochentag.`,
     alternates: { canonical: `/besondere-tage/${y}` },
+    openGraph: ogMeta(`/besondere-tage/${y}`, { defaultImage: true }),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
   };
 }

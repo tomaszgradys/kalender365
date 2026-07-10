@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
 import { COMPANY, SITE_NAME } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Kontakt",
   description: `Kontakt zu ${SITE_NAME}.`,
   alternates: { canonical: "/kontakt" },
+  openGraph: ogMeta("/kontakt", { defaultImage: true }),
 };
 
 export default function KontaktPage() {

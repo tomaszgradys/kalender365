@@ -2,11 +2,13 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Link from "next/link";
 import type { Metadata } from "next";
 import CountdownGeneric from "@/components/de/CountdownGeneric";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Countdown-Rechner – Tage bis zu einem Datum",
   description: "Countdown zu einem beliebigen Datum: Wählen Sie ein Zieldatum und sehen Sie live, wie viele Tage, Stunden und Minuten noch bleiben.",
   alternates: { canonical: "/countdown" },
+  openGraph: ogMeta("/countdown", { defaultImage: true }),
 };
 
 export default function CountdownToolPage() {

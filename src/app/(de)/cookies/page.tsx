@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
 import { SITE_NAME } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Cookies & Einstellungen",
   description: `Informationen zu Cookies und lokaler Speicherung bei ${SITE_NAME}.`,
   alternates: { canonical: "/cookies" },
+  openGraph: ogMeta("/cookies", { defaultImage: true }),
 };
 
 export default function CookiesPage() {

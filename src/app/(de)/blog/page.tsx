@@ -5,6 +5,7 @@ import BlogPagination from "@/components/de/BlogPagination";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import { getBlogPage } from "@/lib/de/blogPaging";
 import { BLOG_CATEGORIES, categorySlug } from "@/lib/de/blog";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 600;
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   description:
     "Ratgeber und Wissenswertes rund um Kalender, Feiertage, Schulferien, Brückentage, Kalenderwochen und Zeitumstellung in Deutschland.",
   alternates: { canonical: "/blog" },
+  openGraph: ogMeta("/blog", { defaultImage: true }),
 };
 
 export default async function BlogIndexPage() {

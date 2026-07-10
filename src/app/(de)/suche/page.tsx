@@ -7,11 +7,13 @@ import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import { routes } from "@/lib/de/routes";
 import { getAllPosts } from "@/lib/de/blog";
 import { parseYear } from "@/lib/de/year";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Suche – Kalender365.pro",
   description: "Suchen Sie Kalender, Feiertage, Schulferien, Brückentage, ein Datum, einen Monat oder ein Jahr auf kalender365.pro.",
   alternates: { canonical: "/suche" },
+  openGraph: ogMeta("/suche", { defaultImage: true }),
   robots: { index: false, follow: true }, // Suchergebnisseite — nicht indexieren.
 };
 

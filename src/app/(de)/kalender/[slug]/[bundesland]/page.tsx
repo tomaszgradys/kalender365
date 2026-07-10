@@ -5,6 +5,7 @@ import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 import { parseKalenderSlug } from "@/lib/de/calendar";
 import { stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
 import { KalenderYear, KalenderMonth } from "@/components/de/KalenderView";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 // Prerender: year × state for the whole window, plus month × state for the
 // current and next year (rest render on-demand via ISR).
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `Kalender ${parsed.year} ${state.name} – Feiertage & Ferien`,
       description: `Jahreskalender ${parsed.year} für ${state.name} mit gesetzlichen Feiertagen, Kalenderwochen und Arbeitstagen. Zum Ausdrucken.`,
       alternates: { canonical: `/kalender/${parsed.year}/${state.slug}` },
+      openGraph: ogMeta(`/kalender/${parsed.year}/${state.slug}`),
       ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
     };
   }
@@ -40,6 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `Kalender ${mName} ${parsed.year} ${state.name} – Feiertage & KW`,
     description: `Monatskalender ${mName} ${parsed.year} für ${state.name} mit Kalenderwochen, Feiertagen und Arbeitstagen.`,
     alternates: { canonical: `/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}/${state.slug}` },
+    openGraph: ogMeta(`/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}/${state.slug}`),
     ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),
   };
 }

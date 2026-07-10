@@ -12,6 +12,7 @@ import TearOff from "@/components/de/TearOff";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 // Zeigt das heutige Kalenderblatt — muss revalidieren, darf nicht auf den
 // Build-Zeitpunkt eingefroren sein.
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
   description:
     "Monatskalender, Jahreskalender, Feiertage, Schulferien, Arbeitstage, Kalenderwochen, Mondphasen und PDF – kostenlos für Deutschland und alle Bundesländer.",
   alternates: { canonical: "/" },
+  openGraph: ogMeta("/"),
 };
 
 // Indexierbares Jahresfenster für die Startseiten-Kachelliste.

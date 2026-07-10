@@ -8,6 +8,8 @@ import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Brückentage ${y} – Urlaub clever planen`,
     description: `Die besten Brückentage ${y} in Deutschland: mit wenigen Urlaubstagen lange Wochenenden planen. Mit Bundesland-Auswahl.`,
     alternates: { canonical: `/brueckentage/${y}` },
+    openGraph: ogMeta(`/brueckentage/${y}`),
     ...yearRobots(y),
   };
 }
@@ -93,6 +96,7 @@ export default async function BrueckentageHubPage({ params }: { params: Promise<
             { q: `Wie plane ich meinen Urlaub ${y} am besten?`, a: `Legen Sie Urlaubstage gezielt auf Brückentage rund um Feiertage, die auf Dienstag oder Donnerstag fallen. Der Urlaubsplaner ${y} berechnet die effizientesten Kombinationen automatisch.` },
           ]}
         />
+        <ShareButtons title={`Brückentage ${y} in Deutschland`} />
       </PageWithSidebar>
     </div>
   );

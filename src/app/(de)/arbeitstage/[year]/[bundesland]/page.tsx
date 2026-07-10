@@ -7,6 +7,7 @@ import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { MONTH_NAMES_DE } from "@/lib/de/locale";
 import { arbeitstageInYear, werktageInYear, workingDaysByMonth } from "@/lib/de/arbeitstage";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.flatMap((y) => STATE_SLUGS.map((slug) => ({ year: String(y), bundesland: slug })));
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Arbeitstage ${y} ${state.name} – pro Monat & Jahr`,
     description: `Arbeitstage ${y} in ${state.name}: Anzahl pro Monat und im Jahr bei einer 5-Tage-Woche, inklusive gesetzlicher Feiertage. Auch Werktage.`,
     alternates: { canonical: `/arbeitstage/${y}/${state.slug}` },
+    openGraph: ogMeta(`/arbeitstage/${y}/${state.slug}`, { defaultImage: true }),
     ...yearRobots(y),
   };
 }

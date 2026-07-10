@@ -9,6 +9,7 @@ import { formatShortDE } from "@/lib/de/locale";
 import { berlinISOWeek } from "@/lib/de/now";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 3600;
 
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Kalenderwochen ${y} – alle KW von 1 bis ${count}`,
     description: `Alle Kalenderwochen ${y} nach ISO 8601: Start- und Enddatum jeder KW, aktuelle Woche und Tabelle zum Kopieren.`,
     alternates: { canonical: `/kalenderwochen/${y}` },
+    openGraph: ogMeta(`/kalenderwochen/${y}`),
     ...yearRobots(y),
   };
 }

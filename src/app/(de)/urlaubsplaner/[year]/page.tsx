@@ -7,6 +7,7 @@ import { PRERENDER_YEARS, parseYear, yearRobots, isNavigableYear } from "@/lib/d
 import { SITE_URL } from "@/lib/de/site";
 import { serializeJsonLd } from "@/lib/de/jsonLd";
 import UrlaubsplanerClient from "@/components/de/UrlaubsplanerClient";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Urlaubsplaner ${y} – Brückentage & lange Wochenenden optimal planen`,
     description: `Urlaubsplaner ${y}: Urlaubstage und Bundesland eingeben, und der Planer zeigt die besten Brückentage für maximal viele freie Tage. Familienmodus mit Schulferien, Tage selbst anpassen, als PDF drucken.`,
     alternates: { canonical: `/urlaubsplaner/${y}` },
+    openGraph: ogMeta(`/urlaubsplaner/${y}`, { defaultImage: true }),
     ...yearRobots(y),
   };
 }

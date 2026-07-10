@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "So berechnen wir",
   description:
     "Methodik hinter Kalender365: Wie wir Feiertage, Ostern, Kalenderwochen, Arbeitstage, Brückentage und Schulferien berechnen.",
   alternates: { canonical: "/so-berechnen-wir" },
+  openGraph: ogMeta("/so-berechnen-wir", { defaultImage: true }),
 };
 
 export default function SoBerechnenWirPage() {

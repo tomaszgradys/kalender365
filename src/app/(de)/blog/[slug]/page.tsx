@@ -5,9 +5,11 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getSeedPosts, CATEGORY_GRADIENT } from "@/lib/de/blog";
 import { formatLongDE } from "@/lib/de/locale";
 import { SITE_URL, SITE_NAME } from "@/lib/de/site";
+import { OG_STANDARD_IMAGE } from "@/lib/de/ogMeta";
 import { serializeJsonLd } from "@/lib/de/jsonLd";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
 import EventArt from "@/components/de/EventArt";
 import { berlinNow } from "@/lib/de/now";
 
@@ -28,9 +30,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
+      url: `/blog/${post.slug}`,
+      siteName: SITE_NAME,
+      locale: "de_DE",
       title: post.title,
       description: post.excerpt,
-      images: post.cover ? [{ url: post.cover.src, alt: post.cover.alt, width: 1216, height: 640 }] : undefined,
+      images: post.cover
+        ? [{ url: post.cover.src, alt: post.cover.alt, width: 1216, height: 640 }]
+        : [{ url: OG_STANDARD_IMAGE, alt: post.title, width: 1200, height: 630 }],
     },
   };
 }
@@ -109,6 +116,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         />
 
         {post.faq && post.faq.length > 0 && <Faq items={post.faq} />}
+
+        <ShareButtons title={post.title} />
 
         {related.length > 0 && (
           <section className="mt-10 border-t border-slate-100 pt-6">

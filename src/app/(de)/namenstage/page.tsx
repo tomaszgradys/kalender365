@@ -9,6 +9,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import ModuleHero from "@/components/de/ModuleHero";
 import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 86400;
 
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "Namenstage – Kalender aller Namenstage im Jahr",
   description: "Namenstag heute und alle Namenstage im Jahresüberblick: Wann hat welcher Vorname Namenstag? Mit alphabetischem Namensverzeichnis nach dem Heiligenkalender.",
   alternates: { canonical: "/namenstage" },
+  openGraph: ogMeta("/namenstage", { defaultImage: true }),
 };
 
 function mmdd(month0: number, day: number): string {

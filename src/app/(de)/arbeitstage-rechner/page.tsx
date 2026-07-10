@@ -6,11 +6,13 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import RelatedLinks from "@/components/de/RelatedLinks";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Arbeitstage-Rechner – Arbeitstage im Zeitraum berechnen",
   description: "Berechnen Sie die Anzahl der Arbeitstage zwischen zwei Daten je nach Bundesland (5-Tage-Woche, ohne gesetzliche Feiertage).",
   alternates: { canonical: "/arbeitstage-rechner" },
+  openGraph: ogMeta("/arbeitstage-rechner", { defaultImage: true }),
 };
 
 export default function ArbeitstageRechnerPage() {

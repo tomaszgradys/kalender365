@@ -21,6 +21,7 @@ import Faq from "@/components/de/Faq";
 import { serializeJsonLd, breadcrumbLd } from "@/lib/de/jsonLd";
 import { SITE_URL } from "@/lib/de/site";
 import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 const TAG_ORDER: MondTag[] = ["Frucht", "Wurzel", "Blüte", "Blatt"];
 
@@ -53,6 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `Mondkalender ${p.year} – Aussaattage & Gärtnern nach dem Mond`,
       description: `Mondkalender ${p.year}: Frucht-, Wurzel-, Blüten- und Blatttage, Mondphasen und Aussaattage Monat für Monat – Gärtnern nach dem Mond.`,
       alternates: { canonical: `/mondkalender/${p.year}` },
+      openGraph: ogMeta(`/mondkalender/${p.year}`),
       ...robots,
     };
   }
@@ -60,6 +62,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `Mondkalender ${MONTH_NAMES_DE[p.month0]} ${p.year} – Aussaattage`,
     description: `Aussaatkalender für ${MONTH_NAMES_DE[p.month0]} ${p.year}: Mondzeichen, Frucht-, Wurzel-, Blüten- und Blatttage sowie zu- und abnehmender Mond – Tag für Tag.`,
     alternates: { canonical: `/mondkalender/${MONTH_SLUGS_DE[p.month0]}-${p.year}` },
+    openGraph: ogMeta(`/mondkalender/${MONTH_SLUGS_DE[p.month0]}-${p.year}`),
     ...robots,
   };
 }

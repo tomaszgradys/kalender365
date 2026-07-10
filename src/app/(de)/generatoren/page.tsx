@@ -2,11 +2,13 @@ import PageWithSidebar from "@/components/de/PageWithSidebar";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Tools & Rechner – Kalender, Arbeitstage & Termine",
   description: "Kostenlose Kalender-Tools: Tage-Rechner, Arbeitstage-Rechner, Wochentag-Rechner, Urlaubsplaner und mehr.",
   alternates: { canonical: "/generatoren" },
+  openGraph: ogMeta("/generatoren", { defaultImage: true }),
 };
 
 export default function GeneratorenPage() {

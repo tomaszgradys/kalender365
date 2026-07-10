@@ -6,9 +6,11 @@ import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear } from "@/lib/de/year";
 import { formatLongDE } from "@/lib/de/locale";
 import { BUNDESLAENDER, stateBySlug, STATE_SLUGS } from "@/lib/de/bundeslaender";
+import ShareButtons from "@/components/de/ShareButtons";
 import { getSchulferien, isSchulferienIndexable, FERIEN_TYP_LABEL } from "@/lib/de/schulferien";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 function inclDays(startISO: string, endISO: string): number {
   return Math.round((Date.parse(endISO + "T00:00:00Z") - Date.parse(startISO + "T00:00:00Z")) / 86400000) + 1;
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Schulferien ${y} ${state.name} – Ferienkalender`,
     description: `Alle Schulferien ${y} in ${state.name}: Winter-, Oster-, Pfingst-, Sommer-, Herbst- und Weihnachtsferien mit genauen Terminen.`,
     alternates: { canonical: `/schulferien/${y}/${state.slug}` },
+    openGraph: ogMeta(`/schulferien/${y}/${state.slug}`),
     ...(indexable ? {} : { robots: { index: false, follow: true } }),
   };
 }
@@ -138,6 +141,8 @@ export default async function SchulferienStatePage({ params }: { params: Promise
             ))}
           </div>
         </section>
+
+        <ShareButtons title={`Schulferien ${y} in ${state.name}`} />
       </PageWithSidebar>
     </div>
   );

@@ -15,6 +15,8 @@ import {
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -62,6 +64,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Schulferien ${y} in Deutschland – Ferienkalender aller Bundesländer`,
     description: `Schulferien ${y} für alle 16 Bundesländer: Winter-, Oster-, Pfingst-, Sommer-, Herbst- und Weihnachtsferien. Termine je nach Bundesland.`,
     alternates: { canonical: `/schulferien/${y}` },
+    openGraph: ogMeta(`/schulferien/${y}`),
     ...(anyVerified ? {} : { robots: { index: false, follow: true } }),
   };
 }
@@ -184,6 +187,7 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
             { q: "Sind bewegliche Ferientage hier enthalten?", a: "Nein. Bewegliche Ferientage werden von den einzelnen Schulen bzw. Schulaufsichten vergeben und sind nicht Teil der landesweiten Ferientermine." },
           ]}
         />
+        <ShareButtons title={`Schulferien ${y} in Deutschland`} />
       </PageWithSidebar>
     </div>
   );

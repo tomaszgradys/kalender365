@@ -8,6 +8,8 @@ import { formatFullDE, formatLongDE, weekdayDE } from "@/lib/de/locale";
 import CountdownClient from "@/components/de/CountdownClient";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 3600;
 
@@ -23,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ event: st
     title: `Wie viele Tage bis ${c.title}? – Countdown`,
     description: `Countdown bis ${c.title}: wie viele Tage, Stunden und Minuten noch bleiben. Mit genauem Datum.`,
     alternates: { canonical: `/wie-viele-tage-bis/${c.slug}` },
+    openGraph: ogMeta(`/wie-viele-tage-bis/${c.slug}`),
   };
 }
 
@@ -123,6 +126,7 @@ export default async function CountdownEventPage({ params }: { params: Promise<{
           ]}
         />
         <Faq items={faq} />
+        <ShareButtons title={`Countdown bis ${c.title}`} />
       </PageWithSidebar>
     </div>
   );

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/de/Breadcrumbs";
+import ShareButtons from "@/components/de/ShareButtons";
 import { formatFullDE, formatLongDE, MONTH_SLUGS_DE, MONTH_NAMES_DE } from "@/lib/de/locale";
 import { isoWeekOf } from "@/lib/de/now";
 import { getAllFeiertage } from "@/lib/de/feiertage";
@@ -12,6 +13,7 @@ import { getNamenstage } from "@/lib/de/namenstage";
 import { getBauernregel } from "@/lib/de/bauernregeln";
 import { sternzeichenByDate } from "@/lib/de/sternzeichen";
 import { getAnlaesseAmTag } from "@/lib/de/besondereTage";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 function pad(n: number) {
   return n.toString().padStart(2, "0");
@@ -49,6 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
     title: `Kalenderblatt ${formatLongDE(p.iso)} – Tag, KW, Feiertag & Mond`,
     description: `Kalenderblatt für den ${formatFullDE(p.iso)}: Kalenderwoche, Tag des Jahres, Feiertage, Mondphase sowie Sonnenauf- und -untergang.`,
     alternates: { canonical: `/kalenderblatt/${p.iso}` },
+    openGraph: ogMeta(`/kalenderblatt/${p.iso}`),
     ...(isIndexableYear(p.y) ? {} : { robots: { index: false, follow: true } }),
   };
 }
@@ -172,6 +175,8 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
           <Link href={`/kalender/${monthSlug}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Monat {MONTH_NAMES_DE[p.m0]} {p.y}</Link>
           <Link href={`/kalender/${p.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Kalender {p.y}</Link>
         </div>
+
+        <ShareButtons title={`Kalenderblatt ${formatLongDE(p.iso)}`} />
       </div>
     </div>
   );

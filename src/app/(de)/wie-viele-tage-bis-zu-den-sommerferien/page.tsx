@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import SommerferienCountdown from "@/components/de/SommerferienCountdown";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 3600;
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: "Wie viele Tage bis zu den Sommerferien? – nach Bundesland",
   description: "Countdown bis zu den Sommerferien: Bundesland wählen und live sehen, wie viele Tage noch bis zum ersten Ferientag bleiben.",
   alternates: { canonical: "/wie-viele-tage-bis-zu-den-sommerferien" },
+  openGraph: ogMeta("/wie-viele-tage-bis-zu-den-sommerferien", { defaultImage: true }),
 };
 
 export default function SommerferienCountdownPage() {

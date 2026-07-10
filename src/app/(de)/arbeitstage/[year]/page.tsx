@@ -9,6 +9,7 @@ import { arbeitstageInYear } from "@/lib/de/arbeitstage";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Arbeitstage ${y} – nach Bundesland berechnen`,
     description: `Anzahl der Arbeitstage ${y} pro Bundesland bei einer 5-Tage-Woche, unter Berücksichtigung der gesetzlichen Feiertage. Mit Bundesland-Auswahl.`,
     alternates: { canonical: `/arbeitstage/${y}` },
+    openGraph: ogMeta(`/arbeitstage/${y}`, { defaultImage: true }),
     ...yearRobots(y),
   };
 }

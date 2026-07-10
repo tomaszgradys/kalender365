@@ -6,6 +6,7 @@ import BlogPagination from "@/components/de/BlogPagination";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import { getBlogPage, blogPageNumbers, pageCount, BLOG_PAGE_SIZE } from "@/lib/de/blogPaging";
 import { getAllPosts } from "@/lib/de/blog";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 600;
 
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ n: string
     title: `Blog – Seite ${p} von ${total} | Kalender, Feiertage & Urlaub`,
     description: `Weitere Ratgeber und Artikel rund um Kalender, Feiertage, Schulferien und Zeit – Seite ${p} von ${total}.`,
     alternates: { canonical: `/blog/seite/${p}` },
+    openGraph: ogMeta(`/blog/seite/${p}`, { defaultImage: true }),
   };
 }
 

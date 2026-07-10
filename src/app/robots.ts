@@ -30,7 +30,7 @@ export default function robots(): MetadataRoute.Robots {
   // das noindex nie lesen und die URL trotzdem (ohne Snippet) indexieren
   // — robots.txt ist KEIN Ersatz für noindex. So wird das noindex tatsächlich
   // ausgewertet und das Crawl-Budget bleibt vor ?q=-URLs geschützt.
-  const disallow = ["/api/", "/suche?"];
+  const disallow = ["/api/", "/suche?", "/og-vorschau"];
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow },

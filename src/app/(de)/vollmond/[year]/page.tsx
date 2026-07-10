@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import MoonPhasesView from "@/components/de/MoonPhasesView";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Vollmond ${y} – alle Vollmond-Termine mit Uhrzeit`,
     description: `Alle Vollmond-Termine ${y} mit genauer Uhrzeit (Europe/Berlin), Sternzeichen und Blue Moon. Übersichtlich als Tabelle.`,
     alternates: { canonical: `/vollmond/${y}` },
+    openGraph: ogMeta(`/vollmond/${y}`),
     ...yearRobots(y),
   };
 }

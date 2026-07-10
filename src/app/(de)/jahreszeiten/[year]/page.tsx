@@ -7,6 +7,7 @@ import { PRERENDER_YEARS, parseYear, yearRobots } from "@/lib/de/year";
 import { getSeasons } from "@/lib/de/astroYear";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
     title: `Jahreszeiten ${y} – Frühling, Sommer, Herbst & Winter`,
     description: `Astronomischer Beginn der Jahreszeiten ${y}: Frühlingsanfang, Sommeranfang, Herbstanfang und Winteranfang mit genauem Datum und Uhrzeit.`,
     alternates: { canonical: `/jahreszeiten/${y}` },
+    openGraph: ogMeta(`/jahreszeiten/${y}`),
     ...yearRobots(y),
   };
 }

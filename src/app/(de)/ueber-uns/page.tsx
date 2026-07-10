@@ -3,12 +3,14 @@ import Link from "next/link";
 import LegalShell from "@/components/de/LegalShell";
 import { serializeJsonLd } from "@/lib/de/jsonLd";
 import { SITE_URL, SITE_NAME, COMPANY } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Über uns – Redaktion, Daten und Quellen",
   description:
     "Wer hinter Kalender365.pro steht, wie wir Feiertage, Schulferien und astronomische Daten ermitteln und aus welchen offiziellen Quellen sie stammen.",
   alternates: { canonical: "/ueber-uns" },
+  openGraph: ogMeta("/ueber-uns", { defaultImage: true }),
 };
 
 const ld = {

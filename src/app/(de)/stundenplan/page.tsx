@@ -6,11 +6,13 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import RelatedLinks from "@/components/de/RelatedLinks";
 import { berlinNow } from "@/lib/de/now";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const metadata: Metadata = {
   title: "Stundenplan-Generator – erstellen & ausdrucken",
   description: "Erstellen Sie kostenlos Ihren Stundenplan: Fächer eintragen, Stunden und Tage anpassen, ausdrucken. Wird automatisch im Browser gespeichert.",
   alternates: { canonical: "/stundenplan" },
+  openGraph: ogMeta("/stundenplan", { defaultImage: true }),
 };
 
 export default function StundenplanPage() {

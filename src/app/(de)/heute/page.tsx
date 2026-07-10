@@ -14,6 +14,8 @@ import { getAnlaesseAmTag } from "@/lib/de/besondereTage";
 import EventArt from "@/components/de/EventArt";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import ShareButtons from "@/components/de/ShareButtons";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 // "Heute" muss immer den echten aktuellen Tag zeigen → keine statische Zwischenspeicherung.
 export const dynamic = "force-dynamic";
@@ -22,6 +24,7 @@ export const metadata: Metadata = {
   title: "Welcher Tag ist heute? – Datum, Kalenderwoche & Feiertag",
   description: "Welcher Tag ist heute? Aktuelles Datum, Wochentag, Kalenderwoche, Tag des Jahres, Feiertag, Namenstag, Mondphase und Sternzeichen – alles auf einen Blick.",
   alternates: { canonical: "/heute" },
+  openGraph: ogMeta("/heute"),
 };
 
 function pad(n: number) {
@@ -155,6 +158,7 @@ export default function HeutePage() {
           ]}
         />
         <Faq items={faq} />
+        <ShareButtons title={`Heute: ${WEEKDAY_NAMES_DE[weekdayIdx]}, ${formatLongDE(iso)}`} />
       </PageWithSidebar>
     </div>
   );

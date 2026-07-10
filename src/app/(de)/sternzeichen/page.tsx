@@ -9,6 +9,7 @@ import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 import ModuleHero from "@/components/de/ModuleHero";
 import { MODULE_HERO, heroSrc } from "@/lib/de/heroes";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 export const revalidate = 86400;
 
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "Sternzeichen – Daten, Zeiträume & Bedeutung der Tierkreiszeichen",
   description: "Alle 12 Sternzeichen mit Datum, Zeitraum, Element und Eigenschaften. Welches Sternzeichen habe ich? Übersicht der Tierkreiszeichen von Widder bis Fische.",
   alternates: { canonical: "/sternzeichen" },
+  openGraph: ogMeta("/sternzeichen"),
 };
 
 export default function SternzeichenPage() {

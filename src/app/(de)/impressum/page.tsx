@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LegalShell from "@/components/de/LegalShell";
 import { COMPANY, SITE_NAME } from "@/lib/de/site";
+import { ogMeta } from "@/lib/de/ogMeta";
 
 // TODO(legal): sobald echte Betreiberdaten in de/site.ts hinterlegt sind, das
 // `noindex` unten entfernen. Solange Platzhalter aktiv sind, NICHT indexieren.
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: "Impressum",
   description: `Impressum von ${SITE_NAME} gemäß § 5 DDG.`,
   alternates: { canonical: "/impressum" },
+  openGraph: ogMeta("/impressum", { defaultImage: true }),
   ...(HAS_REAL_DATA ? {} : { robots: { index: false, follow: true } }),
 };
 
