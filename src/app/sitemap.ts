@@ -52,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/wochentag-rechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
     { url: `${SITE_URL}/altersrechner`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
     { url: `${SITE_URL}/stundenplan`, lastModified: CONTENT_DATE, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/ueber-uns`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
     { url: `${SITE_URL}/so-berechnen-wir`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
     { url: `${SITE_URL}/datenschutz`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
     { url: `${SITE_URL}/cookies`, lastModified: CONTENT_DATE, changeFrequency: "yearly" },
