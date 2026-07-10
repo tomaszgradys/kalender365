@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArbeitstageRechner } from "@/components/de/Rechner";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import RelatedLinks from "@/components/de/RelatedLinks";
+import { berlinNow } from "@/lib/de/now";
 
 export const metadata: Metadata = {
   title: "Arbeitstage-Rechner – Arbeitstage im Zeitraum berechnen",
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function ArbeitstageRechnerPage() {
+  const y = berlinNow().year;
   return (
     <main className="flex-1">
       <PageWithSidebar>
@@ -19,6 +22,15 @@ export default function ArbeitstageRechnerPage() {
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Arbeitstage-Rechner</h1>
         <p className="mt-2 text-slate-600">Arbeitstage zwischen zwei Daten – abhängig vom Bundesland und seinen gesetzlichen Feiertagen.</p>
         <div className="mt-6"><ArbeitstageRechner /></div>
+
+        <RelatedLinks
+          items={[
+            { href: `/brueckentage/${y}`, emoji: "🌉", label: `Brückentage ${y}`, desc: "Aus Urlaubstagen lange Wochenenden machen" },
+            { href: `/feiertage/${y}`, emoji: "🎉", label: `Feiertage ${y}`, desc: "Gesetzliche Feiertage nach Bundesland" },
+            { href: `/urlaubsplaner/${y}`, emoji: "🏖️", label: `Urlaubsplaner ${y}`, desc: "Urlaub clever über das Jahr legen" },
+            { href: "/tage-rechner", emoji: "➗", label: "Tage-Rechner", desc: "Alle Tage zwischen zwei Daten" },
+          ]}
+        />
 
         <SeoProse
           blocks={[

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AltersRechner } from "@/components/de/Rechner";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import RelatedLinks from "@/components/de/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "Altersrechner – Alter genau berechnen",
@@ -19,6 +20,15 @@ export default function AltersRechnerPage() {
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Altersrechner</h1>
         <p className="mt-2 text-slate-600">Wie alt sind Sie genau? Geburtsdatum eingeben und Alter in Jahren, Monaten und Tagen berechnen.</p>
         <div className="mt-6"><AltersRechner /></div>
+
+        <RelatedLinks
+          items={[
+            { href: "/wochentag-rechner", emoji: "📆", label: "Wochentag-Rechner", desc: "An welchem Tag wurden Sie geboren?" },
+            { href: "/wie-viele-tage-bis", emoji: "⏳", label: "Countdown", desc: "Tage bis zum nächsten Geburtstag" },
+            { href: "/sternzeichen", emoji: "⭐", label: "Sternzeichen", desc: "Ihr Sternzeichen nach Geburtsdatum" },
+            { href: "/namenstage", emoji: "📛", label: "Namenstage", desc: "Namenstag heute & A–Z" },
+          ]}
+        />
 
         <SeoProse
           blocks={[

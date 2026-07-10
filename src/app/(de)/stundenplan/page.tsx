@@ -4,6 +4,8 @@ import Link from "next/link";
 import StundenplanClient from "@/components/de/StundenplanClient";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import RelatedLinks from "@/components/de/RelatedLinks";
+import { berlinNow } from "@/lib/de/now";
 
 export const metadata: Metadata = {
   title: "Stundenplan-Generator – erstellen & ausdrucken",
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function StundenplanPage() {
+  const y = berlinNow().year;
   return (
     <main className="flex-1">
       <PageWithSidebar>
@@ -21,6 +24,13 @@ export default function StundenplanPage() {
         <div className="mt-6"><StundenplanClient /></div>
 
         <div className="print:hidden">
+          <RelatedLinks
+            items={[
+              { href: `/schulferien/${y}`, emoji: "🎒", label: `Schulferien ${y}`, desc: "Ferientermine nach Bundesland" },
+              { href: `/kalender-zum-ausdrucken/${y}`, emoji: "🖨️", label: `Kalender ${y} zum Ausdrucken`, desc: "Monats- & Jahreskalender als PDF" },
+              { href: "/wie-viele-tage-bis-zu-den-sommerferien", emoji: "⏳", label: "Countdown Sommerferien", desc: "Noch wie viele Tage bis zu den Ferien?" },
+            ]}
+          />
           <SeoProse
             blocks={[
               {

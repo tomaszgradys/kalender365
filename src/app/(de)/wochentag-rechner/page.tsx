@@ -4,6 +4,8 @@ import Link from "next/link";
 import { WochentagRechner } from "@/components/de/Rechner";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import RelatedLinks from "@/components/de/RelatedLinks";
+import { berlinNow } from "@/lib/de/now";
 
 export const metadata: Metadata = {
   title: "Wochentag-Rechner – an welchem Wochentag liegt ein Datum?",
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function WochentagRechnerPage() {
+  const y = berlinNow().year;
   return (
     <main className="flex-1">
       <PageWithSidebar>
@@ -19,6 +22,15 @@ export default function WochentagRechnerPage() {
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Wochentag-Rechner</h1>
         <p className="mt-2 text-slate-600">Auf welchen Wochentag fällt ein Datum? Datum eingeben und sofort sehen.</p>
         <div className="mt-6"><WochentagRechner /></div>
+
+        <RelatedLinks
+          items={[
+            { href: "/altersrechner", emoji: "🎂", label: "Altersrechner", desc: "Alter genau in Jahren, Monaten, Tagen" },
+            { href: `/kalenderwochen/${y}`, emoji: "🔢", label: `Kalenderwochen ${y}`, desc: "Alle KW nach ISO 8601" },
+            { href: `/feiertage/${y}`, emoji: "🎉", label: `Feiertage ${y}`, desc: "Wochentag jedes Feiertags" },
+            { href: "/tage-rechner", emoji: "➗", label: "Tage-Rechner", desc: "Tage zwischen zwei Daten" },
+          ]}
+        />
 
         <SeoProse
           blocks={[

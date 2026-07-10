@@ -4,6 +4,8 @@ import Link from "next/link";
 import { TageRechner } from "@/components/de/Rechner";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
+import RelatedLinks from "@/components/de/RelatedLinks";
+import { berlinNow } from "@/lib/de/now";
 
 export const metadata: Metadata = {
   title: "Tage-Rechner – Tage zwischen zwei Daten berechnen",
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function TageRechnerPage() {
+  const y = berlinNow().year;
   return (
     <main className="flex-1">
       <PageWithSidebar>
@@ -19,6 +22,15 @@ export default function TageRechnerPage() {
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Tage-Rechner</h1>
         <p className="mt-2 text-slate-600">Wie viele Tage liegen zwischen zwei Daten? Einfach beide Daten eingeben.</p>
         <div className="mt-6"><TageRechner /></div>
+
+        <RelatedLinks
+          items={[
+            { href: "/wie-viele-tage-bis", emoji: "⏳", label: "Countdown", desc: "Tage bis Weihnachten, Ostern, Urlaub …" },
+            { href: "/arbeitstage-rechner", emoji: "🧮", label: "Arbeitstage-Rechner", desc: "Nur Werktage im Zeitraum" },
+            { href: "/wochentag-rechner", emoji: "📆", label: "Wochentag-Rechner", desc: "Auf welchen Tag fällt ein Datum?" },
+            { href: `/kalender-zum-ausdrucken/${y}`, emoji: "🖨️", label: `Kalender ${y} zum Ausdrucken`, desc: "Kostenlos als PDF" },
+          ]}
+        />
 
         <SeoProse
           blocks={[
