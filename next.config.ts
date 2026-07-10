@@ -51,7 +51,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
-  // Kanoniczny host to apex kalendarz.pro — www przekierowujemy 308 na apex,
+  // Kanoniczny host to apex kalender365.pro — www przekierowujemy 308 na apex,
   // żeby nie tworzyć duplikatu treści (www vs bez www).
   async redirects() {
     return [
