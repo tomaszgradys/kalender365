@@ -30,6 +30,9 @@ const TYP_ORDER: FerienTyp[] = [
   "weihnachtsferien",
 ];
 
+// Ferientypen mit eigener Jahres-Übersichtsseite /{typ}/{Jahr} (verlinkbar).
+const TYP_HUB = new Set<FerienTyp>(["osterferien", "sommerferien", "herbstferien", "weihnachtsferien"]);
+
 /** "2026-06-29" / "2026-08-08" → "29.06.–08.08." (Einzeltag → "29.06."). */
 function fmtRange(p: { start: string; end: string }): string {
   const [, sm, sd] = p.start.split("-");
@@ -111,7 +114,13 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
                   <th scope="col" className="px-3 py-2 font-semibold">Bundesland</th>
                   {TYP_ORDER.map((t) => (
                     <th key={t} scope="col" className="whitespace-nowrap px-3 py-2 font-semibold">
-                      {FERIEN_TYP_LABEL[t]}
+                      {TYP_HUB.has(t) ? (
+                        <Link href={`/${t}/${y}`} className="text-navy-700 hover:text-navy-900 hover:underline">
+                          {FERIEN_TYP_LABEL[t]}
+                        </Link>
+                      ) : (
+                        FERIEN_TYP_LABEL[t]
+                      )}
                     </th>
                   ))}
                 </tr>

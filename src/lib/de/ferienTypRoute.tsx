@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { parseYear } from "./year";
-import { stateBySlug, STATE_SLUGS } from "./bundeslaender";
+import { parseYear, PRERENDER_YEARS } from "./year";
+import { stateBySlug, STATE_SLUGS, BUNDESLAENDER } from "./bundeslaender";
 import { FERIEN_TYP_LABEL, isSchulferienIndexable, getFerienByTyp, type FerienTyp } from "./schulferien";
 import { berlinNow } from "./now";
 import FerienTypView from "@/components/de/FerienTypView";
+import FerienTypYearView from "@/components/de/FerienTypYearView";
 
 type Params = { year: string; bundesland: string };
 
@@ -37,6 +38,49 @@ export function makeFerienTypRoute(typ: FerienTyp) {
     const state = stateBySlug(bundesland);
     if (!y || !state) notFound();
     return <FerienTypView year={y} state={state} typ={typ} />;
+  }
+
+  return { generateStaticParams, generateMetadata, Page };
+}
+
+/**
+ * Ein Ferientyp ist für ein Jahr indexierbar, sobald mindestens ein Bundesland
+ * verifizierte Daten mit diesem Ferienabschnitt hat. Sonst noindex,follow —
+ * analog zum Gate der Länderseiten.
+ */
+export function isFerienTypYearIndexable(y: number, typ: FerienTyp): boolean {
+  return BUNDESLAENDER.some((b) => isSchulferienIndexable(y, b.code) && !!getFerienByTyp(y, b.code, typ));
+}
+
+/**
+ * Route-Exports für die Jahres-Übersicht eines Ferientyps über alle Länder
+ * (z. B. /sommerferien/{Jahr}). Zielt auf die Query „<Ferien> <Jahr>" und ist
+ * eine eigene Landingpage neben dem Sammel-Hub /schulferien/{Jahr}.
+ */
+export function makeFerienTypYearRoute(typ: FerienTyp) {
+  const label = FERIEN_TYP_LABEL[typ];
+
+  function generateStaticParams() {
+    return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
+  }
+
+  async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
+    const { year } = await params;
+    const y = parseYear(year);
+    if (!y) return {};
+    return {
+      title: `${label} ${y} – Termine aller Bundesländer im Überblick`,
+      description: `${label} ${y} in Deutschland: Termine und Dauer für alle 16 Bundesländer auf einen Blick. Quelle: offizielle Angaben der Länder (KMK), ohne Gewähr.`,
+      alternates: { canonical: `/${typ}/${y}` },
+      ...(isFerienTypYearIndexable(y, typ) ? {} : { robots: { index: false, follow: true } }),
+    };
+  }
+
+  async function Page({ params }: { params: Promise<{ year: string }> }) {
+    const { year } = await params;
+    const y = parseYear(year);
+    if (!y) notFound();
+    return <FerienTypYearView year={y} typ={typ} />;
   }
 
   return { generateStaticParams, generateMetadata, Page };
