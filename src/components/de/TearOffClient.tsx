@@ -79,7 +79,7 @@ function Sheet({ d, onNext, onPrev, hint = false }: { d: DayData; onNext?: () =>
           </p>
         )}
 
-        <p className="mx-auto mt-3 line-clamp-2 max-w-xs text-sm italic leading-snug text-slate-500">„{d.proverb}"</p>
+        <p className="mx-auto mt-3 line-clamp-2 max-w-xs text-sm italic leading-snug text-slate-500">„{d.proverb}“</p>
 
         <div className="mt-4 flex items-center justify-center gap-4 text-xs text-slate-500">
           <span>{d.moonIcon} {d.moonPhase}</span>

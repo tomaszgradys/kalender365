@@ -27,6 +27,8 @@ function Box({ value, label }: { value: number; label: string }) {
 export default function CountdownClient({ target, doneLabel = "Es ist so weit!" }: { target: number; doneLabel?: string }) {
   const [now, setNow] = useState<number>(target); // avoid hydration mismatch: start static
   useEffect(() => {
+    // Erste echte Zeit erst nach dem Mount (Date.now() ist nicht SSR-stabil).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setNow(Date.now());
     const t = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(t);

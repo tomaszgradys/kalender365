@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/de/Breadcrumbs";
 import { formatFullDE, formatLongDE, MONTH_SLUGS_DE, MONTH_NAMES_DE } from "@/lib/de/locale";
-import { isoWeekOf, berlinNow } from "@/lib/de/now";
+import { isoWeekOf } from "@/lib/de/now";
 import { getAllFeiertage } from "@/lib/de/feiertage";
 import { getMoonPhaseInstants } from "@/lib/de/moonPhases";
 import { getSunTimes, DEFAULT_LOCATION } from "@/lib/de/sun";

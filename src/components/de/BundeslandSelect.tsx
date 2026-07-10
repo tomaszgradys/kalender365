@@ -25,6 +25,8 @@ export default function BundeslandSelect({
   useEffect(() => {
     if (!current) {
       const saved = typeof window !== "undefined" ? window.localStorage.getItem(LS_KEY) : null;
+      // Beim Mount aus localStorage vorbelegen (nicht SSR-verfügbar → kein useState-Initializer).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved) setValue(saved);
     }
   }, [current]);

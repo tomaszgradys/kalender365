@@ -216,6 +216,8 @@ export default function UrlaubsplanerClient({ year }: { year: number }) {
             Urlaubsplan erstellt auf kalender365.pro — Code scannen und selbst planen.
           </p>
         </div>
+        {/* QR ist eine data-URI, nur im Druck sichtbar — next/image kann data:-URLs nicht optimieren. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         {qr && <img src={qr} alt="QR-Code — Urlaubsplaner auf kalender365.pro" width={84} height={84} />}
       </div>
 

@@ -21,6 +21,8 @@ export default function StundenplanClient() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(LS_KEY);
+      // Beim Mount aus localStorage laden (nicht SSR-verfügbar → kein useState-Initializer).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setGrid({ ...DEFAULT, ...JSON.parse(raw) });
     } catch {}
     setLoaded(true);

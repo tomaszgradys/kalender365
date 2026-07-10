@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/de/Breadcrumbs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NAV_YEARS, isNavigableYear, isIndexableYear } from "@/lib/de/year";
+import { isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { getISOWeekRange, isoWeeksInYear, isValidWeek } from "@/lib/de/weeks";
 import { MONTH_NAMES_DE, WEEKDAY_NAMES_DE, formatLongDE, formatShortDE } from "@/lib/de/locale";
 import { getNationalFeiertage } from "@/lib/de/feiertage";
