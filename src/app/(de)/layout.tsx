@@ -76,8 +76,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="de" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-[var(--background)] text-navy-900">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(orgLd) }} />
+        <a
+          href="#inhalt"
+          className="fixed left-4 top-4 z-[100] -translate-y-24 whitespace-nowrap rounded-lg bg-navy-700 px-4 py-2 font-semibold text-white shadow-lg transition-transform focus:translate-y-0"
+        >
+          Zum Inhalt springen
+        </a>
         <Header year={year} />
-        {children}
+        <main id="inhalt" className="flex flex-1 flex-col">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

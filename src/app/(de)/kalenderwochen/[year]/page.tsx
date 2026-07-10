@@ -39,7 +39,7 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
   const current = berlinISOWeek();
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -132,6 +132,6 @@ export default async function KalenderwochenPage({ params }: { params: Promise<{
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

@@ -40,7 +40,7 @@ export default function KalenderAusdrucken({ year, isHub = false }: { year: numb
   };
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(ld) }} />
         <Breadcrumbs
@@ -124,6 +124,6 @@ export default function KalenderAusdrucken({ year, isHub = false }: { year: numb
 
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

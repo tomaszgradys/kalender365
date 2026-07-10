@@ -22,8 +22,8 @@ export default async function MondphasenPage({ params }: { params: Promise<{ yea
   const y = parseYear(year);
   if (!y) notFound();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <MoonPhasesView year={y} title={`Mondphasen ${y}`} intro={`Alle Mondphasen ${y} mit genauer Uhrzeit für Deutschland, Sternzeichen des Mondes und Blue-Moon-Kennzeichnung.`} />
-    </main>
+    </div>
   );
 }

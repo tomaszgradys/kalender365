@@ -126,7 +126,7 @@ export default async function SuchePage({ searchParams }: { searchParams: Promis
   const total = smart.length + pages.length + states.length + posts.length;
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -166,7 +166,7 @@ export default async function SuchePage({ searchParams }: { searchParams: Promis
           <p className="mt-8 text-slate-500">Geben Sie mindestens 2 Zeichen ein, um zu suchen.</p>
         )}
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }
 

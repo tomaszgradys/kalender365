@@ -26,7 +26,7 @@ export default function CountdownHubPage() {
   }).sort((a, b) => a.days - b.days);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Countdown</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Countdown – wie viele Tage bis …?</h1>
@@ -49,6 +49,6 @@ export default function CountdownHubPage() {
           </Link>
         </div>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

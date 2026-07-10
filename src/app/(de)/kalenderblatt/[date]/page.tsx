@@ -75,7 +75,7 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
   const monthSlug = `${MONTH_SLUGS_DE[p.m0]}-${p.y}`;
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <div className="mx-auto w-full max-w-3xl px-4 py-8">
         <Breadcrumbs
           items={[
@@ -173,6 +173,6 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
           <Link href={`/kalender/${p.y}`} className="rounded-lg border border-slate-200 px-3 py-1.5 font-medium text-slate-700 hover:border-navy-300 hover:text-navy-600">Kalender {p.y}</Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -29,7 +29,7 @@ export default async function JahreszeitenPage({ params }: { params: Promise<{ y
   if (!y) notFound();
   const seasons = getSeasons(y);
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -80,6 +80,6 @@ export default async function JahreszeitenPage({ params }: { params: Promise<{ y
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

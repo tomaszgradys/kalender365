@@ -75,7 +75,7 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
   const next = week < totalWeeks ? { w: week + 1, y: year } : { w: 1, y: year + 1 };
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -146,6 +146,6 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

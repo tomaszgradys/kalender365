@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function LegalShell({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <div className="mx-auto w-full max-w-3xl px-4 py-8">
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -13,6 +13,6 @@ export default function LegalShell({ title, children }: { title: string; childre
           {children}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

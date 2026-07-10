@@ -66,7 +66,7 @@ export default function HeutePage() {
   );
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -156,6 +156,6 @@ export default function HeutePage() {
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

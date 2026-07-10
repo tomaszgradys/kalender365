@@ -22,8 +22,8 @@ export default async function NeumondPage({ params }: { params: Promise<{ year: 
   const y = parseYear(year);
   if (!y) notFound();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <MoonPhasesView year={y} only="new" title={`Neumond ${y}`} intro={`Alle Neumond-Termine ${y} mit genauer Uhrzeit und Sternzeichen des Mondes.`} />
-    </main>
+    </div>
   );
 }

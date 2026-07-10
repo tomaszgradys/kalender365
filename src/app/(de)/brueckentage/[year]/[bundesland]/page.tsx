@@ -37,7 +37,7 @@ export default async function BrueckentageStatePage({ params }: { params: Promis
   const langeWE = getLangeWochenenden(y, state.code);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -117,6 +117,6 @@ export default async function BrueckentageStatePage({ params }: { params: Promis
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

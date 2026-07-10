@@ -51,7 +51,7 @@ export default function HomePage() {
   const tageBis = (iso: string) => Math.round((Date.parse(`${iso}T00:00:00Z`) - Date.parse(`${isoToday}T00:00:00Z`)) / 86400000);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       {/* HERO */}
       <section className="border-b border-slate-100 bg-gradient-to-br from-navy-700 to-navy-800">
         <div className="mx-auto max-w-6xl px-4 py-9">
@@ -235,6 +235,6 @@ export default function HomePage() {
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

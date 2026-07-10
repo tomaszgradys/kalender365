@@ -22,8 +22,8 @@ export default async function VollmondPage({ params }: { params: Promise<{ year:
   const y = parseYear(year);
   if (!y) notFound();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <MoonPhasesView year={y} only="full" title={`Vollmond ${y}`} intro={`Alle Vollmond-Termine ${y} mit genauer Uhrzeit, Sternzeichen und Blue-Moon-Kennzeichnung.`} />
-    </main>
+    </div>
   );
 }

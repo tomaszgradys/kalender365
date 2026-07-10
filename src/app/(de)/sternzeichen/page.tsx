@@ -38,7 +38,7 @@ export default function SternzeichenPage() {
   ];
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -94,6 +94,6 @@ export default function SternzeichenPage() {
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

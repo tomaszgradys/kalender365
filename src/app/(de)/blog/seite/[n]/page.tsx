@@ -48,7 +48,7 @@ export default async function BlogSeitePage({ params }: { params: Promise<{ n: s
   const last = Math.min(page * BLOG_PAGE_SIZE, total);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -66,6 +66,6 @@ export default async function BlogSeitePage({ params }: { params: Promise<{ n: s
 
         <BlogPagination page={page} totalPages={totalPages} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

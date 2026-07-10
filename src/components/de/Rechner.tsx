@@ -32,11 +32,13 @@ export function TageRechner() {
           <input type="date" value={to} onChange={(e) => setTo(e.target.value)} className={inputCls} />
         </label>
       </div>
-      {diff !== null && (
-        <p className="mt-4 text-lg text-navy-800">
-          Dazwischen liegen <strong>{Math.abs(diff)} Tage</strong> ({Math.abs(diff) + 1} Tage inklusive Start und Ende).
-        </p>
-      )}
+      <div role="status" aria-live="polite">
+        {diff !== null && (
+          <p className="mt-4 text-lg text-navy-800">
+            Dazwischen liegen <strong>{Math.abs(diff)} Tage</strong> ({Math.abs(diff) + 1} Tage inklusive Start und Ende).
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -65,11 +67,13 @@ export function ArbeitstageRechner() {
           </select>
         </label>
       </div>
-      {result !== null && (
-        <p className="mt-4 text-lg text-navy-800">
-          <strong>{result} Arbeitstage</strong> (Mo–Fr ohne Feiertage) im gewählten Zeitraum.
-        </p>
-      )}
+      <div role="status" aria-live="polite">
+        {result !== null && (
+          <p className="mt-4 text-lg text-navy-800">
+            <strong>{result} Arbeitstage</strong> (Mo–Fr ohne Feiertage) im gewählten Zeitraum.
+          </p>
+        )}
+      </div>
       <p className="mt-2 text-xs text-slate-400">Zeitraum inklusive Start- und Endtag. 5-Tage-Woche.</p>
     </div>
   );
@@ -83,7 +87,9 @@ export function WochentagRechner() {
         <span className="block text-slate-500">Datum</span>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
       </label>
-      {date && <p className="mt-4 text-lg text-navy-800">Das ist ein <strong>{formatFullDE(date)}</strong>.</p>}
+      <div role="status" aria-live="polite">
+        {date && <p className="mt-4 text-lg text-navy-800">Das ist ein <strong>{formatFullDE(date)}</strong>.</p>}
+      </div>
     </div>
   );
 }
@@ -118,7 +124,7 @@ export function AltersRechner() {
         <input type="date" value={birth} onChange={(e) => setBirth(e.target.value)} className={inputCls} />
       </label>
       {out && (
-        <div className="mt-4 space-y-1 text-navy-800">
+        <div role="status" aria-live="polite" className="mt-4 space-y-1 text-navy-800">
           <p className="text-lg">Sie sind <strong>{out.years} Jahre, {out.months} Monate und {out.days} Tage</strong> alt.</p>
           <p className="text-sm text-slate-600">Das sind insgesamt <strong>{out.totalDays.toLocaleString("de-DE")} Tage</strong>. Geboren an einem <strong>{out.weekday}</strong>.</p>
           <p className="text-sm text-brand-green-700">Nächster Geburtstag in <strong>{out.nextIn} Tagen</strong>.</p>

@@ -91,7 +91,7 @@ export default async function BesondereTagePage({ params }: { params: Promise<{ 
   );
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
 
@@ -181,6 +181,6 @@ export default async function BesondereTagePage({ params }: { params: Promise<{ 
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

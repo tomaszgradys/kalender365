@@ -56,7 +56,7 @@ export default async function BlogCategoryPage({
   const resolve = (href: string) => href.replaceAll("{y}", String(y));
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -130,6 +130,6 @@ export default async function BlogCategoryPage({
           </ul>
         </section>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

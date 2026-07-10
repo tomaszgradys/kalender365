@@ -40,12 +40,12 @@ export default async function KalenderSlugPage({ params }: { params: Promise<{ s
   const parsed = parseKalenderSlug(slug);
   if (!parsed) notFound();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       {parsed.kind === "year" ? (
         <KalenderYear year={parsed.year} />
       ) : (
         <KalenderMonth year={parsed.year} month0={parsed.month0} />
       )}
-    </main>
+    </div>
   );
 }

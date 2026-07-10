@@ -69,7 +69,7 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
   if (!y) notFound();
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -176,6 +176,6 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

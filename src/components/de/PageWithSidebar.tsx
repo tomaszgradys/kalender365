@@ -7,7 +7,7 @@ export default function PageWithSidebar({ children }: { children: React.ReactNod
   return (
     <div className="mx-auto flex w-full max-w-6xl gap-8 px-4 py-8">
       <CalendarSidebar year={year} className="hidden lg:block" />
-      <main className="min-w-0 flex-1">{children}</main>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }

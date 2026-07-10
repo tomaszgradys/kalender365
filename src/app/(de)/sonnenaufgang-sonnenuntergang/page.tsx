@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function SonnenzeitenPage() {
   const { year, month0 } = berlinNow();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -50,6 +50,6 @@ export default function SonnenzeitenPage() {
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

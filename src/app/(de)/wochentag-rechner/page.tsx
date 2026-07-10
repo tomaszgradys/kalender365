@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function WochentagRechnerPage() {
   const y = berlinNow().year;
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/generatoren" className="hover:text-navy-600">Tools</Link> <span className="mx-1">/</span> <span className="text-navy-700">Wochentag-Rechner</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Wochentag-Rechner</h1>
@@ -52,6 +52,6 @@ export default function WochentagRechnerPage() {
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

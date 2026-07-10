@@ -37,7 +37,7 @@ export default async function ArbeitstageStatePage({ params }: { params: Promise
   const totalFreie = perMonth.reduce((s, m) => s + m.freie, 0);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -93,6 +93,6 @@ export default async function ArbeitstageStatePage({ params }: { params: Promise
           </div>
         </section>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

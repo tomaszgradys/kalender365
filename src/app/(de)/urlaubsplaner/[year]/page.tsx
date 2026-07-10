@@ -77,7 +77,7 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
   };
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(appLd) }} />
       <PageWithSidebar>
@@ -141,6 +141,6 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
           </div>
         </section>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

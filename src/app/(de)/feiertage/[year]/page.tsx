@@ -89,7 +89,7 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
   ];
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -261,6 +261,6 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

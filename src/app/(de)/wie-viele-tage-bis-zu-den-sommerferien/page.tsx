@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function SommerferienCountdownPage() {
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <Link href="/wie-viele-tage-bis" className="hover:text-navy-600">Countdown</Link> <span className="mx-1">/</span> <span className="text-navy-700">Sommerferien</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">🎒 Wie viele Tage bis zu den Sommerferien?</h1>
@@ -45,6 +45,6 @@ export default function SommerferienCountdownPage() {
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

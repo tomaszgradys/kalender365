@@ -98,7 +98,7 @@ export default async function BesondererTagPage({ params }: { params: Promise<{ 
   const nextY = y + 1;
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(eventLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
@@ -201,6 +201,6 @@ export default async function BesondererTagPage({ params }: { params: Promise<{ 
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

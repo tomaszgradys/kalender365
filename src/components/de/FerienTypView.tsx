@@ -44,7 +44,7 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
     : [];
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span>
@@ -116,7 +116,7 @@ export default function FerienTypView({ year, state, typ }: { year: number; stat
           </div>
         </section>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }
 

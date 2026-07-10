@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleLd) }} />
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <Link href="/blog" className="hover:text-navy-600">Blog</Link> <span className="mx-1">/</span> <span className="text-navy-700">{post.category}</span></nav>
@@ -118,6 +118,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </section>
         )}
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

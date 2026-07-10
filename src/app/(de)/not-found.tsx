@@ -17,7 +17,7 @@ export default function NotFound() {
     { href: "/generatoren", label: "Tools & Rechner" },
   ];
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-4 py-16 text-center">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-4 py-16 text-center">
       <div className="text-6xl font-black text-navy-600">404</div>
       <h1 className="mt-3 text-2xl font-bold text-navy-800">Seite nicht gefunden</h1>
       <p className="mt-2 text-slate-600">
@@ -33,6 +33,6 @@ export default function NotFound() {
           </Link>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

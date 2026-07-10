@@ -114,7 +114,7 @@ export default async function MondkalenderPage({ params }: { params: Promise<{ s
     ];
 
     return (
-      <main className="flex-1">
+      <div className="flex-1">
         <PageWithSidebar>
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
           <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
@@ -193,7 +193,7 @@ export default async function MondkalenderPage({ params }: { params: Promise<{ s
           />
           <Faq items={faq} />
         </PageWithSidebar>
-      </main>
+      </div>
     );
   }
 
@@ -220,7 +220,7 @@ export default async function MondkalenderPage({ params }: { params: Promise<{ s
   ];
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
         <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
@@ -284,6 +284,6 @@ export default async function MondkalenderPage({ params }: { params: Promise<{ s
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

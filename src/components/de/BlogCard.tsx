@@ -39,11 +39,11 @@ export default function BlogCard({ post, featured = false }: { post: BlogPost; f
         <Link href={hub} className="relative z-10 self-start text-xs font-semibold uppercase tracking-wide text-brand-green-600 hover:underline">
           {post.category}
         </Link>
-        <h3 className={`mt-1 font-bold text-navy-800 ${featured ? "text-xl" : "text-base"}`}>
+        <h2 className={`mt-1 font-bold text-navy-800 ${featured ? "text-xl" : "text-base"}`}>
           <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0 after:content-['']">
             {post.title}
           </Link>
-        </h3>
+        </h2>
         <p className="mt-1.5 line-clamp-3 text-sm text-slate-600">{post.excerpt}</p>
         <p className="mt-auto pt-3 text-xs text-slate-400">{formatLongDE(post.publishedAt)}</p>
       </div>

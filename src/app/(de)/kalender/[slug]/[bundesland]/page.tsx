@@ -50,12 +50,12 @@ export default async function KalenderSlugStatePage({ params }: { params: Promis
   const state = stateBySlug(bundesland);
   if (!parsed || !state) notFound();
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       {parsed.kind === "year" ? (
         <KalenderYear year={parsed.year} state={state} />
       ) : (
         <KalenderMonth year={parsed.year} month0={parsed.month0} state={state} />
       )}
-    </main>
+    </div>
   );
 }

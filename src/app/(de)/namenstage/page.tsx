@@ -48,7 +48,7 @@ export default function NamenstagePage() {
   ];
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -123,6 +123,6 @@ export default function NamenstagePage() {
         />
         <Faq items={faq} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

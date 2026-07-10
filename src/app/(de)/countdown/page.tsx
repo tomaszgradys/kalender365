@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CountdownToolPage() {
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/generatoren" className="hover:text-navy-600">Tools</Link> <span className="mx-1">/</span> <span className="text-navy-700">Countdown</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Countdown-Rechner</h1>
@@ -19,6 +19,6 @@ export default function CountdownToolPage() {
         <div className="mt-6"><CountdownGeneric /></div>
         <p className="mt-8 text-sm"><Link href="/wie-viele-tage-bis" className="font-medium text-navy-600 underline">Beliebte Countdowns (Weihnachten, Ostern …) →</Link></p>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

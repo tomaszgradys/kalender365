@@ -30,7 +30,7 @@ export default async function ZeitumstellungPage({ params }: { params: Promise<{
   const sommer = changes[0];
   const winter = changes[1];
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -82,6 +82,6 @@ export default async function ZeitumstellungPage({ params }: { params: Promise<{
           ]}
         />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

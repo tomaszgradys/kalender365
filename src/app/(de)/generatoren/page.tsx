@@ -28,7 +28,7 @@ export default function GeneratorenPage() {
     { href: `/mondkalender/${y}`, emoji: "🌱", label: "Mondkalender", desc: "Aussaattage nach dem Mond" },
   ];
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Tools</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Tools &amp; Rechner</h1>
@@ -43,6 +43,6 @@ export default function GeneratorenPage() {
           ))}
         </div>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

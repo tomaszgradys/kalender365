@@ -20,7 +20,7 @@ export default async function BlogIndexPage() {
   const [lead, ...rest] = posts;
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <nav className="mb-4 text-sm text-slate-500"><Link href="/" className="hover:text-navy-600">Start</Link> <span className="mx-1">/</span> <span className="text-navy-700">Blog</span></nav>
         <h1 className="text-2xl font-black text-navy-800 sm:text-3xl">Blog</h1>
@@ -47,6 +47,6 @@ export default async function BlogIndexPage() {
 
         <BlogPagination page={page} totalPages={totalPages} />
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }

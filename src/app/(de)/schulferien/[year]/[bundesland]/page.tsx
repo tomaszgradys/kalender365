@@ -42,7 +42,7 @@ export default async function SchulferienStatePage({ params }: { params: Promise
   const verified = isSchulferienIndexable(y, state.code);
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       <PageWithSidebar>
         <Breadcrumbs
           items={[
@@ -139,6 +139,6 @@ export default async function SchulferienStatePage({ params }: { params: Promise
           </div>
         </section>
       </PageWithSidebar>
-    </main>
+    </div>
   );
 }
