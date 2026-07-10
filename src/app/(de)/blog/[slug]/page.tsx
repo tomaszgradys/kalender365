@@ -84,6 +84,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               width={1216}
               height={640}
               priority
+              sizes="(min-width: 1024px) 832px, 100vw"
               className="aspect-[40/21] w-full object-cover"
             />
           ) : post.art ? (
