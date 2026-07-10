@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: "article",
       title: post.title,
       description: post.excerpt,
-      images: post.cover ? [{ url: post.cover.src }] : undefined,
+      images: post.cover ? [{ url: post.cover.src, alt: post.cover.alt, width: 1216, height: 640 }] : undefined,
     },
   };
 }

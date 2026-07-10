@@ -4,6 +4,7 @@ import { parseYear, PRERENDER_YEARS } from "./year";
 import { stateBySlug, STATE_SLUGS, BUNDESLAENDER } from "./bundeslaender";
 import { FERIEN_TYP_LABEL, isSchulferienIndexable, getFerienByTyp, type FerienTyp } from "./schulferien";
 import { berlinNow } from "./now";
+import { renderOgImage, OG_SIZE, OG_CONTENT_TYPE } from "./ogImage";
 import FerienTypView from "@/components/de/FerienTypView";
 import FerienTypYearView from "@/components/de/FerienTypYearView";
 
@@ -84,4 +85,41 @@ export function makeFerienTypYearRoute(typ: FerienTyp) {
   }
 
   return { generateStaticParams, generateMetadata, Page };
+}
+
+/**
+ * Route-Exports für das dynamische OG-Bild eines Ferientyps pro Bundesland
+ * (z. B. /sommerferien/{Jahr}/{Land}) → sprechende Vorschau „Sommerferien 2026
+ * · Bayern" statt generischem Markenbild.
+ */
+export function makeFerienTypOgImage(typ: FerienTyp) {
+  const label = FERIEN_TYP_LABEL[typ];
+  const alt = `${label} nach Bundesland – Kalender365.pro`;
+  async function Image({ params }: { params: Promise<Params> }) {
+    const { year, bundesland } = await params;
+    const y = parseYear(year) ?? berlinNow().year;
+    const state = stateBySlug(bundesland);
+    return renderOgImage({
+      kicker: "Schulferien",
+      title: `${label} ${y}`,
+      subtitle: state ? state.name : "Deutschland",
+    });
+  }
+  return { alt, size: OG_SIZE, contentType: OG_CONTENT_TYPE, Image };
+}
+
+/** OG-Bild für die Jahres-Übersicht eines Ferientyps (z. B. /sommerferien/{Jahr}). */
+export function makeFerienTypYearOgImage(typ: FerienTyp) {
+  const label = FERIEN_TYP_LABEL[typ];
+  const alt = `${label} in Deutschland – Kalender365.pro`;
+  async function Image({ params }: { params: Promise<{ year: string }> }) {
+    const { year } = await params;
+    const y = parseYear(year) ?? berlinNow().year;
+    return renderOgImage({
+      kicker: "Schulferien",
+      title: `${label} ${y}`,
+      subtitle: "Alle 16 Bundesländer im Überblick",
+    });
+  }
+  return { alt, size: OG_SIZE, contentType: OG_CONTENT_TYPE, Image };
 }
