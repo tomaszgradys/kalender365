@@ -117,6 +117,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {post.faq && post.faq.length > 0 && <Faq items={post.faq} />}
 
+        <aside className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed text-slate-500">
+          <strong className="font-semibold text-slate-600">Transparenzhinweis:</strong> Dieser Blogbeitrag wurde
+          KI-gestützt erstellt und redaktionell geprüft. Kalender-, Feiertags- und Ferienangaben werden – soweit möglich –
+          nach amtlichen Regeln berechnet bzw. gegen offizielle Quellen abgeglichen; alle Angaben erfolgen dennoch{" "}
+          <Link href="/nutzungsbedingungen" className="underline hover:text-navy-600">ohne Gewähr</Link>. Wie wir arbeiten,
+          erklären wir unter <Link href="/ueber-uns" className="underline hover:text-navy-600">Über uns</Link>.
+        </aside>
+
         <ShareButtons title={post.title} />
 
         {related.length > 0 && (

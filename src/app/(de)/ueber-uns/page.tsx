@@ -59,6 +59,7 @@ export default function UeberUnsPage() {
           <li><strong>Gegen amtliche Quellen prüfen:</strong> Nicht berechenbare Angaben – vor allem die Schulferien – gleichen wir mit den offiziellen Veröffentlichungen ab.</li>
           <li><strong>Landesrecht beachten:</strong> Feiertage und Ferien sind Ländersache; jede Übersicht lässt sich nach Bundesland filtern.</li>
           <li><strong>Ehrlich mit Unsicherheit:</strong> Alle Angaben erfolgen ohne Gewähr. Für rechtsverbindliche Planung gilt immer die amtliche Quelle.</li>
+          <li><strong>Transparent bei KI:</strong> Unsere <Link href="/blog">Blogbeiträge</Link> entstehen KI-gestützt und werden redaktionell geprüft. Jeder Beitrag trägt einen entsprechenden Hinweis; die zugrunde liegenden Kalenderdaten werden wie oben beschrieben berechnet bzw. gegen amtliche Quellen abgeglichen.</li>
         </ul>
 
         <h2>Unsere Datenquellen</h2>
