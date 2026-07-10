@@ -2,7 +2,13 @@
 // BOM so Excel shows umlauts correctly.
 
 function cell(v: string | number): string {
-  const s = String(v);
+  let s = String(v);
+  // CSV-Formel-Injection abwehren: Zellen, die mit = + - @ (oder Tab/CR)
+  // beginnen, könnte Excel/Sheets als Formel auswerten. Ein führendes
+  // Hochkomma neutralisiert das. Defense-in-depth — aktuell sind alle Werte
+  // statische Feiertagsnamen, aber so bleibt der Export sicher, falls je
+  // nutzergenerierte Inhalte hineinfließen.
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 

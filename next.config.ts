@@ -1,19 +1,25 @@
 import type { NextConfig } from "next";
 
-// Content Security Policy — zezwala na to, czego serwis realnie używa
-// (self, obrazy data/blob dla PDF/QR, style inline Tailwind, workery blob dla react-pdf/html2canvas).
+// Content Security Policy — zezwala tylko na to, czego serwis realnie używa.
+// react-pdf/exceljs/qrcode.toDataURL działają SERWEROWO (API routes, runtime nodejs),
+// więc klient nie potrzebuje 'unsafe-eval' ani blob: (html2canvas/jspdf usunięte).
+// QR renderuje się do data:-URL → pokrywa go img-src data:. 'unsafe-inline' w script-src
+// zostaje, bo Next App Router wstrzykuje inline bootstrap/RSC (docelowo: CSP z nonce).
+// 'unsafe-eval' TYLKO w dev — React używa eval() do debugowania w trybie dev,
+// nigdy w produkcji (Vercel = NODE_ENV production → eval zablokowany).
+const isDev = process.env.NODE_ENV !== "production";
+const scriptSrc = ["script-src 'self' 'unsafe-inline'", isDev ? "'unsafe-eval'" : ""].filter(Boolean).join(" ");
 const csp = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "img-src 'self' data: blob: https://fal.media https://*.fal.media",
+  "img-src 'self' data: https://fal.media https://*.fal.media",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:",
-  "connect-src 'self' data: blob:",
-  "worker-src 'self' blob:",
+  scriptSrc,
+  "connect-src 'self'",
   "upgrade-insecure-requests",
 ].join("; ");
 
@@ -25,6 +31,11 @@ const securityHeaders = [
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
   { key: "X-DNS-Prefetch-Control", value: "on" },
+  // Izolacja pochodzenia (Spectre) i zakaz osadzania naszych zasobów przez obce
+  // domeny. Serwis niczego nie osadza cross-origin, więc same-origin jest bezpieczne.
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+  { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
 ];
 
 const nextConfig: NextConfig = {
