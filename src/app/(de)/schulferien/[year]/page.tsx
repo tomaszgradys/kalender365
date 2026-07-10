@@ -5,13 +5,48 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear } from "@/lib/de/year";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
-import { getSchulferien, isSchulferienIndexable } from "@/lib/de/schulferien";
+import {
+  getSchulferien,
+  isSchulferienIndexable,
+  FERIEN_TYP_LABEL,
+  type FerienTyp,
+  type SchulferienRecord,
+} from "@/lib/de/schulferien";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
 import Faq from "@/components/de/Faq";
 
 export function generateStaticParams() {
   return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
+}
+
+// Spaltenreihenfolge der Vergleichstabelle (Schuljahresverlauf).
+const TYP_ORDER: FerienTyp[] = [
+  "winterferien",
+  "osterferien",
+  "pfingstferien",
+  "sommerferien",
+  "herbstferien",
+  "weihnachtsferien",
+];
+
+/** "2026-06-29" / "2026-08-08" → "29.06.–08.08." (Einzeltag → "29.06."). */
+function fmtRange(p: { start: string; end: string }): string {
+  const [, sm, sd] = p.start.split("-");
+  const [, em, ed] = p.end.split("-");
+  const a = `${sd}.${sm}.`;
+  const b = `${ed}.${em}.`;
+  return a === b ? a : `${a}–${b}`;
+}
+
+/**
+ * Alle Ferienphasen eines Typs einer Landeszeile als Zellentext. Manche Länder
+ * haben mehrere Phasen desselben Typs (z. B. Pfingsten als zwei bewegliche Tage)
+ * — die werden mit „ + " verkettet, damit keine Phase verschluckt wird.
+ */
+function cellText(rec: SchulferienRecord, typ: FerienTyp): string {
+  const parts = rec.periods.filter((p) => p.typ === typ).map(fmtRange);
+  return parts.length ? parts.join(" + ") : "—";
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
@@ -65,6 +100,48 @@ export default async function SchulferienHubPage({ params }: { params: Promise<{
               );
             })}
           </div>
+        </section>
+
+        <section className="mt-8">
+          <h2 className="mb-3 text-xl font-bold text-navy-800">Schulferien {y} – alle Bundesländer im Überblick</h2>
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <table className="w-full min-w-[760px] border-collapse text-left text-sm">
+              <thead>
+                <tr className="bg-navy-50 text-navy-700">
+                  <th scope="col" className="px-3 py-2 font-semibold">Bundesland</th>
+                  {TYP_ORDER.map((t) => (
+                    <th key={t} scope="col" className="whitespace-nowrap px-3 py-2 font-semibold">
+                      {FERIEN_TYP_LABEL[t]}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {BUNDESLAENDER.map((b) => {
+                  const rec = getSchulferien(y, b.code);
+                  return (
+                    <tr key={b.code} className="border-t border-slate-100 odd:bg-white even:bg-slate-50/60">
+                      <th scope="row" className="whitespace-nowrap px-3 py-2 text-left font-medium">
+                        <Link href={`/schulferien/${y}/${b.slug}`} className="text-navy-700 hover:text-navy-900 hover:underline">
+                          {b.name}
+                        </Link>
+                      </th>
+                      {TYP_ORDER.map((t) => (
+                        <td key={t} className="whitespace-nowrap px-3 py-2 text-slate-600">
+                          {rec ? cellText(rec, t) : <span className="text-slate-400">folgt</span>}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-slate-500">
+            Angaben in Kurzform (Tag.Monat); „—“ = keine eigene Ferienphase dieser Art. Quelle: offizielle
+            Ferienkalender der Kultusministerkonferenz (KMK). Angaben ohne Gewähr – vor verbindlicher Planung die
+            amtliche Quelle prüfen. Genaue Termine mit Wochentag und ICS-Download je Land über die Ländernamen.
+          </p>
         </section>
 
         <SeoProse
