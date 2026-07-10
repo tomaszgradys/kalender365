@@ -29,7 +29,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ year: st
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `inline; filename="kalender-${MONTH_SLUGS_DE[m0]}-${y}${suffix}.pdf"`,
-      "Cache-Control": "public, max-age=86400",
+      "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
     },
   });
 }

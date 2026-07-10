@@ -161,7 +161,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ year: st
     headers: {
       "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "Content-Disposition": `inline; filename="kalender-${y}${suffix}.xlsx"`,
-      "Cache-Control": "public, max-age=86400",
+      "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
       "X-Region": regionLabel,
     },
   });

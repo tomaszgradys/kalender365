@@ -65,7 +65,8 @@ export function icsResponse(filename: string, body: string): Response {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
       "Content-Disposition": `attachment; filename="${filename}"`,
-      "Cache-Control": "public, max-age=86400",
+      // s-maxage → Vercel Edge/CDN puffert die Funktionsantwort (Kostenschutz).
+      "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
     },
   });
 }
