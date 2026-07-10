@@ -4,8 +4,8 @@
 // mit Farblegende, Logo und QR-Code (Deep-Link zurück zur passenden Seite).
 
 import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
-import { MONTH_NAMES_DE, WEEKDAY_SHORT_DE } from "./locale";
-import { monthView, monthMatrix } from "./calendar";
+import { MONTH_NAMES_DE, MONTH_ABBR_DE, WEEKDAY_SHORT_DE } from "./locale";
+import { monthView, monthMatrix, type GridDay } from "./calendar";
 import { getFeiertage } from "./feiertage";
 import { getSchulferien } from "./schulferien";
 import { SITE_URL } from "./site";
@@ -43,6 +43,13 @@ const s = StyleSheet.create({
   qrBox: { alignItems: "center" },
   qr: { width: 40, height: 40 },
   qrCap: { fontSize: 6, color: GREY, marginTop: 1 },
+  // Jahresplaner (lineare Tag×Monat-Matrix)
+  plHead: { flexDirection: "row", borderBottomWidth: 1, borderColor: NAVY },
+  plDayHead: { width: 22, textAlign: "center", fontFamily: "Helvetica-Bold", color: GREY, fontSize: 7, paddingVertical: 3 },
+  plMonHead: { flex: 1, textAlign: "center", fontFamily: "Helvetica-Bold", color: NAVY, fontSize: 8, paddingVertical: 3 },
+  plRow: { flexDirection: "row" },
+  plDayCell: { width: 22, textAlign: "center", fontFamily: "Helvetica-Bold", color: GREY, fontSize: 7, paddingVertical: 2.4, borderWidth: 0.5, borderColor: LIGHT },
+  plCell: { flex: 1, textAlign: "center", fontSize: 6.5, paddingVertical: 2.4, borderWidth: 0.5, borderColor: LIGHT },
 });
 
 /** ISO dates inside any school-holiday period of a Bundesland (empty without state). */
@@ -104,19 +111,19 @@ function dayStyle(d: { day: number; weekend: boolean; holiday: boolean; iso: str
   return {};
 }
 
-function MonthGrid({ year, month0, state, ferien }: { year: number; month0: number; state?: StateCode; ferien: Set<string> }) {
+function MonthGrid({ year, month0, state, ferien, showKW = true }: { year: number; month0: number; state?: StateCode; ferien: Set<string>; showKW?: boolean }) {
   const weeks = monthView(year, month0, state);
   return (
     <View>
       <View style={s.row}>
-        <Text style={s.kwHead}>KW</Text>
+        {showKW && <Text style={s.kwHead}>KW</Text>}
         {WEEKDAY_SHORT_DE.map((w) => (
           <Text key={w} style={s.headCell}>{w}</Text>
         ))}
       </View>
       {weeks.map((wk) => (
         <View key={wk.kw} style={s.row}>
-          <Text style={s.kwCell}>{wk.kw}</Text>
+          {showKW && <Text style={s.kwCell}>{wk.kw}</Text>}
           {wk.days.map((d, j) => (
             <Text key={j} style={[s.cell, dayStyle(d, ferien)]}>{d.day === 0 ? "" : d.day}</Text>
           ))}
@@ -126,7 +133,7 @@ function MonthGrid({ year, month0, state, ferien }: { year: number; month0: numb
   );
 }
 
-export function MonthDoc({ year, month0, state, qr }: { year: number; month0: number; state?: { code: StateCode; name: string }; qr?: string }) {
+export function MonthDoc({ year, month0, state, qr, showKW = true }: { year: number; month0: number; state?: { code: StateCode; name: string }; qr?: string; showKW?: boolean }) {
   const ferien = ferienSet(year, state?.code);
   const feiertage = getFeiertage(year, state?.code ?? "BY", { includePartial: false });
   const monthHolidays = state
@@ -137,7 +144,7 @@ export function MonthDoc({ year, month0, state, qr }: { year: number; month0: nu
       <Page size="A4" style={s.page}>
         <Text style={s.h1}>{MONTH_NAMES_DE[month0]} {year}</Text>
         <Text style={s.sub}>{state ? `Bundesland: ${state.name}` : "Deutschland"}</Text>
-        <MonthGrid year={year} month0={month0} state={state?.code} ferien={ferien} />
+        <MonthGrid year={year} month0={month0} state={state?.code} ferien={ferien} showKW={showKW} />
         <Legend withFerien={!!state && ferien.size > 0} />
         {state && monthHolidays.length > 0 && (
           <View style={{ marginTop: 12 }}>
@@ -155,18 +162,20 @@ export function MonthDoc({ year, month0, state, qr }: { year: number; month0: nu
   );
 }
 
-export function YearDoc({ year, state, qr }: { year: number; state?: { code: StateCode; name: string }; qr?: string }) {
+export function YearDoc({ year, state, qr, orientation = "quer" }: { year: number; state?: { code: StateCode; name: string }; qr?: string; orientation?: "quer" | "hoch" }) {
   const ferien = ferienSet(year, state?.code);
+  const landscape = orientation === "quer";
+  const colW = landscape ? "25%" : "33.3333%";
   return (
     <Document title={`Kalender ${year}`}>
-      <Page size="A4" orientation="landscape" style={s.page}>
+      <Page size="A4" orientation={landscape ? "landscape" : "portrait"} style={s.page}>
         <Text style={s.h1}>Kalender {year}{state ? ` – ${state.name}` : ""}</Text>
         <Text style={s.sub}>{state ? `Bundesland: ${state.name}` : "Deutschland"} · alle 12 Monate auf einer Seite</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {MONTH_NAMES_DE.map((name, m) => {
             const weeks = monthMatrix(year, m, state?.code);
             return (
-              <View key={m} style={{ width: "25%", padding: 4 }}>
+              <View key={m} style={{ width: colW, padding: 4 }}>
                 <Text style={{ fontFamily: "Helvetica-Bold", color: NAVY, fontSize: 9, marginBottom: 2 }}>{name}</Text>
                 <View style={s.row}>
                   {WEEKDAY_SHORT_DE.map((w) => (
@@ -195,6 +204,95 @@ export function YearDoc({ year, state, qr }: { year: number; state?: { code: Sta
         <Legend withFerien={!!state && ferien.size > 0} />
         <Footer qr={qr} />
       </Page>
+    </Document>
+  );
+}
+
+/**
+ * Jahresplaner: lineare Übersicht mit allen Tagen (1–31) als Zeilen und den 12
+ * Monaten als Spalten – die klassische „ein Blatt für das ganze Jahr"-Vorlage
+ * zum Eintragen. Querformat.
+ */
+export function PlannerDoc({ year, state, qr }: { year: number; state?: { code: StateCode; name: string }; qr?: string }) {
+  const ferien = ferienSet(year, state?.code);
+  // Pro Monat eine nach Tag indizierte Nachschlagetabelle (1..31).
+  const months = MONTH_NAMES_DE.map((_, m) => {
+    const byDay: (GridDay | undefined)[] = [];
+    for (const d of monthMatrix(year, m, state?.code).flat()) if (d.day > 0) byDay[d.day] = d;
+    return byDay;
+  });
+  return (
+    <Document title={`Jahresplaner ${year}`}>
+      <Page size="A4" orientation="landscape" style={s.page}>
+        <Text style={s.h1}>Jahresplaner {year}{state ? ` – ${state.name}` : ""}</Text>
+        <Text style={s.sub}>Alle Tage des Jahres auf einer Seite · {state ? state.name : "Deutschland"}</Text>
+        <View style={s.plHead}>
+          <Text style={s.plDayHead}>Tag</Text>
+          {MONTH_ABBR_DE.map((abbr, m) => (
+            <Text key={m} style={s.plMonHead}>{abbr}</Text>
+          ))}
+        </View>
+        {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+          <View key={day} style={s.plRow}>
+            <Text style={s.plDayCell}>{day}</Text>
+            {months.map((byDay, m) => {
+              const d = byDay[day];
+              if (!d) return <Text key={m} style={[s.plCell, { backgroundColor: "#f8fafc" }]}> </Text>;
+              return <Text key={m} style={[s.plCell, dayStyle(d, ferien)]}>{WEEKDAY_SHORT_DE[d.weekday]}</Text>;
+            })}
+          </View>
+        ))}
+        <Legend withFerien={!!state && ferien.size > 0} />
+        <Footer qr={qr} />
+      </Page>
+    </Document>
+  );
+}
+
+/**
+ * Halbjahreskalender: zwei Seiten (Januar–Juni, Juli–Dezember) im Hochformat mit
+ * je sechs großen Monatsblöcken – mehr Platz zum Eintragen als die Jahresübersicht.
+ */
+export function HalfYearDoc({ year, state, qr }: { year: number; state?: { code: StateCode; name: string }; qr?: string }) {
+  const ferien = ferienSet(year, state?.code);
+  const halves: [number, number[]][] = [
+    [0, [0, 1, 2, 3, 4, 5]],
+    [1, [6, 7, 8, 9, 10, 11]],
+  ];
+  return (
+    <Document title={`Halbjahreskalender ${year}`}>
+      {halves.map(([hi, ms]) => (
+        <Page key={hi} size="A4" style={s.page}>
+          <Text style={s.h1}>Kalender {year} · {hi === 0 ? "1. Halbjahr" : "2. Halbjahr"}{state ? ` – ${state.name}` : ""}</Text>
+          <Text style={s.sub}>{hi === 0 ? "Januar – Juni" : "Juli – Dezember"} · {state ? state.name : "Deutschland"}</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {ms.map((m) => {
+              const weeks = monthMatrix(year, m, state?.code);
+              return (
+                <View key={m} style={{ width: "50%", padding: 6 }}>
+                  <Text style={{ fontFamily: "Helvetica-Bold", color: NAVY, fontSize: 11, marginBottom: 3 }}>{MONTH_NAMES_DE[m]}</Text>
+                  <View style={s.row}>
+                    {WEEKDAY_SHORT_DE.map((w) => (
+                      <Text key={w} style={{ flex: 1, textAlign: "center", fontSize: 8, color: GREY }}>{w}</Text>
+                    ))}
+                  </View>
+                  {weeks.map((wk, i) => (
+                    <View key={i} style={s.row}>
+                      {wk.map((d, j) => (
+                        <Text key={j} style={[{ flex: 1, textAlign: "center", fontSize: 9, paddingVertical: 3, borderWidth: 0.5, borderColor: LIGHT }, dayStyle(d, ferien)]}>
+                          {d.day === 0 ? "" : d.day}
+                        </Text>
+                      ))}
+                    </View>
+                  ))}
+                </View>
+              );
+            })}
+          </View>
+          <Legend withFerien={!!state && ferien.size > 0} />
+          <Footer qr={qr} />
+        </Page>
+      ))}
     </Document>
   );
 }
