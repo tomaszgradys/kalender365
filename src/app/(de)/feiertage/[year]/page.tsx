@@ -40,7 +40,26 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
   if (!y) notFound();
 
   const national = getNationalFeiertage(y);
-  const regional = getAllFeiertage(y).filter((h) => h.scope !== "national");
+  const all = getAllFeiertage(y);
+  const regional = all.filter((h) => h.scope !== "national");
+
+  // Matrix „welcher Feiertag gilt wo": Einträge gleichen Datums/Namens (z. B.
+  // Fronleichnam voll + teilweise) zu einer Zeile zusammenführen; pro Land
+  // „voll" (gesetzlich) oder „teilweise" (regional/konfessionsabhängig).
+  const matrixMap = new Map<string, { date: string; name: string; note?: string; full: Set<string>; partial: Set<string> }>();
+  for (const h of all) {
+    if (h.scope === "sunday-legal") continue;
+    const key = `${h.date}|${h.name}`;
+    let row = matrixMap.get(key);
+    if (!row) {
+      row = { date: h.date, name: h.name, note: h.note, full: new Set(), partial: new Set() };
+      matrixMap.set(key, row);
+    }
+    const target = h.scope === "partial" ? row.partial : row.full;
+    for (const s of h.states) target.add(s);
+  }
+  const matrixRows = [...matrixMap.values()].sort((a, b) => a.date.localeCompare(b.date));
+  const dm = (iso: string) => `${iso.slice(8)}.${iso.slice(5, 7)}.`;
 
   const faq = [
     {
@@ -144,6 +163,60 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
             </table>
           </div>
           <p className="mt-2 text-xs text-slate-400">Abkürzungen: BW Baden-Württemberg, BY Bayern, BE Berlin, BB Brandenburg, HB Bremen, HH Hamburg, HE Hessen, MV Mecklenburg-Vorpommern, NI Niedersachsen, NW Nordrhein-Westfalen, RP Rheinland-Pfalz, SL Saarland, SN Sachsen, ST Sachsen-Anhalt, SH Schleswig-Holstein, TH Thüringen.</p>
+        </section>
+
+        {/* MATRIX: welcher Feiertag gilt wo */}
+        <section className="mt-8">
+          <h2 className="mb-1 text-xl font-bold text-navy-800">Welcher Feiertag gilt in welchem Bundesland?</h2>
+          <p className="mb-3 max-w-3xl text-sm text-slate-600">
+            Alle gesetzlichen Feiertage {y} im direkten Vergleich der 16 Bundesländer.
+            <span className="ml-1 whitespace-nowrap">✓ = gesetzlicher Feiertag,</span>{" "}
+            <span className="whitespace-nowrap">◑ = nur regional/teilweise,</span>{" "}
+            <span className="whitespace-nowrap">· = kein Feiertag.</span>
+          </p>
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full min-w-[820px] border-collapse text-sm">
+              <thead>
+                <tr className="bg-navy-50 text-navy-700">
+                  <th scope="col" className="sticky left-0 z-10 bg-navy-50 px-3 py-2 text-left font-semibold">Feiertag</th>
+                  {BUNDESLAENDER.map((b) => (
+                    <th key={b.code} scope="col" className="px-2 py-2 text-center font-semibold" title={b.name}>
+                      <abbr title={b.name} className="no-underline">{b.code}</abbr>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {matrixRows.map((r) => (
+                  <tr key={`${r.date}-${r.name}`} className="border-t border-slate-100 odd:bg-white even:bg-slate-50/60">
+                    <th scope="row" className="sticky left-0 z-10 whitespace-nowrap bg-inherit px-3 py-2 text-left font-medium text-navy-800">
+                      {r.name} <span className="font-normal text-slate-400">{dm(r.date)}</span>
+                    </th>
+                    {BUNDESLAENDER.map((b) => {
+                      const full = r.full.has(b.code);
+                      const partial = r.partial.has(b.code);
+                      return (
+                        <td
+                          key={b.code}
+                          className={`px-2 py-2 text-center ${full ? "bg-brand-green-50 font-bold text-brand-green-700" : partial ? "bg-amber-50 font-semibold text-amber-700" : "text-slate-300"}`}
+                          title={full ? `${r.name}: gesetzlicher Feiertag in ${b.name}` : partial ? `${r.name}: nur regional/teilweise in ${b.name}` : `${r.name}: kein Feiertag in ${b.name}`}
+                        >
+                          {full ? "✓" : partial ? "◑" : "·"}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-slate-400">
+            ◑ betrifft v. a. Fronleichnam (nur einzelne, überwiegend katholische Gemeinden in Sachsen und Thüringen) und
+            Mariä Himmelfahrt (in Bayern nur in überwiegend katholischen Gemeinden). Kürzel: BW Baden-Württemberg,
+            BY Bayern, BE Berlin, BB Brandenburg, HB Bremen, HH Hamburg, HE Hessen, MV Mecklenburg-Vorpommern,
+            NI Niedersachsen, NW Nordrhein-Westfalen, RP Rheinland-Pfalz, SL Saarland, SN Sachsen, ST Sachsen-Anhalt,
+            SH Schleswig-Holstein, TH Thüringen. Angaben ohne Gewähr.
+          </p>
         </section>
 
         {/* BESONDERE TAGE */}
