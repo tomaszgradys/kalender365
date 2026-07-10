@@ -93,8 +93,8 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
         {/* NATIONAL */}
         <section className="mt-8">
           <h2 className="mb-3 text-xl font-bold text-navy-800">Bundesweite Feiertage</h2>
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full min-w-[430px] text-left text-sm">
               <thead className="bg-slate-50 text-slate-500">
                 <tr>
                   <th className="px-4 py-2 font-medium">Feiertag</th>
@@ -118,8 +118,8 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
         {/* REGIONAL */}
         <section className="mt-8">
           <h2 className="mb-3 text-xl font-bold text-navy-800">Regionale Feiertage {y}</h2>
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+            <table className="w-full min-w-[520px] text-left text-sm">
               <thead className="bg-slate-50 text-slate-500">
                 <tr>
                   <th className="px-4 py-2 font-medium">Feiertag</th>
