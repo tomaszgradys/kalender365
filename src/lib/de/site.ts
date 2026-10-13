@@ -27,7 +27,7 @@ export const COMPANY = {
   city: "Wrocław",
   country: "Polen",
   email: "kontakt@profivo.pl",
-  phone: "+48 459 599 399",
+  phone: "+48 71 811 20 30",
   vatId: "PL9151835807",
   register: "KRS 0001181942 (Rejestr Przedsiębiorców, Sąd Rejonowy für Wrocław-Fabryczna)",
   regon: "542154491",
