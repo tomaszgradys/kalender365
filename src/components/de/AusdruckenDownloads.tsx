@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
+import { BUNDESLAENDER, type StateCode } from "@/lib/de/bundeslaender";
+import { monthMatrix } from "@/lib/de/calendar";
 import { MONTH_NAMES_DE, MONTH_SLUGS_DE } from "@/lib/de/locale";
 
 // Interaktive Vorlagen-Auswahl: ein Bundesland wählen → alle Download-Links
@@ -23,51 +24,89 @@ const VORLAGEN: Vorlage[] = [
   { typ: "halbjahr", title: "Halbjahreskalender", desc: "Zwei Seiten (Jan–Jun, Jul–Dez) mit großen Monatsfeldern – viel Platz für Notizen.", preview: "halbjahr" },
 ];
 
-function Preview({ kind }: { kind: Vorlage["preview"] }) {
+// Echte Mini-Vorschau: die zwölf Monate des Jahres als kleine Rasterkalender mit
+// den tatsächlichen Tagesnummern, Wochenenden grau, gesetzliche Feiertage grün.
+function MiniMonat({ year, m, x, y, w, h, numbers, state }: { year: number; m: number; x: number; y: number; w: number; h: number; numbers: boolean; state?: StateCode }) {
+  const rows = monthMatrix(year, m, state);
+  const cw = w / 7;
+  const ch = (h - 4) / 6.6;
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <rect width={w} height={3.2} fill="#003890" rx="0.5" />
+      {rows.map((row, r) =>
+        row.map((d, c) => {
+          if (!d.day) return null;
+          const cx = c * cw;
+          const cy = 4 + r * ch;
+          const fill = d.holiday ? "#bbf7d0" : d.weekend ? "#eef2f7" : "none";
+          return (
+            <g key={`${r}-${c}`}>
+              {fill !== "none" && <rect x={cx} y={cy} width={cw} height={ch} fill={fill} />}
+              {numbers && (
+                <text x={cx + cw / 2} y={cy + ch * 0.78} fontSize={ch * 0.72} textAnchor="middle" fill={d.weekend || d.holiday ? "#475569" : "#0f172a"} fontFamily="system-ui, sans-serif">
+                  {d.day}
+                </text>
+              )}
+            </g>
+          );
+        }),
+      )}
+    </g>
+  );
+}
+
+function Preview({ kind, year, state }: { kind: Vorlage["preview"]; year: number; state?: StateCode }) {
   const cls = "h-full w-full";
   if (kind === "quer") {
     return (
-      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label="Vorschau Querformat">
-        <rect x="1" y="1" width="118" height="78" rx="4" fill="#fff" stroke="#e2e8f0" />
+      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label={`Vorschau Jahreskalender ${year} Querformat`}>
+        <rect x="0.5" y="0.5" width="119" height="79" rx="3" fill="#fff" stroke="#e2e8f0" />
+        <rect x="6" y="4" width="40" height="3" rx="1" fill="#003890" />
         {Array.from({ length: 12 }).map((_, i) => (
-          <rect key={i} x={8 + (i % 4) * 27} y={10 + Math.floor(i / 4) * 22} width="22" height="17" rx="2" fill="#eef2ff" stroke="#c7d2fe" />
+          <MiniMonat key={i} year={year} m={i} x={6 + (i % 4) * 28} y={10 + Math.floor(i / 4) * 23} w={25} h={20} numbers state={state} />
         ))}
       </svg>
     );
   }
   if (kind === "hoch") {
     return (
-      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label="Vorschau Hochformat">
-        <rect x="34" y="1" width="52" height="78" rx="4" fill="#fff" stroke="#e2e8f0" />
+      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label={`Vorschau Jahreskalender ${year} Hochformat`}>
+        <rect x="32.5" y="0.5" width="55" height="79" rx="3" fill="#fff" stroke="#e2e8f0" />
+        <rect x="37" y="4" width="26" height="2.5" rx="1" fill="#003890" />
         {Array.from({ length: 12 }).map((_, i) => (
-          <rect key={i} x={39 + (i % 3) * 15} y={8 + Math.floor(i / 3) * 17} width="12" height="13" rx="1.5" fill="#eef2ff" stroke="#c7d2fe" />
+          <MiniMonat key={i} year={year} m={i} x={37 + (i % 3) * 16} y={9 + Math.floor(i / 3) * 17.5} w={14} h={15} numbers={false} state={state} />
         ))}
       </svg>
     );
   }
   if (kind === "planer") {
+    // Jahresplaner: Zeilen = Tage 1–31, Spalten = Monate; Wochenenden/Feiertage markiert.
     return (
-      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label="Vorschau Jahresplaner">
-        <rect x="1" y="1" width="118" height="78" rx="4" fill="#fff" stroke="#e2e8f0" />
-        <rect x="6" y="6" width="108" height="8" fill="#003890" rx="1.5" />
-        {Array.from({ length: 8 }).map((_, r) => (
-          <line key={r} x1="6" y1={18 + r * 7.5} x2="114" y2={18 + r * 7.5} stroke="#e2e8f0" />
-        ))}
-        {Array.from({ length: 11 }).map((_, c) => (
-          <line key={c} x1={16 + c * 9} y1="14" x2={16 + c * 9} y2="78" stroke="#eef2ff" />
+      <svg viewBox="0 0 120 80" className={cls} role="img" aria-label={`Vorschau Jahresplaner ${year}`}>
+        <rect x="0.5" y="0.5" width="119" height="79" rx="3" fill="#fff" stroke="#e2e8f0" />
+        <rect x="6" y="4" width="108" height="5" rx="1" fill="#003890" />
+        {Array.from({ length: 12 }).map((_, m) => {
+          const rows = monthMatrix(year, m, state).flat().filter((d) => d.day > 0);
+          return rows.map((d) => {
+            const fill = d.holiday ? "#bbf7d0" : d.weekend ? "#e2e8f0" : "#fff";
+            return <rect key={`${m}-${d.day}`} x={10 + m * 8.7} y={10 + (d.day - 1) * 2.2} width={8.2} height={2} fill={fill} />;
+          });
+        })}
+        {Array.from({ length: 12 }).map((_, m) => (
+          <line key={m} x1={10 + m * 8.7} y1="9" x2={10 + m * 8.7} y2="78.5" stroke="#cbd5e1" strokeWidth="0.3" />
         ))}
       </svg>
     );
   }
   return (
-    <svg viewBox="0 0 120 80" className={cls} role="img" aria-label="Vorschau Halbjahr">
-      <rect x="4" y="1" width="55" height="78" rx="4" fill="#fff" stroke="#e2e8f0" />
-      <rect x="61" y="1" width="55" height="78" rx="4" fill="#fff" stroke="#e2e8f0" />
-      {[4, 61].map((ox) =>
-        Array.from({ length: 6 }).map((_, i) => (
-          <rect key={`${ox}-${i}`} x={ox + 6} y={8 + i * 11.5} width="43" height="9" rx="1.5" fill="#eef2ff" stroke="#c7d2fe" />
-        )),
-      )}
+    <svg viewBox="0 0 120 80" className={cls} role="img" aria-label={`Vorschau Halbjahreskalender ${year}`}>
+      <rect x="3.5" y="0.5" width="55" height="79" rx="3" fill="#fff" stroke="#e2e8f0" />
+      <rect x="61.5" y="0.5" width="55" height="79" rx="3" fill="#fff" stroke="#e2e8f0" />
+      {Array.from({ length: 12 }).map((_, i) => {
+        const page = i < 6 ? 3.5 : 61.5;
+        const k = i % 6;
+        return <MiniMonat key={i} year={year} m={i} x={page + 4 + (k % 2) * 25} y={5 + Math.floor(k / 2) * 25} w={22} h={22} numbers={false} state={state} />;
+      })}
     </svg>
   );
 }
@@ -102,11 +141,13 @@ export default function AusdruckenDownloads({ year }: { year: number }) {
       </div>
 
       {/* Vorlagen-Karten */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <h2 className="mt-8 text-xl font-bold text-navy-800">Kalender {year} als PDF – 4 Jahresvorlagen ({regionLabel})</h2>
+      <p className="mt-1 text-sm text-slate-600">Insgesamt 17 Druckvorlagen je Region: vier Jahresansichten, zwölf Monatskalender und ein Excel-Jahresplaner – jeweils mit Kalenderwochen, Wochenenden und den Feiertagen {selected ? `in ${selected.name}` : "bundesweit"}. Die Vorschau zeigt das echte Jahr {year}.</p>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {VORLAGEN.map((v) => (
           <div key={v.typ} className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <div className="h-28 border-b border-slate-100 bg-slate-50 p-3">
-              <Preview kind={v.preview} />
+            <div className="h-40 border-b border-slate-100 bg-slate-50 p-3">
+              <Preview kind={v.preview} year={year} state={selected?.code} />
             </div>
             <div className="flex flex-1 flex-col p-4">
               <h3 className="font-bold text-navy-800">{v.title}</h3>
@@ -133,7 +174,8 @@ export default function AusdruckenDownloads({ year }: { year: number }) {
       </div>
 
       {/* Excel eigenständig hervorheben */}
-      <div className="mt-4 flex flex-col items-start gap-3 rounded-2xl border border-brand-green-200 bg-brand-green-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <h2 className="mt-8 text-xl font-bold text-navy-800">Kalender {year} als Excel (.xlsx) – Jahresplaner zum Eintragen</h2>
+      <div className="mt-3 flex flex-col items-start gap-3 rounded-2xl border border-brand-green-200 bg-brand-green-50/50 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="font-bold text-navy-800">Excel-Vorlage zum Bearbeiten</h3>
           <p className="mt-0.5 text-sm text-slate-600">
@@ -150,15 +192,21 @@ export default function AusdruckenDownloads({ year }: { year: number }) {
 
       {/* Monatskalender */}
       <div className="mt-8">
-        <h3 className="mb-3 text-lg font-bold text-navy-800">Einzelne Monate ({regionLabel})</h3>
+        <h2 className="mb-1 text-xl font-bold text-navy-800">Monatskalender {year} zum Ausdrucken – 12 PDF ({regionLabel})</h2>
+        <p className="mb-3 text-sm text-slate-600">Je ein Monat pro A4-Seite mit großen Tagesfeldern für Notizen, Kalenderwochen und Feiertagen.</p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {MONTH_NAMES_DE.map((name, m) => (
             <a
               key={m}
               href={`/api/pdf/de/${year}/${MONTH_SLUGS_DE[m]}${q}`}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-navy-700 hover:border-navy-300 hover:shadow-sm"
+              className="overflow-hidden rounded-xl border border-slate-200 bg-white text-sm font-medium text-navy-700 hover:border-navy-300 hover:shadow-sm"
             >
-              📄 {name} {year}
+              <div className="h-16 bg-slate-50 p-1.5">
+                <svg viewBox="0 0 60 36" className="h-full w-full" role="img" aria-label={`Vorschau ${name} ${year}`}>
+                  <MiniMonat year={year} m={m} x={2} y={1} w={56} h={34} numbers state={selected?.code} />
+                </svg>
+              </div>
+              <div className="px-3 py-2">📄 {name} {year}</div>
             </a>
           ))}
         </div>

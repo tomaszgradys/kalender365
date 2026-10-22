@@ -7,6 +7,7 @@ import { PRERENDER_YEARS, parseYear, yearRobots, isNavigableYear } from "@/lib/d
 import { SITE_URL } from "@/lib/de/site";
 import { serializeJsonLd } from "@/lib/de/jsonLd";
 import UrlaubsplanerClient from "@/components/de/UrlaubsplanerClient";
+import PlanerDownloads from "@/components/de/PlanerDownloads";
 import { ogMeta } from "@/lib/de/ogMeta";
 
 export function generateStaticParams() {
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   if (!y) return {};
   return {
     title: `Urlaubsplaner ${y} – Brückentage & lange Wochenenden`,
-    description: `Urlaubsplaner ${y}: Urlaubstage und Bundesland eingeben – der Planer zeigt die besten Brückentage für möglichst viele freie Tage. Mit Schulferien, editierbarem Kalender und PDF-Druck.`,
+    description: `Urlaubsplaner ${y}: Urlaubstage und Bundesland eingeben – der Planer zeigt die besten Brückentage für möglichst viele freie Tage. Dazu der Urlaubsplaner ${y} zum Ausdrucken (PDF) und als Excel-Vorlage.`,
     alternates: { canonical: `/urlaubsplaner/${y}` },
     openGraph: ogMeta(`/urlaubsplaner/${y}`, { defaultImage: true }),
     ...yearRobots(y),
@@ -58,6 +59,10 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
     {
       q: "Kann ich den Urlaubsplan ausdrucken?",
       a: "Ja, klicken Sie auf „Drucken / PDF“, um den fertigen Plan als PDF zu speichern — zum Beispiel, um ihn im Betrieb einzureichen.",
+    },
+    {
+      q: `Gibt es den Urlaubsplaner ${y} auch als Excel-Vorlage oder leeres PDF?`,
+      a: `Ja. Unter dem Planer finden Sie den Jahresplaner ${y} als PDF zum Ausdrucken und als editierbare Excel-Datei (.xlsx) – mit Wochenenden, Feiertagen und Schulferien Ihres Bundeslandes bereits markiert, zum Eintragen von Urlaub für sich oder das ganze Team.`,
     },
   ];
 
@@ -106,6 +111,14 @@ export default async function UrlaubsplanerPage({ params }: { params: Promise<{ 
         </p>
 
         <UrlaubsplanerClient year={y} />
+
+        <section className="mt-10 no-print">
+          <h2 className="text-xl font-bold text-navy-800">Urlaubsplaner {y} zum Ausdrucken und als Excel-Vorlage</h2>
+          <p className="mb-4 mt-2 max-w-3xl text-slate-600">
+            Lieber auf Papier oder in der Tabelle planen? Der Jahresplaner {y} zeigt alle Tage des Jahres als Raster (Tage als Zeilen, Monate als Spalten) mit Wochenenden, Feiertagen und Schulferien Ihres Bundeslandes – als PDF zum Ausdrucken für Pinnwand oder Kühlschrank und als Excel-Datei für die Urlaubsübersicht im Team.
+          </p>
+          <PlanerDownloads year={y} />
+        </section>
 
         {/* SEO */}
         <section className="mt-10 space-y-3 text-slate-600 no-print">

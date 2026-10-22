@@ -49,7 +49,22 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Einbettbare Widgets (/widget/…) dürfen von fremden Websites per iframe
+      // geladen werden: frame-ancestors * statt 'none'. Moderne Browser werten bei
+      // vorhandener frame-ancestors-Direktive X-Frame-Options nicht mehr aus; der
+      // Wert SAMEORIGIN bleibt als Fallback für sehr alte Browser.
+      {
+        source: "/widget/:path*",
+        headers: [
+          ...securityHeaders.filter((h) => h.key !== "Content-Security-Policy" && h.key !== "X-Frame-Options" && h.key !== "Cross-Origin-Resource-Policy"),
+          { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors *") },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
+        ],
+      },
+    ];
   },
   // Kanoniczny host to apex kalender365.pro — www przekierowujemy 308 na apex,
   // żeby nie tworzyć duplikatu treści (www vs bez www).

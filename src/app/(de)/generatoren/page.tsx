@@ -19,6 +19,7 @@ export default function GeneratorenPage() {
     { href: "/wochentag-rechner", emoji: "📆", label: "Wochentag-Rechner", desc: "Wochentag eines Datums" },
     { href: "/altersrechner", emoji: "🎂", label: "Altersrechner", desc: "Alter genau berechnen" },
     { href: "/stundenplan", emoji: "📝", label: "Stundenplan", desc: "Erstellen & ausdrucken" },
+    { href: "/ferien-widget", emoji: "🧩", label: "Ferien-Widget", desc: "Schulferien auf der eigenen Website" },
     { href: "/wie-viele-tage-bis", emoji: "⏳", label: "Countdown", desc: "Tage bis Weihnachten, Ostern …" },
     { href: `/urlaubsplaner/${y}`, emoji: "🏖️", label: "Urlaubsplaner", desc: "Brückentage optimal nutzen" },
     { href: `/kalenderwochen/${y}`, emoji: "🔢", label: "Kalenderwochen", desc: "Alle KW nach ISO 8601" },
