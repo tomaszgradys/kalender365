@@ -66,6 +66,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image" },
+  // Google Discover: große Vorschaubilder erlauben (sonst nur Thumbnails).
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
 };
 
 export const viewport = { themeColor: "#003890" };

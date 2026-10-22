@@ -148,6 +148,95 @@ export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]>
 
 const SEED: BlogPost[] = [
   {
+    // Discover-Beitrag 22.10.2026: Zahlen-Hook (4 Urlaubstage = 10 Tage frei; 4 Feiertage am
+    // Wochenende). Alle Termine aus brueckentageBundesweit()/feiertage.ts berechnet.
+    slug: "brueckentage-2027-mit-4-urlaubstagen-10-tage-frei",
+    title: "Brückentage 2027: Mit 4 Urlaubstagen 10 Tage frei",
+    excerpt:
+      "2027 bringt Brücken von 9 bis 10 Tagen um Ostern und Pfingsten – aber der 1. Mai, der 3. Oktober und beide Weihnachtsfeiertage fallen aufs Wochenende. Alle Termine je Land.",
+    category: "Feiertage & Urlaub",
+    publishedAt: "2026-10-22",
+    cover: { src: "/blog/brueckentage-2027-urlaub-planen.jpg", alt: "Koffer, Sonnenbrille und Kaffee am Fenster – Urlaub 2027 planen" },
+    bodyHtml: `
+<p><strong>Wer 2027 clever plant, macht aus 4 Urlaubstagen 10 freie Tage am Stück – gleich zweimal.</strong> Die Kehrseite: Vier der neun bundesweiten Feiertage fallen 2027 auf einen Samstag oder Sonntag, und in Deutschland gibt es dafür keinen Ersatztag. Hier sind alle Termine, nach Effizienz sortiert, plus die regionalen Brücken für Ihr Bundesland.</p>
+<h2>Die besten Brückentage 2027 – bundesweit</h2>
+<ul>
+<li><strong>Christi Himmelfahrt (Donnerstag, 6. Mai):</strong> 1 Urlaubstag (Freitag, 7. Mai) ergibt <strong>4 freie Tage</strong> vom 6. bis 9. Mai – die effizienteste Brücke des Jahres.</li>
+<li><strong>Ostern (Karfreitag 26. März, Ostermontag 29. März):</strong> 4 Urlaubstage vom 22. bis 25. März ergeben <strong>10 freie Tage</strong> (20. bis 29. März). Alternativ 4 Urlaubstage vom 30. März bis 2. April: ebenfalls 10 freie Tage, vom 26. März bis 4. April.</li>
+<li><strong>Pfingsten (Pfingstmontag 17. Mai):</strong> 4 Urlaubstage vom 18. bis 21. Mai ergeben <strong>9 freie Tage</strong> (15. bis 23. Mai).</li>
+<li><strong>Anfang Mai:</strong> 3 Urlaubstage (3. bis 5. Mai) verbinden das Wochenende mit Christi Himmelfahrt zu <strong>6 freien Tagen</strong> (1. bis 6. Mai); mit dem 7. Mai als viertem Urlaubstag werden daraus sogar 9 Tage bis zum 9. Mai.</li>
+</ul>
+<p>Die vollständige Tabelle mit Zeitraum, Urlaubstagen und freien Tagen – auch für die regionalen Brücken – steht unter <a href="/brueckentage/2027">Brückentage 2027</a>; der <a href="/urlaubsplaner/2027">Urlaubsplaner 2027</a> verteilt Ihre Urlaubstage automatisch auf die besten Kombinationen.</p>
+<h2>Regionale Brücken: Fronleichnam, Dreikönig, Buß- und Bettag</h2>
+<ul>
+<li><strong>Fronleichnam (Donnerstag, 27. Mai)</strong> in Baden-Württemberg, Bayern, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz und dem Saarland: 1 Urlaubstag (28. Mai) ergibt 4 freie Tage.</li>
+<li><strong>Heilige Drei Könige (Mittwoch, 6. Januar)</strong> in Baden-Württemberg, Bayern und Sachsen-Anhalt: 2 Urlaubstage (4. und 5. Januar) ergeben 6 freie Tage ab Neujahr; 2 Urlaubstage am 7. und 8. Januar ergeben 5 freie Tage bis zum 10. Januar.</li>
+<li><strong>Buß- und Bettag (Mittwoch, 17. November)</strong> in Sachsen: je 2 Urlaubstage davor oder danach ergeben 5 freie Tage.</li>
+<li><strong>Internationaler Frauentag (Montag, 8. März)</strong> in Berlin und Mecklenburg-Vorpommern: 4 Urlaubstage (9. bis 12. März) ergeben 9 freie Tage.</li>
+</ul>
+<h2>Die schlechte Nachricht: 4 Feiertage am Wochenende</h2>
+<p>2027 fallen der <strong>Tag der Arbeit (Samstag, 1. Mai)</strong>, der <strong>Tag der Deutschen Einheit (Sonntag, 3. Oktober)</strong> sowie der <strong>1. und 2. Weihnachtsfeiertag (Samstag und Sonntag, 25. und 26. Dezember)</strong> auf ein Wochenende. Anders als in manchen Nachbarländern gibt es in Deutschland keinen Ersatzfeiertag: Diese vier Tage sind für Arbeitnehmer mit 5-Tage-Woche schlicht verloren. Von den neun bundesweiten Feiertagen bleiben damit nur fünf an Werktagen – 2026 waren es noch sieben. Entsprechend hat 2027 je nach Bundesland 253 bis 256 Arbeitstage, mehr als in fast jedem anderen Jahr.</p>
+<p>Ein Trost: Weihnachten am Wochenende bedeutet, dass die Weihnachtswoche (Montag 20. bis Freitag 24. Dezember) mit 5 Urlaubstagen zu 9 freien Tagen bis zum 26. Dezember wird, und Neujahr 2028 fällt auf einen Samstag – wer bis Silvester durcharbeitet, hat dennoch das lange Wochenende 1. bis 2. Januar 2028.</p>
+<h2>Lange Wochenenden ganz ohne Urlaub</h2>
+<p>Drei Termine schenken 2027 allen Bundesländern ein verlängertes Wochenende ohne einen einzigen Urlaubstag: <strong>Neujahr</strong> (Freitag, 1. bis Sonntag, 3. Januar), <strong>Ostern</strong> (Karfreitag, 26. bis Ostermontag, 29. März – vier Tage) und <strong>Pfingsten</strong> (Samstag, 15. bis Montag, 17. Mai).</p>
+<h2>So planen Sie am besten</h2>
+<ol>
+<li>Zuerst die beiden 10-Tage-Blöcke um Ostern prüfen – sie kollidieren mit den Osterferien vieler Länder, daher früh im Betrieb anmelden.</li>
+<li>Den 7. Mai (Freitag nach Himmelfahrt) sofort eintragen: Ein Tag, vier freie Tage – diese Brücke ist in jedem Bundesland begehrt.</li>
+<li>Regionale Feiertage Ihres Landes mitnehmen: Die Übersicht <a href="/feiertage/2027">Feiertage 2027</a> zeigt in einer Matrix, welcher Tag wo gilt.</li>
+<li>Für Familien: Die Brücken mit den <a href="/schulferien/2027">Schulferien 2027</a> abgleichen – der Urlaubsplaner blendet die Ferien Ihres Bundeslandes ein.</li>
+</ol>
+<p>Alle Angaben beziehen sich auf eine 5-Tage-Woche (Montag bis Freitag) und die gesetzlichen Feiertage des jeweiligen Bundeslandes; Zeiträume inklusive Wochenenden. Berechnet mit den Feiertagsregeln der Länder (Stand Oktober 2026), ohne Gewähr.</p>`,
+    faq: [
+      { q: "Wann sind die besten Brückentage 2027?", a: "Der Freitag nach Christi Himmelfahrt (7. Mai 2027: 1 Urlaubstag, 4 freie Tage) sowie die Wochen vor oder nach Ostern (22. bis 25. März oder 30. März bis 2. April: je 4 Urlaubstage, 10 freie Tage) und die Woche nach Pfingsten (18. bis 21. Mai: 4 Urlaubstage, 9 freie Tage)." },
+      { q: "Welche Feiertage fallen 2027 auf ein Wochenende?", a: "Der 1. Mai (Samstag), der 3. Oktober (Sonntag) sowie der 1. und 2. Weihnachtsfeiertag (Samstag und Sonntag). In Deutschland gibt es dafür keinen Ersatztag." },
+      { q: "Wie viele Arbeitstage hat 2027?", a: "Je nach Bundesland 253 bis 256 Arbeitstage bei einer 5-Tage-Woche – zum Beispiel 256 in Brandenburg, 255 in Berlin und 253 in Bayern." },
+      { q: "Gibt es 2027 lange Wochenenden ohne Urlaub?", a: "Ja: Neujahr (1. bis 3. Januar), Ostern (26. bis 29. März, vier Tage) und Pfingsten (15. bis 17. Mai) – bundesweit." },
+    ],
+    source: "seed",
+  },
+  {
+    // Discover-Beitrag 22.10.2026, drei Tage vor der Umstellung. Sonnenzeiten für Berlin
+    // aus sun.ts (24./25./26.10. und 21.12.2026), Termine aus astroYear.ts.
+    slug: "winterzeit-2026-zeitumstellung-25-oktober",
+    title: "Winterzeit 2026: Am 25. Oktober werden die Uhren zurückgestellt",
+    excerpt:
+      "In der Nacht zum 25. Oktober 2026 springt die Uhr von 3:00 auf 2:00 Uhr zurück. Was sich ändert, warum es abends früh dunkel wird und wann die Sommerzeit 2027 beginnt.",
+    category: "Zeit & Rechner",
+    publishedAt: "2026-10-22",
+    cover: { src: "/blog/winterzeit-2026-zeitumstellung-oktober.jpg", alt: "Wanduhr, Herbstlaub und Lampe – Zeitumstellung auf Winterzeit" },
+    bodyHtml: `
+<p><strong>Am Sonntag, den 25. Oktober 2026, endet die Sommerzeit:</strong> Um 3:00 Uhr nachts werden die Uhren auf 2:00 Uhr zurückgestellt. Die Nacht ist damit eine Stunde länger, und ab Montag gilt wieder die Mitteleuropäische Zeit (MEZ) – umgangssprachlich die „Winterzeit“, rechtlich die Normalzeit.</p>
+<h2>Vor oder zurück? Die Merkregel</h2>
+<p>Im Herbst werden die Uhren <strong>zurück</strong>gestellt: von 3:00 auf 2:00 Uhr. Die bekannte Eselsbrücke: Im Herbst stellt man die Gartenmöbel <em>zurück</em> in den Schuppen, im Frühjahr <em>vor</em> die Tür. Wer am Samstagabend die Uhr noch nicht umstellt, kommt am Sonntag eine Stunde zu früh – ärgerlich nur, wenn Sie um 9 Uhr verabredet sind. Smartphones, Computer und Funkuhren stellen sich automatisch um; manuell nachjustieren müssen Sie meist Backofen, Mikrowelle, Autoradio und analoge Wanduhren.</p>
+<h2>Warum es ab Sonntag abends so früh dunkel ist</h2>
+<p>Die Umstellung verschiebt den Tag um eine Stunde nach vorn – in Berlin geht die Sonne am Samstag, 24. Oktober, um 17:52 Uhr unter, am Sonntag, 25. Oktober, bereits um <strong>16:50 Uhr</strong>. Dafür wird es morgens wieder heller: Sonnenaufgang um 6:49 Uhr statt 7:47 Uhr. Die Tageslänge selbst ändert sich durch die Umstellung nicht, sie schrumpft nur weiter mit dem Herbst: Am 25. Oktober dauert der Tag in Berlin 10 Stunden und 1 Minute, zur Wintersonnenwende am 21. Dezember (Winteranfang um 21:50 Uhr) nur noch 7 Stunden und 39 Minuten – Sonnenaufgang 8:14 Uhr, Sonnenuntergang 15:53 Uhr. Für Ihren Ort finden Sie die Zeiten unter <a href="/sonnenaufgang-sonnenuntergang">Sonnenaufgang &amp; Sonnenuntergang</a>.</p>
+<h2>Die Termine auf einen Blick</h2>
+<ul>
+<li><strong>Ende der Sommerzeit 2026:</strong> Sonntag, 25. Oktober 2026, 3:00 Uhr → 2:00 Uhr.</li>
+<li><strong>Beginn der Sommerzeit 2027:</strong> Sonntag, 28. März 2027, 2:00 Uhr → 3:00 Uhr.</li>
+<li><strong>Ende der Sommerzeit 2027:</strong> Sonntag, 31. Oktober 2027 – der spätestmögliche Termin.</li>
+</ul>
+<p>Die Regel ist EU-weit einheitlich: letzter Sonntag im März und letzter Sonntag im Oktober. Alle Termine für die kommenden Jahre: <a href="/zeitumstellung/2026">Zeitumstellung 2026</a> und <a href="/zeitumstellung/2027">Zeitumstellung 2027</a>.</p>
+<h2>Wird die Zeitumstellung abgeschafft?</h2>
+<p>Das Europäische Parlament hat sich bereits 2019 für ein Ende der halbjährlichen Umstellung ausgesprochen. Weil sich die Mitgliedstaaten seither nicht auf eine dauerhafte Sommer- oder Normalzeit einigen konnten, bleibt es vorerst bei zwei Umstellungen pro Jahr – auch 2027. Bis zu einer Entscheidung gilt: Die Winterzeit ist die „echte“ Zeit, die Sommerzeit die Ausnahme von Ende März bis Ende Oktober.</p>
+<h2>Tipps für die Umstellung</h2>
+<ul>
+<li>Die gewonnene Stunde am Sonntag bewusst zum Ausschlafen nutzen – der Körper braucht erfahrungsgemäß einige Tage, bis sich der Rhythmus anpasst.</li>
+<li>Kleine Kinder und Haustiere halten sich nicht an die Uhr: Mahlzeiten und Schlafenszeiten in den Tagen davor um 10 bis 15 Minuten verschieben.</li>
+<li>Rauchmelder-Batterien prüfen – viele nutzen die Umstellung als festen Termin dafür.</li>
+<li>Fahrrad- und Autobeleuchtung kontrollieren: Der Berufsverkehr am Montagabend findet erstmals wieder in der Dämmerung statt.</li>
+</ul>
+<p>Weiterlesen: <a href="/kw/44-2026">Kalenderwoche 44</a> mit Reformationstag und Allerheiligen, die <a href="/jahreszeiten/2026">Jahreszeiten 2026</a> und die <a href="/mondphasen/2026">Mondphasen 2026</a> – der nächste Vollmond ist am 26. Oktober um 5:13 Uhr.</p>`,
+    faq: [
+      { q: "Wann ist die Zeitumstellung im Oktober 2026?", a: "In der Nacht von Samstag, 24., auf Sonntag, 25. Oktober 2026: Um 3:00 Uhr werden die Uhren auf 2:00 Uhr zurückgestellt." },
+      { q: "Wird die Uhr vor- oder zurückgestellt?", a: "Zurück – von 3:00 auf 2:00 Uhr. Die Nacht ist eine Stunde länger." },
+      { q: "Wann beginnt die Sommerzeit 2027?", a: "Am Sonntag, 28. März 2027, werden die Uhren um 2:00 Uhr auf 3:00 Uhr vorgestellt." },
+      { q: "Ist die Winterzeit die normale Zeit?", a: "Ja. Die Mitteleuropäische Zeit (MEZ) ist die gesetzliche Normalzeit; die Sommerzeit (MESZ) gilt nur von Ende März bis Ende Oktober." },
+    ],
+    source: "seed",
+  },
+  {
     // Evergreen-Pillar zum Thema Feiertage. Andere Suchintention als der
     // Jahrgangs-Hub /feiertage/JAHR (Terminliste) und der Jahres-Überblick:
     // erklärt das SYSTEM (bundesweit vs. Ländersache, beweglich/fest, stille
