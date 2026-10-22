@@ -56,7 +56,7 @@ function Sheet({ d, onNext, onPrev, hint = false }: { d: DayData; onNext?: () =>
         </div>
 
         <div className="mt-3 flex justify-center gap-4 text-[11px] text-slate-500">
-          <span>☀ {d.sunrise}–{d.sunset}</span>
+          <span title="Sonnenaufgang und -untergang in Berlin">☀ {d.sunrise}–{d.sunset} (Berlin)</span>
           <span>{d.moonIcon} {d.moonrise ?? "—"}</span>
           <span>KW {d.week}</span>
         </div>

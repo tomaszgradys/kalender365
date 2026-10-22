@@ -76,7 +76,7 @@ export function makeFerienTypYearRoute(typ: FerienTyp) {
     const y = parseYear(year);
     if (!y) return {};
     return {
-      title: `${label} ${yl(y)} – Termine aller Bundesländer im Überblick`,
+      title: `${label} ${yl(y)} – Termine aller Bundesländer`,
       description: `${label} ${yl(y)} in Deutschland: Termine und Dauer für alle 16 Bundesländer auf einen Blick. Quelle: offizielle Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}` },
       openGraph: ogMeta(`/${typ}/${y}`),
