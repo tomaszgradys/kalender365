@@ -9,7 +9,7 @@
 // Deliberately NO Polish "Saturday holiday → give a day back" rule here.
 
 import type { StateCode } from "./bundeslaender";
-import { workFreeHolidaySet } from "./feiertage";
+import { workFreeHolidaySet, getAllFeiertage } from "./feiertage";
 
 function pad(n: number): string {
   return n.toString().padStart(2, "0");
@@ -106,3 +106,65 @@ export function arbeitstageBetween(fromISO: string, toISO: string, state: StateC
   }
   return count;
 }
+
+export type ArbeitstageDetails = {
+  kalendertage: number;
+  /** Mo–Fr ohne Feiertage (5-Tage-Woche). */
+  arbeitstage5: number;
+  /** Mo–Sa ohne Feiertage (6-Tage-Woche = Werktage im Rechtssinn). */
+  arbeitstage6: number;
+  samstage: number;
+  sonntage: number;
+  /** Gesetzliche Feiertage des Landes im Zeitraum, die auf Mo–Fr fallen (werden bei 5 Tagen abgezogen). */
+  feiertageMoFr: { date: string; name: string }[];
+  /** Feiertage, die auf einen Samstag fallen (werden nur bei 6 Tagen abgezogen). */
+  feiertageSa: { date: string; name: string }[];
+  /** Feiertage am Sonntag (informativ – senken keine Zählung). */
+  feiertageSo: { date: string; name: string }[];
+};
+
+/**
+ * Detailauswertung eines Zeitraums (inklusive Start- und Endtag) für den
+ * Arbeitstage-Rechner: 5- und 6-Tage-Woche gleichzeitig plus die abgezogenen
+ * Feiertage mit Namen. Mehrere Feiertage am selben Tag (z. B. Reformationstag
+ * und Allerheiligen fallen nie zusammen, aber sicherheitshalber) zählen einmal.
+ */
+export function arbeitstageDetails(fromISO: string, toISO: string, state: StateCode): ArbeitstageDetails {
+  const out: ArbeitstageDetails = { kalendertage: 0, arbeitstage5: 0, arbeitstage6: 0, samstage: 0, sonntage: 0, feiertageMoFr: [], feiertageSa: [], feiertageSo: [] };
+  let from = new Date(fromISO + "T00:00:00Z").getTime();
+  const to = new Date(toISO + "T00:00:00Z").getTime();
+  if (Number.isNaN(from) || Number.isNaN(to) || from > to) return out;
+  const names = new Map<string, string>();
+  for (let y = new Date(from).getUTCFullYear(); y <= new Date(to).getUTCFullYear(); y++) {
+    for (const h of getAllFeiertage(y)) {
+      if (h.scope === "national" || (h.scope === "state" && h.states.includes(state))) {
+        if (!names.has(h.date)) names.set(h.date, h.name);
+      }
+    }
+  }
+  for (; from <= to; from += 86400000) {
+    const d = new Date(from);
+    const weekday = (d.getUTCDay() + 6) % 7; // Mo=0
+    const isoDate = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
+    const name = names.get(isoDate);
+    out.kalendertage++;
+    if (weekday === 6) {
+      out.sonntage++;
+      if (name) out.feiertageSo.push({ date: isoDate, name });
+      continue;
+    }
+    if (weekday === 5) {
+      out.samstage++;
+      if (name) out.feiertageSa.push({ date: isoDate, name });
+      else out.arbeitstage6++;
+      continue;
+    }
+    if (name) out.feiertageMoFr.push({ date: isoDate, name });
+    else {
+      out.arbeitstage5++;
+      out.arbeitstage6++;
+    }
+  }
+  return out;
+}
+

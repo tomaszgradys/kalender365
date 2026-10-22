@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BUNDESLAENDER, type StateCode } from "@/lib/de/bundeslaender";
-import { arbeitstageBetween } from "@/lib/de/arbeitstage";
+import { arbeitstageDetails } from "@/lib/de/arbeitstage";
 import { formatFullDE } from "@/lib/de/locale";
 
 const inputCls = "rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-navy-800 outline-none focus:border-navy-300";
@@ -44,11 +44,21 @@ export function TageRechner() {
 }
 
 export function ArbeitstageRechner() {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const thisYear = new Date().getFullYear();
+  const [from, setFrom] = useState(`${thisYear}-01-01`);
+  const [to, setTo] = useState(`${thisYear}-12-31`);
   const [state, setState] = useState<StateCode>("BY");
-  const valid = from && to && from <= to;
-  const result = valid ? arbeitstageBetween(from, to, state, "5") : null;
+  const [woche, setWoche] = useState<"5" | "6">("5");
+  const [urlaub, setUrlaub] = useState("");
+  const [krank, setKrank] = useState("");
+  const valid = Boolean(from && to && from <= to);
+  const det = valid ? arbeitstageDetails(from, to, state) : null;
+  const brutto = det ? (woche === "5" ? det.arbeitstage5 : det.arbeitstage6) : 0;
+  const u = Math.max(0, Math.floor(Number(urlaub) || 0));
+  const k = Math.max(0, Math.floor(Number(krank) || 0));
+  const netto = Math.max(0, brutto - u - k);
+  const abzug = woche === "5" ? det?.feiertageMoFr ?? [] : [...(det?.feiertageMoFr ?? []), ...(det?.feiertageSa ?? [])].sort((a, b) => a.date.localeCompare(b.date));
+  const numCls = inputCls + " w-24";
   return (
     <div className={cardCls}>
       <div className="flex flex-wrap items-end gap-4">
@@ -67,14 +77,65 @@ export function ArbeitstageRechner() {
           </select>
         </label>
       </div>
-      <div role="status" aria-live="polite">
-        {result !== null && (
-          <p className="mt-4 text-lg text-navy-800">
-            <strong>{result} Arbeitstage</strong> (Mo–Fr ohne Feiertage) im gewählten Zeitraum.
-          </p>
-        )}
+
+      <fieldset className="mt-4">
+        <legend className="text-sm text-slate-500">Arbeitswoche</legend>
+        <div className="mt-1 flex flex-wrap gap-2 text-sm">
+          <label className={`cursor-pointer rounded-lg border px-3 py-1.5 ${woche === "5" ? "border-navy-500 bg-navy-50 font-semibold text-navy-800" : "border-slate-200 text-slate-700"}`}>
+            <input type="radio" name="woche" value="5" checked={woche === "5"} onChange={() => setWoche("5")} className="mr-1.5" />
+            5-Tage-Woche (Mo–Fr) – Arbeitstage
+          </label>
+          <label className={`cursor-pointer rounded-lg border px-3 py-1.5 ${woche === "6" ? "border-navy-500 bg-navy-50 font-semibold text-navy-800" : "border-slate-200 text-slate-700"}`}>
+            <input type="radio" name="woche" value="6" checked={woche === "6"} onChange={() => setWoche("6")} className="mr-1.5" />
+            6-Tage-Woche (Mo–Sa) – Werktage
+          </label>
+        </div>
+      </fieldset>
+
+      <div className="mt-4 flex flex-wrap items-end gap-4">
+        <label className="text-sm">
+          <span className="block text-slate-500">Urlaubstage abziehen</span>
+          <input type="number" min={0} max={400} inputMode="numeric" value={urlaub} onChange={(e) => setUrlaub(e.target.value)} placeholder="0" className={numCls} />
+        </label>
+        <label className="text-sm">
+          <span className="block text-slate-500">Krankheitstage abziehen</span>
+          <input type="number" min={0} max={400} inputMode="numeric" value={krank} onChange={(e) => setKrank(e.target.value)} placeholder="0" className={numCls} />
+        </label>
       </div>
-      <p className="mt-2 text-xs text-slate-400">Zeitraum inklusive Start- und Endtag. 5-Tage-Woche.</p>
+
+      <div role="status" aria-live="polite">
+        {det && (
+          <div className="mt-5 rounded-xl bg-navy-50/60 p-4">
+            <p className="text-lg text-navy-800">
+              <strong>{brutto} {woche === "5" ? "Arbeitstage" : "Werktage"}</strong> ({woche === "5" ? "Mo–Fr" : "Mo–Sa"} ohne gesetzliche Feiertage) im gewählten Zeitraum
+              {u + k > 0 && (
+                <>
+                  {" "}– abzüglich {u > 0 ? `${u} Urlaubstag${u === 1 ? "" : "en"}` : ""}{u > 0 && k > 0 ? " und " : ""}{k > 0 ? `${k} Krankheitstag${k === 1 ? "" : "en"}` : ""}: <strong>{netto} tatsächliche {woche === "5" ? "Arbeitstage" : "Werktage"}</strong>
+                </>
+              )}
+              .
+            </p>
+            <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 text-sm text-slate-700 sm:grid-cols-3">
+              <div><dt className="text-slate-500">Kalendertage</dt><dd className="font-semibold text-navy-800">{det.kalendertage}</dd></div>
+              <div><dt className="text-slate-500">Samstage / Sonntage</dt><dd className="font-semibold text-navy-800">{det.samstage} / {det.sonntage}</dd></div>
+              <div><dt className="text-slate-500">Abgezogene Feiertage</dt><dd className="font-semibold text-navy-800">{abzug.length}</dd></div>
+              <div><dt className="text-slate-500">Arbeitstage (Mo–Fr)</dt><dd className="font-semibold text-navy-800">{det.arbeitstage5}</dd></div>
+              <div><dt className="text-slate-500">Werktage (Mo–Sa)</dt><dd className="font-semibold text-navy-800">{det.arbeitstage6}</dd></div>
+              <div><dt className="text-slate-500">Feiertage am Wochenende</dt><dd className="font-semibold text-navy-800">{det.feiertageSa.length + det.feiertageSo.length}</dd></div>
+            </dl>
+            {abzug.length > 0 && (
+              <details className="mt-3 text-sm">
+                <summary className="cursor-pointer font-medium text-navy-700">Abgezogene Feiertage anzeigen ({abzug.length})</summary>
+                <ul className="mt-2 columns-1 gap-6 text-slate-700 sm:columns-2">
+                  {abzug.map((h) => <li key={h.date}>{formatFullDE(h.date)} – {h.name}</li>)}
+                </ul>
+              </details>
+            )}
+          </div>
+        )}
+        {!valid && from && to && <p className="mt-4 text-sm text-amber-700">Das Enddatum liegt vor dem Startdatum.</p>}
+      </div>
+      <p className="mt-2 text-xs text-slate-400">Zeitraum inklusive Start- und Endtag. Gesetzliche Feiertage des gewählten Bundeslandes; nur in Teilen eines Landes geltende Tage (z. B. Fronleichnam in Sachsen, Mariä Himmelfahrt in Bayern) werden nicht abgezogen.</p>
     </div>
   );
 }

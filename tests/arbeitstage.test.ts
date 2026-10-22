@@ -5,6 +5,7 @@ import {
   arbeitstageInYear,
   werktageInYear,
   arbeitstageBetween,
+  arbeitstageDetails,
 } from "../src/lib/de/arbeitstage.ts";
 import { getBrueckentage, getLangeWochenenden } from "../src/lib/de/brueckentage.ts";
 import { getSchulferien, isSchulferienIndexable } from "../src/lib/de/schulferien.ts";
@@ -62,4 +63,23 @@ test("yearSummary: Feiertage zählt ALLE gesetzlichen Feiertage, nicht nur die a
   assert.ok(s.feiertageAnWerktagen <= s.feiertageCount);
   const by = yearSummary(2027, "BY");
   assert.ok(by.feiertageCount >= 12, "Bayern ≥ 12 arbeitsfreie Feiertage");
+});
+
+test("arbeitstageDetails 2027 Bayern: 253 Arbeitstage, Werktage = Arbeitstage + Samstage ohne Sa-Feiertage, Feiertagsliste mit Namen", () => {
+  const d = arbeitstageDetails("2027-01-01", "2027-12-31", "BY");
+  assert.equal(d.kalendertage, 365);
+  assert.equal(d.arbeitstage5, 253);
+  assert.equal(d.arbeitstage6, d.arbeitstage5 + d.samstage - d.feiertageSa.length);
+  assert.ok(d.feiertageMoFr.some((h) => h.name === "Fronleichnam"));
+  // 1. Mai 2027 ist ein Samstag → nur bei 6-Tage-Woche abgezogen.
+  assert.ok(d.feiertageSa.some((h) => h.date === "2027-05-01"));
+  assert.ok(!d.feiertageMoFr.some((h) => h.date === "2027-05-01"));
+  // 3. Oktober 2027 ist ein Sonntag → informativ.
+  assert.ok(d.feiertageSo.some((h) => h.date === "2027-10-03"));
+});
+
+test("arbeitstageDetails: ungültiger oder leerer Zeitraum liefert Nullen", () => {
+  const d = arbeitstageDetails("2027-02-01", "2027-01-01", "BE");
+  assert.equal(d.kalendertage, 0);
+  assert.equal(d.arbeitstage5, 0);
 });
