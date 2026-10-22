@@ -1,8 +1,11 @@
-// Schulferien-Rohdaten je Bundesland für 2026 und 2027.
+// Schulferien-Rohdaten je Bundesland für 2026, 2027 und 2028.
 //
 // Quelle: offizielle KMK-Ferienkalender (Stand 09.10.2025):
 //   FER2025_26 (Kalenderjahr 2026), FER2026_27 (Herbst/Weihnachten 2026 +
-//   Kalenderjahr 2027), FER2027_28 (Herbst/Weihnachten 2027).
+//   Kalenderjahr 2027), FER2027_28 (Herbst/Weihnachten 2027 + Winter bis
+//   Sommer 2028), FER2028_29 (Herbst/Weihnachten 2028).
+//   https://www.kmk.org/fileadmin/Dateien/pdf/Ferienkalender/FER2027_28.pdf
+//   https://www.kmk.org/fileadmin/Dateien/pdf/Ferienkalender/FER2028_29.pdf
 // Kompakt als [Typ, "TT.MM", "TT.MM"?] kodiert; fehlendes Enddatum = einzelner
 // (beweglicher / unterrichtsfreier) Ferientag. Jahresübergang bei
 // Weihnachtsferien wird automatisch behandelt (Ende im Folgejahr).
@@ -13,6 +16,14 @@
 // 14.05. (nicht 15.05.); fehlende unterrichtsfreie Brückentage (Himmelfahrt/
 // Pfingsten) für BE/SN 2026 und BW/BE/HB/MV/NI/SN 2027 ergänzt. Angaben ohne
 // Gewähr; Inselregelungen SH (Sylt/Föhr/Amrum/Helgoland/Halligen) nicht abgebildet.
+//
+// 2028 ERGÄNZT 2026-10-22 aus FER2027_28 (Winter/Ostern/Pfingsten/Sommer 2028)
+// und FER2028_29 (Herbst/Weihnachten 2028), beide Stand 09.10.2025, alle 16
+// Länder vollständig. Die Sommerferien sind von der KMK langfristig vereinbart;
+// die übrigen Termine melden die Länder und können nachträglich geändert
+// werden („Die Veröffentlichung erfolgt fortlaufend“). Bayerns Frühjahrsferien
+// (KMK-Spalte „Ostern/Frühjahr“) werden wie 2026/2027 als Winterferien geführt.
+// Bewusst NICHT übernommen: BW 31.10.2026 (unterrichtsfreier Samstag).
 
 import type { StateCode } from "./bundeslaender";
 import type { FerienTyp, FerienPeriod } from "./schulferien";
@@ -66,6 +77,24 @@ export const RAW: Record<number, Partial<Record<StateCode, Row[]>>> = {
     ST: [["W", "01.02", "06.02"], ["O", "22.03", "27.03"], ["P", "15.05", "22.05"], ["S", "10.07", "20.08"], ["H", "18.10", "23.10"], ["X", "20.12", "31.12"]],
     SH: [["O", "30.03", "10.04"], ["P", "07.05"], ["S", "03.07", "14.08"], ["H", "11.10", "23.10"], ["X", "23.12", "08.01"]],
     TH: [["W", "01.02", "06.02"], ["O", "22.03", "03.04"], ["P", "07.05"], ["S", "10.07", "20.08"], ["H", "09.10", "23.10"], ["X", "23.12", "31.12"]],
+  },
+  2028: {
+    BW: [["O", "13.04"], ["O", "18.04", "22.04"], ["P", "06.06", "17.06"], ["S", "27.07", "09.09"], ["H", "30.10", "03.11"], ["X", "23.12", "05.01"]],
+    BY: [["W", "28.02", "03.03"], ["O", "10.04", "21.04"], ["P", "06.06", "16.06"], ["S", "31.07", "11.09"], ["H", "30.10", "03.11"], ["X", "23.12", "05.01"]],
+    BE: [["W", "31.01", "05.02"], ["O", "10.04", "22.04"], ["P", "26.05"], ["P", "01.06", "02.06"], ["S", "01.07", "12.08"], ["H", "02.10", "14.10"], ["X", "22.12", "02.01"]],
+    BB: [["W", "31.01", "05.02"], ["O", "10.04", "22.04"], ["S", "29.06", "12.08"], ["H", "02.10", "14.10"], ["X", "22.12", "02.01"]],
+    HB: [["W", "31.01", "01.02"], ["O", "10.04", "22.04"], ["P", "26.05"], ["P", "06.06"], ["S", "20.07", "30.08"], ["H", "02.10"], ["H", "23.10", "04.11"], ["X", "27.12", "06.01"]],
+    HH: [["W", "28.01"], ["O", "06.03", "17.03"], ["P", "22.05", "26.05"], ["S", "03.07", "11.08"], ["H", "02.10", "13.10"], ["H", "30.10"], ["X", "18.12", "29.12"]],
+    HE: [["O", "03.04", "14.04"], ["S", "03.07", "11.08"], ["H", "09.10", "20.10"], ["X", "27.12", "12.01"]],
+    MV: [["W", "05.02", "17.02"], ["W", "18.02"], ["O", "12.04", "21.04"], ["P", "26.05"], ["P", "02.06", "06.06"], ["S", "26.06", "05.08"], ["H", "02.10"], ["H", "23.10", "28.10"], ["H", "30.10"], ["X", "22.12", "02.01"]],
+    NI: [["W", "31.01", "01.02"], ["O", "10.04", "22.04"], ["P", "26.05"], ["P", "06.06"], ["S", "20.07", "30.08"], ["H", "02.10"], ["H", "23.10", "04.11"], ["X", "27.12", "06.01"]],
+    NW: [["O", "10.04", "22.04"], ["S", "10.07", "22.08"], ["H", "23.10", "04.11"], ["X", "21.12", "05.01"]],
+    RP: [["O", "10.04", "21.04"], ["S", "03.07", "11.08"], ["H", "09.10", "20.10"], ["X", "21.12", "08.01"]],
+    SL: [["W", "21.02", "29.02"], ["O", "12.04", "21.04"], ["S", "03.07", "11.08"], ["H", "09.10", "20.10"], ["X", "20.12", "02.01"]],
+    SN: [["W", "14.02", "26.02"], ["O", "14.04", "22.04"], ["P", "26.05"], ["S", "22.07", "01.09"], ["H", "23.10", "03.11"], ["X", "23.12", "03.01"]],
+    ST: [["W", "07.02", "12.02"], ["O", "10.04", "22.04"], ["P", "03.06", "10.06"], ["S", "22.07", "01.09"], ["H", "02.10"], ["H", "30.10", "03.11"], ["X", "21.12", "02.01"]],
+    SH: [["O", "03.04", "15.04"], ["P", "26.05"], ["S", "24.06", "04.08"], ["H", "16.10", "30.10"], ["X", "21.12", "05.01"]],
+    TH: [["W", "07.02", "12.02"], ["O", "03.04", "15.04"], ["P", "26.05"], ["S", "22.07", "01.09"], ["H", "23.10", "03.11"], ["X", "23.12", "05.01"]],
   },
 };
 

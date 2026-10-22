@@ -14,6 +14,8 @@ type Params = { year: string; bundesland: string };
 /** Builds the Next route exports for one Ferien type (e.g. "sommerferien"). */
 export function makeFerienTypRoute(typ: FerienTyp) {
   const label = FERIEN_TYP_LABEL[typ];
+  // Weihnachtsferien liegen über den Jahreswechsel → „2026/2027“ (so wird gesucht).
+  const yl = (y: number) => (typ === "weihnachtsferien" ? `${y}/${y + 1}` : String(y));
 
   function generateStaticParams() {
     const nowY = berlinNow().year;
@@ -27,8 +29,8 @@ export function makeFerienTypRoute(typ: FerienTyp) {
     if (!y || !state) return {};
     const indexable = isSchulferienIndexable(y, state.code) && !!getFerienByTyp(y, state.code, typ);
     return {
-      title: `${label} ${y} ${state.name} – Termine & Dauer`,
-      description: `${label} ${y} in ${state.name}: genaue Termine, Dauer und Ferienkalender. Quelle: Angaben der Länder (KMK), ohne Gewähr.`,
+      title: `${label} ${yl(y)} ${state.name} – Termine & Dauer`,
+      description: `${label} ${yl(y)} in ${state.name}: genaue Termine, Dauer und Ferienkalender. Quelle: Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}/${state.slug}` },
       openGraph: ogMeta(`/${typ}/${y}/${state.slug}`),
       ...(indexable ? {} : { robots: { index: false, follow: true } }),
@@ -62,6 +64,8 @@ export function isFerienTypYearIndexable(y: number, typ: FerienTyp): boolean {
  */
 export function makeFerienTypYearRoute(typ: FerienTyp) {
   const label = FERIEN_TYP_LABEL[typ];
+  // Weihnachtsferien liegen über den Jahreswechsel → „2026/2027“ (so wird gesucht).
+  const yl = (y: number) => (typ === "weihnachtsferien" ? `${y}/${y + 1}` : String(y));
 
   function generateStaticParams() {
     return PRERENDER_YEARS.map((y) => ({ year: String(y) }));
@@ -72,8 +76,8 @@ export function makeFerienTypYearRoute(typ: FerienTyp) {
     const y = parseYear(year);
     if (!y) return {};
     return {
-      title: `${label} ${y} – Termine aller Bundesländer im Überblick`,
-      description: `${label} ${y} in Deutschland: Termine und Dauer für alle 16 Bundesländer auf einen Blick. Quelle: offizielle Angaben der Länder (KMK), ohne Gewähr.`,
+      title: `${label} ${yl(y)} – Termine aller Bundesländer im Überblick`,
+      description: `${label} ${yl(y)} in Deutschland: Termine und Dauer für alle 16 Bundesländer auf einen Blick. Quelle: offizielle Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}` },
       openGraph: ogMeta(`/${typ}/${y}`),
       ...(isFerienTypYearIndexable(y, typ) ? {} : { robots: { index: false, follow: true } }),
@@ -97,6 +101,8 @@ export function makeFerienTypYearRoute(typ: FerienTyp) {
  */
 export function makeFerienTypOgImage(typ: FerienTyp) {
   const label = FERIEN_TYP_LABEL[typ];
+  // Weihnachtsferien liegen über den Jahreswechsel → „2026/2027“ (so wird gesucht).
+  const yl = (y: number) => (typ === "weihnachtsferien" ? `${y}/${y + 1}` : String(y));
   const alt = `${label} nach Bundesland – Kalender365.pro`;
   async function Image({ params }: { params: Promise<Params> }) {
     const { year, bundesland } = await params;
@@ -104,7 +110,7 @@ export function makeFerienTypOgImage(typ: FerienTyp) {
     const state = stateBySlug(bundesland);
     return renderOgImage({
       kicker: "Schulferien",
-      title: `${label} ${y}`,
+      title: `${label} ${yl(y)}`,
       subtitle: state ? state.name : "Deutschland",
     });
   }
@@ -114,13 +120,15 @@ export function makeFerienTypOgImage(typ: FerienTyp) {
 /** OG-Bild für die Jahres-Übersicht eines Ferientyps (z. B. /sommerferien/{Jahr}). */
 export function makeFerienTypYearOgImage(typ: FerienTyp) {
   const label = FERIEN_TYP_LABEL[typ];
+  // Weihnachtsferien liegen über den Jahreswechsel → „2026/2027“ (so wird gesucht).
+  const yl = (y: number) => (typ === "weihnachtsferien" ? `${y}/${y + 1}` : String(y));
   const alt = `${label} in Deutschland – Kalender365.pro`;
   async function Image({ params }: { params: Promise<{ year: string }> }) {
     const { year } = await params;
     const y = parseYear(year) ?? berlinNow().year;
     return renderOgImage({
       kicker: "Schulferien",
-      title: `${label} ${y}`,
+      title: `${label} ${yl(y)}`,
       subtitle: "Alle 16 Bundesländer im Überblick",
     });
   }

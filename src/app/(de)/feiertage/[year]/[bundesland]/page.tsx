@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   const state = stateBySlug(bundesland);
   if (!y || !state) return {};
   return {
-    title: `Feiertage ${y} ${state.name} – Termine & Brückentage`,
+    title: `Feiertage ${y} ${state.name}${state.abbr ? ` (${state.abbr})` : ""} – Termine & Brückentage`,
     description: `Alle gesetzlichen Feiertage ${y} in ${state.name} mit Datum, Wochentag, Brückentagen und Arbeitstagen. Kalender zum Ausdrucken.`,
     alternates: { canonical: `/feiertage/${y}/${state.slug}` },
     openGraph: ogMeta(`/feiertage/${y}/${state.slug}`),

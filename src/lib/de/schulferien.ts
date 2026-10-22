@@ -59,23 +59,29 @@ export type SchulferienRecord = {
 // --------------------------------------------------------------------------
 // SEED DATA
 // --------------------------------------------------------------------------
-// The seed below is generated from schulferien.data.ts, which holds the 2026 and
-// 2027 dates for all 16 Länder.
+// The seed below is generated from schulferien.data.ts, which holds the 2026,
+// 2027 and 2028 dates for all 16 Länder.
 //
-// NOTE: `lastVerifiedAt` is set (→ pages are indexable). The dates were verified
-// on 2026-07-09 against the three official KMK Ferienkalender PDFs (FER2025_26,
-// FER2026_27, FER2027_28, Stand 09.10.2025) for all 16 states; see the
-// correction log in schulferien.data.ts. All pages additionally carry an
-// "Angaben ohne Gewähr"-Hinweis.
+// NOTE: `lastVerifiedAt` is set per year (→ pages are indexable). 2026/2027 were
+// verified on 2026-07-09 against the official KMK Ferienkalender PDFs
+// (FER2025_26, FER2026_27, FER2027_28, Stand 09.10.2025); 2028 was added and
+// verified on 2026-10-22 against FER2027_28 + FER2028_29 (Stand 09.10.2025).
+// See the correction log in schulferien.data.ts. All pages additionally carry
+// an "Angaben ohne Gewähr"-Hinweis. A year without an entry in YEAR_META is
+// seeded but NOT verified → noindex (isSchulferienIndexable = false).
 
-const RETRIEVED_AT = "2026-07-07";
-const VERIFIED_AT = "2026-07-09"; // human-verified against official KMK PDFs
+const YEAR_META: Record<number, { retrievedAt: string; verifiedAt: string; pdfs: string }> = {
+  2026: { retrievedAt: "2026-07-07", verifiedAt: "2026-07-09", pdfs: "FER2025_26, FER2026_27" },
+  2027: { retrievedAt: "2026-07-07", verifiedAt: "2026-07-09", pdfs: "FER2026_27, FER2027_28" },
+  2028: { retrievedAt: "2026-10-22", verifiedAt: "2026-10-22", pdfs: "FER2027_28, FER2028_29" },
+};
 
 function buildSeed(): SchulferienRecord[] {
   const out: SchulferienRecord[] = [];
   for (const yearKey of Object.keys(RAW)) {
     const year = Number(yearKey);
     const byState = RAW[year];
+    const ym = YEAR_META[year];
     for (const stateKey of Object.keys(byState) as StateCode[]) {
       const rows = byState[stateKey]!;
       out.push({
@@ -83,12 +89,14 @@ function buildSeed(): SchulferienRecord[] {
         state: stateKey,
         periods: expandPeriods(year, rows),
         meta: {
-          source: "Kultusministerkonferenz (KMK), offizieller Ferienkalender (Stand 09.10.2025)",
+          source: `Kultusministerkonferenz (KMK), offizieller Ferienkalender${ym ? ` ${ym.pdfs}` : ""} (Stand 09.10.2025)`,
           sourceUrl: "https://www.kmk.org/service/ferienregelung/ferienkalender.html",
-          retrievedAt: RETRIEVED_AT,
+          retrievedAt: ym?.retrievedAt ?? null,
           validForSchoolYear: `Kalenderjahr ${year}`,
-          lastVerifiedAt: VERIFIED_AT,
-          notes: "Gegen die offiziellen KMK-Ferienkalender-PDFs geprüft. Angaben ohne Gewähr; vor verbindlicher Planung offizielle Quelle prüfen.",
+          lastVerifiedAt: ym?.verifiedAt ?? null,
+          notes: ym
+            ? "Gegen die offiziellen KMK-Ferienkalender-PDFs geprüft. Angaben ohne Gewähr; vor verbindlicher Planung offizielle Quelle prüfen."
+            : "Noch nicht gegen die offiziellen KMK-Ferienkalender geprüft.",
         },
       });
     }

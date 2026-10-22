@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!parsed || !state) return {};
   if (parsed.kind === "year") {
     return {
-      title: `Kalender ${parsed.year} ${state.name} – Feiertage & Ferien`,
+      title: `Kalender ${parsed.year} ${state.abbr ?? state.name} – Feiertage & Ferien (PDF)${state.abbr ? ` – ${state.name}` : ""}`,
       description: `Jahreskalender ${parsed.year} für ${state.name} mit gesetzlichen Feiertagen, Kalenderwochen und Arbeitstagen. Zum Ausdrucken.`,
       alternates: { canonical: `/kalender/${parsed.year}/${state.slug}` },
       openGraph: ogMeta(`/kalender/${parsed.year}/${state.slug}`),

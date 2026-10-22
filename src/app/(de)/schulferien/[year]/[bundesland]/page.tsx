@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   if (!y || !state) return {};
   const indexable = isSchulferienIndexable(y, state.code);
   return {
-    title: `Schulferien ${y} ${state.name} – Ferienkalender`,
+    title: `Ferien ${state.abbr ?? state.name} ${y} – Schulferien & Ferienkalender${state.abbr ? ` ${state.name}` : ""}`,
     description: `Alle Schulferien ${y} in ${state.name}: Winter-, Oster-, Pfingst-, Sommer-, Herbst- und Weihnachtsferien mit genauen Terminen.`,
     alternates: { canonical: `/schulferien/${y}/${state.slug}` },
     openGraph: ogMeta(`/schulferien/${y}/${state.slug}`),

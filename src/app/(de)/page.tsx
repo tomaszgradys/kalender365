@@ -18,13 +18,15 @@ import { ogMeta } from "@/lib/de/ogMeta";
 // Build-Zeitpunkt eingefroren sein.
 export const revalidate = 600;
 
-export const metadata: Metadata = {
-  title: "Kalender online & zum Ausdrucken – Feiertage, Ferien & PDF",
-  description:
-    "Monatskalender, Jahreskalender, Feiertage, Schulferien, Arbeitstage, Kalenderwochen, Mondphasen und PDF – kostenlos für Deutschland und alle Bundesländer.",
-  alternates: { canonical: "/" },
-  openGraph: ogMeta("/"),
-};
+export function generateMetadata(): Metadata {
+  const y = berlinNow().year;
+  return {
+    title: `Kalender ${y} & ${y + 1} mit Feiertagen, Schulferien & PDF`,
+    description: `Kalender ${y} und ${y + 1} online und zum Ausdrucken: Feiertage, Schulferien, Brückentage, Arbeitstage, Kalenderwochen und Mondphasen – kostenlos für Deutschland und alle 16 Bundesländer.`,
+    alternates: { canonical: "/" },
+    openGraph: ogMeta("/"),
+  };
+}
 
 // Indexierbares Jahresfenster für die Startseiten-Kachelliste.
 const YEARS = Array.from({ length: 9 }, (_, i) => 2024 + i);

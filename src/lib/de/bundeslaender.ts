@@ -20,7 +20,7 @@ export type Bundesland = {
 };
 
 export const BUNDESLAENDER: Bundesland[] = [
-  { code: "BW", name: "Baden-Württemberg", slug: "baden-wuerttemberg" },
+  { code: "BW", name: "Baden-Württemberg", slug: "baden-wuerttemberg", abbr: "BW" },
   { code: "BY", name: "Bayern", slug: "bayern" },
   { code: "BE", name: "Berlin", slug: "berlin" },
   { code: "BB", name: "Brandenburg", slug: "brandenburg" },

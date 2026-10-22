@@ -97,8 +97,8 @@ type Def = Omit<Feiertag, "date"> & {
 const REFORMATION_EAST: StateCode[] = ["BB", "MV", "SN", "ST", "TH"];
 /** Reformationstag: die vier norddeutschen Länder dauerhaft seit 2018. */
 const REFORMATION_NORTH: StateCode[] = ["HB", "HH", "NI", "SH"];
-/** Reformationstag 2017 (500 Jahre Reformation): einmalig in den übrigen sieben Ländern. */
-const REFORMATION_2017_ONLY: StateCode[] = ["BW", "BY", "BE", "HE", "NW", "RP", "SL"];
+/** Reformationstag 2017 (500 Jahre Reformation): einmalig in den übrigen elf Ländern (→ bundesweit). */
+const REFORMATION_2017_ONLY: StateCode[] = ["BW", "BY", "BE", "HB", "HH", "HE", "NI", "NW", "RP", "SL", "SH"];
 const ALLERHEILIGEN_STATES: StateCode[] = ["BW", "BY", "NW", "RP", "SL"];
 const FRONLEICHNAM_FULL: StateCode[] = ["BW", "BY", "HE", "NW", "RP", "SL"];
 const DREIKOENIG_STATES: StateCode[] = ["BW", "BY", "ST"];

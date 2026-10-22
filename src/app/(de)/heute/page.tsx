@@ -20,12 +20,18 @@ import { ogMeta } from "@/lib/de/ogMeta";
 // "Heute" muss immer den echten aktuellen Tag zeigen → keine statische Zwischenspeicherung.
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Welcher Tag ist heute? – Datum, Kalenderwoche & Feiertag",
-  description: "Welcher Tag ist heute? Aktuelles Datum, Wochentag, Kalenderwoche, Tag des Jahres, Feiertag, Namenstag, Mondphase und Sternzeichen – alles auf einen Blick.",
-  alternates: { canonical: "/heute" },
-  openGraph: ogMeta("/heute"),
-};
+export function generateMetadata(): Metadata {
+  const { year, month0, day } = berlinNow();
+  const iso = `${year}-${pad(month0 + 1)}-${pad(day)}`;
+  const { week } = isoWeekOf(year, month0, day);
+  const wd = WEEKDAY_NAMES_DE[(new Date(Date.UTC(year, month0, day)).getUTCDay() + 6) % 7];
+  return {
+    title: `Welcher Tag ist heute? ${wd}, ${formatLongDE(iso)} – KW ${week}`,
+    description: `Heute ist ${wd}, der ${formatLongDE(iso)} – Kalenderwoche ${week}. Aktuelles Datum, Wochentag, Tag des Jahres, Feiertag, Namenstag, Mondphase und Sternzeichen auf einen Blick.`,
+    alternates: { canonical: "/heute" },
+    openGraph: ogMeta("/heute"),
+  };
+}
 
 function pad(n: number) {
   return n.toString().padStart(2, "0");
