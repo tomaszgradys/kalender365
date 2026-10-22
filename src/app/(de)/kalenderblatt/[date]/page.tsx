@@ -8,7 +8,6 @@ import { isoWeekOf } from "@/lib/de/now";
 import { getAllFeiertage } from "@/lib/de/feiertage";
 import { getMoonPhaseInstants } from "@/lib/de/moonPhases";
 import { getSunTimes, DEFAULT_LOCATION } from "@/lib/de/sun";
-import { isIndexableYear } from "@/lib/de/year";
 import { getNamenstage } from "@/lib/de/namenstage";
 import { getBauernregel } from "@/lib/de/bauernregeln";
 import { sternzeichenByDate } from "@/lib/de/sternzeichen";
@@ -52,7 +51,11 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
     description: `Kalenderblatt für den ${formatFullDE(p.iso)}: Kalenderwoche, Tag des Jahres, Feiertage, Mondphase sowie Sonnenauf- und -untergang.`,
     alternates: { canonical: `/kalenderblatt/${p.iso}` },
     openGraph: ogMeta(`/kalenderblatt/${p.iso}`),
-    ...(isIndexableYear(p.y) ? {} : { robots: { index: false, follow: true } }),
+    // Entscheidung 22.10.2026 (Tomasz): Kalenderblätter sind noindex,follow – 730 dünne
+    // Tagesseiten (30 % der Sitemap) ohne Klicks in Bing und ohne Copilot-Zitate,
+    // für Google ein Qualitätsrisiko. Bleiben erreichbar und verlinkt (follow),
+    // nur nicht im Index. Rückgängig: diese Zeile + Sitemap-Block wiederherstellen.
+    robots: { index: false, follow: true },
   };
 }
 

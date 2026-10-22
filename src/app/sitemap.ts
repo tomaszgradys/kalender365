@@ -146,17 +146,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Kalenderblätter (Tagesseiten) für das aktuelle und nächste Jahr. Der Inhalt
-  // eines konkreten Datums ist statisch → stabiles lastmod (CONTENT_DATE).
-  for (const y of [thisYear, thisYear + 1]) {
-    for (let m0 = 0; m0 < 12; m0++) {
-      const dim = new Date(Date.UTC(y, m0 + 1, 0)).getUTCDate();
-      for (let d = 1; d <= dim; d++) {
-        const iso = `${y}-${String(m0 + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-        entries.push({ url: `${SITE_URL}/kalenderblatt/${iso}`, lastModified: CONTENT_DATE, changeFrequency: "yearly" });
-      }
-    }
-  }
+  // Kalenderblätter (Tagesseiten) sind seit 22.10.2026 noindex,follow und daher
+  // NICHT in der Sitemap (siehe kalenderblatt/[date]/page.tsx). Sie bleiben
+  // navigierbar (Abreißkalender, Monatsseiten, /heute).
 
   // Blog-Beiträge (Seed + KI aus der DB) + paginierte Blog-Übersichtsseiten.
   try {
