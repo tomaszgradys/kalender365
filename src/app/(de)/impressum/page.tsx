@@ -56,14 +56,12 @@ export default function ImpressumPage() {
         <br />
         {COMPANY.street}, {COMPANY.postal} {COMPANY.city}, {COMPANY.country}
       </p>
-      <h2>EU-Streitschlichtung</h2>
+      <h2>Verbraucherstreitbeilegung</h2>
       <p>
-        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
-        <a href="https://ec.europa.eu/consumers/odr/" rel="noopener nofollow">
-          https://ec.europa.eu/consumers/odr/
-        </a>
-        . Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer
-        Verbraucherschlichtungsstelle teilzunehmen.
+        Die Plattform der Europäischen Kommission zur Online-Streitbeilegung (OS-Plattform) wurde zum 20. Juli
+        2025 eingestellt; ein Verweis darauf ist daher entfallen. Wir sind nicht verpflichtet und nicht bereit, an
+        Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle im Sinne des
+        Verbraucherstreitbeilegungsgesetzes (VSBG) teilzunehmen.
       </p>
       <h2>Haftung für Inhalte</h2>
       <p>

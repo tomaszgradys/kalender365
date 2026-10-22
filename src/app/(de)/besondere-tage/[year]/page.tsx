@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   if (!y) return {};
   return {
     title: `Besondere Tage ${y} – Muttertag, Vatertag, Karneval & Advent`,
-    description: `Alle wichtigen Anlässe ${y} auf einen Blick: Muttertag, Vatertag, Karneval (Rosenmontag, Weiberfastnacht), Advent, Nikolaus, Halloween, Silvester & mehr – mit Datum und Wochentag.`,
+    description: `Alle wichtigen Anlässe ${y} auf einen Blick: Muttertag, Vatertag, Karneval, Advent, Nikolaus, Halloween und Silvester – mit Datum, Wochentag und Countdown.`,
     alternates: { canonical: `/besondere-tage/${y}` },
     openGraph: ogMeta(`/besondere-tage/${y}`, { defaultImage: true }),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),

@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   const y = parseYear(year);
   if (!y) return {};
   return {
-    title: `Urlaubsplaner ${y} – Brückentage & lange Wochenenden optimal planen`,
-    description: `Urlaubsplaner ${y}: Urlaubstage und Bundesland eingeben, und der Planer zeigt die besten Brückentage für maximal viele freie Tage. Familienmodus mit Schulferien, Tage selbst anpassen, als PDF drucken.`,
+    title: `Urlaubsplaner ${y} – Brückentage & lange Wochenenden`,
+    description: `Urlaubsplaner ${y}: Urlaubstage und Bundesland eingeben – der Planer zeigt die besten Brückentage für möglichst viele freie Tage. Mit Schulferien, editierbarem Kalender und PDF-Druck.`,
     alternates: { canonical: `/urlaubsplaner/${y}` },
     openGraph: ogMeta(`/urlaubsplaner/${y}`, { defaultImage: true }),
     ...yearRobots(y),

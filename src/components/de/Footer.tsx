@@ -20,6 +20,19 @@ const COLS: { title: string; links: FootLink[] }[] = [
     ],
   },
   {
+    title: `Kalender ${YEAR + 1}`,
+    links: [
+      { href: `/kalender/${YEAR + 1}`, label: `Kalender ${YEAR + 1}` },
+      { href: `/feiertage/${YEAR + 1}`, label: `Feiertage ${YEAR + 1}` },
+      { href: `/schulferien/${YEAR + 1}`, label: `Schulferien ${YEAR + 1}` },
+      { href: `/brueckentage/${YEAR + 1}`, label: `Brückentage ${YEAR + 1}` },
+      { href: `/arbeitstage/${YEAR + 1}`, label: `Arbeitstage ${YEAR + 1}` },
+      { href: `/kalenderwochen/${YEAR + 1}`, label: `Kalenderwochen ${YEAR + 1}` },
+      { href: `/urlaubsplaner/${YEAR + 1}`, label: `Urlaubsplaner ${YEAR + 1}` },
+      { href: `/kalender-zum-ausdrucken/${YEAR + 1}`, label: `Kalender ${YEAR + 1} zum Ausdrucken` },
+    ],
+  },
+  {
     title: "Tools",
     links: [
       { href: `/urlaubsplaner/${YEAR}`, label: "Urlaubsplaner" },
@@ -65,7 +78,7 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-slate-200 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr]">
           <div className="max-w-xs">
             <Logo />
             <p className="mt-3 text-sm leading-relaxed text-slate-500">

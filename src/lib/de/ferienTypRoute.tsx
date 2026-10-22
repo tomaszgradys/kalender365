@@ -27,7 +27,7 @@ export function makeFerienTypRoute(typ: FerienTyp) {
     if (!y || !state) return {};
     const indexable = isSchulferienIndexable(y, state.code) && !!getFerienByTyp(y, state.code, typ);
     return {
-      title: `${label} ${y} ${state.name} – Termine & Ferienkalender`,
+      title: `${label} ${y} ${state.name} – Termine & Dauer`,
       description: `${label} ${y} in ${state.name}: genaue Termine, Dauer und Ferienkalender. Quelle: Angaben der Länder (KMK), ohne Gewähr.`,
       alternates: { canonical: `/${typ}/${y}/${state.slug}` },
       openGraph: ogMeta(`/${typ}/${y}/${state.slug}`),

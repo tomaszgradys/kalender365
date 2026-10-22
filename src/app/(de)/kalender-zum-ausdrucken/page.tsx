@@ -11,7 +11,7 @@ export function generateMetadata(): Metadata {
   const y = berlinNow().year;
   return {
     title: `Kalender ${y} zum Ausdrucken – kostenlos als PDF & Excel`,
-    description: `Kalender ${y} kostenlos zum Ausdrucken: Jahreskalender (Quer- & Hochformat), Jahresplaner, Halbjahres- und Monatskalender als PDF und Excel – mit Feiertagen und Kalenderwochen, für alle Bundesländer.`,
+    description: `Kalender ${y} kostenlos zum Ausdrucken: Jahreskalender, Jahresplaner, Halbjahres- und Monatskalender als PDF und Excel – mit Feiertagen und Kalenderwochen je Bundesland.`,
     alternates: { canonical: "/kalender-zum-ausdrucken" },
     openGraph: ogMeta("/kalender-zum-ausdrucken", { defaultImage: true }),
   };

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   const iso = e.date(y).toISOString().slice(0, 10);
   return {
     title: `${e.name} ${y} – Datum, Termin & Bedeutung`,
-    description: `${e.name} ${y} ist am ${formatLongDE(iso)} (${weekdayDE(iso)}). ${e.intro}`.slice(0, 300),
+    description: `${e.name} ${y} ist am ${formatLongDE(iso)} (${weekdayDE(iso)}). ${e.intro}`.slice(0, 158).replace(/\s+\S*$/, "") + " …",
     alternates: { canonical: `/besondere-tage/${y}/${e.slug}` },
     openGraph: ogMeta(`/besondere-tage/${y}/${e.slug}`, { defaultImage: true }),
     ...(isIndexableYear(y) ? {} : { robots: { index: false, follow: true } }),
@@ -76,16 +76,25 @@ export default async function BesondererTagPage({ params }: { params: Promise<{ 
 
   const related = e.related.map((s) => getBesondererTag(s)).filter((x): x is NonNullable<typeof x> => x !== null);
 
+  const eventImage = heroSrc(EVENT_HERO, e.slug);
   const eventLd = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: `${e.name} ${y}`,
     startDate: iso,
     ...(endIso ? { endDate: endIso } : {}),
+    ...(eventImage ? { image: [eventImage] } : {}),
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
     description: e.intro,
-    ...(e.regionNote ? { location: { "@type": "Place", name: e.regionNote } } : {}),
+    location: {
+      "@type": "Place",
+      name: e.regionNote ?? "Deutschland",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "DE",
+      },
+    },
   };
   const breadcrumb = breadcrumbLd(
     [

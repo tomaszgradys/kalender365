@@ -14,7 +14,7 @@ import { ogMeta } from "@/lib/de/ogMeta";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Sternzeichen – Daten, Zeiträume & Bedeutung der Tierkreiszeichen",
+  title: "Sternzeichen – Daten, Zeiträume & Bedeutung",
   description: "Alle 12 Sternzeichen mit Datum, Zeitraum, Element und Eigenschaften. Welches Sternzeichen habe ich? Übersicht der Tierkreiszeichen von Widder bis Fische.",
   alternates: { canonical: "/sternzeichen" },
   openGraph: ogMeta("/sternzeichen"),

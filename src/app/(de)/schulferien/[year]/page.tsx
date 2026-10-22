@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   // Indexable only if at least one state has verified data for this year.
   const anyVerified = BUNDESLAENDER.some((b) => isSchulferienIndexable(y, b.code));
   return {
-    title: `Schulferien ${y} in Deutschland – Ferienkalender aller Bundesländer`,
+    title: `Schulferien ${y} – Ferienkalender aller Bundesländer`,
     description: `Schulferien ${y} für alle 16 Bundesländer: Winter-, Oster-, Pfingst-, Sommer-, Herbst- und Weihnachtsferien. Termine je nach Bundesland.`,
     alternates: { canonical: `/schulferien/${y}` },
     openGraph: ogMeta(`/schulferien/${y}`),

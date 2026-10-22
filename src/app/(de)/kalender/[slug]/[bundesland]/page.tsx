@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const mName = MONTH_NAMES_DE[parsed.month0];
   return {
     title: `Kalender ${mName} ${parsed.year} ${state.name} – Feiertage & KW`,
-    description: `Monatskalender ${mName} ${parsed.year} für ${state.name} mit Kalenderwochen, Feiertagen und Arbeitstagen.`,
+    description: `Monatskalender ${mName} ${parsed.year} für ${state.name}: Kalenderwochen, gesetzliche Feiertage und Arbeitstage des Monats – kostenlos online und als PDF zum Ausdrucken.`,
     alternates: { canonical: `/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}/${state.slug}` },
     openGraph: ogMeta(`/kalender/${MONTH_SLUGS_DE[parsed.month0]}-${parsed.year}/${state.slug}`),
     ...(isIndexableYear(parsed.year) ? {} : { robots: { index: false, follow: true } }),

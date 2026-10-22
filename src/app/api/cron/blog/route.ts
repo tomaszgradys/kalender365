@@ -2,6 +2,8 @@ import { getSeedPosts } from "@/lib/de/blog";
 import { existingSlugs, insertDbPost, dbConfigured } from "@/lib/de/db";
 import { generatePost, QualityError } from "@/lib/de/blogGen";
 import { cronAuthorized } from "@/lib/de/cronAuth";
+import { submitToIndexNow } from "@/lib/de/indexnow";
+import { SITE_URL } from "@/lib/de/site";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -46,6 +48,9 @@ export async function GET(req: Request) {
       }
 
       await insertDbPost(post);
+      // Bing/Yandex per IndexNow über den neuen Beitrag informieren (best-effort,
+      // wirft nie; Google nutzt IndexNow nicht).
+      await submitToIndexNow([`${SITE_URL}/blog/${post.slug}`, `${SITE_URL}/blog`]);
       return Response.json({ ok: true, slug: post.slug, title: post.title, category: post.category, attempt });
     }
 

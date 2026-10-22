@@ -89,9 +89,11 @@ export default async function KalenderblattPage({ params }: { params: Promise<{ 
         />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-          <div className="text-sm font-semibold uppercase tracking-widest text-brand-green-600">{formatFullDE(p.iso).split(",")[0]}</div>
-          <div className="mt-1 text-6xl font-black text-navy-800">{p.d}</div>
-          <div className="mt-1 text-lg font-bold text-navy-700">{MONTH_NAMES_DE[p.m0]} {p.y}</div>
+          <h1 className="flex flex-col items-center">
+            <span className="text-sm font-semibold uppercase tracking-widest text-brand-green-600">{formatFullDE(p.iso).split(",")[0]}</span>
+            <span className="mt-1 text-6xl font-black text-navy-800">{p.d}</span>
+            <span className="mt-1 text-lg font-bold text-navy-700">{MONTH_NAMES_DE[p.m0]} {p.y}</span>
+          </h1>
           {feiertag && (
             <div className="mt-3 inline-block rounded-full bg-brand-green-50 px-3 py-1 text-sm font-semibold text-brand-green-700">
               🎉 {feiertag.name}{feiertag.scope !== "national" && <span className="font-normal"> · {feiertag.states.join(", ")}</span>}

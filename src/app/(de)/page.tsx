@@ -19,7 +19,7 @@ import { ogMeta } from "@/lib/de/ogMeta";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Kalender online und zum Ausdrucken – Feiertage, Schulferien & PDF",
+  title: "Kalender online & zum Ausdrucken – Feiertage, Ferien & PDF",
   description:
     "Monatskalender, Jahreskalender, Feiertage, Schulferien, Arbeitstage, Kalenderwochen, Mondphasen und PDF – kostenlos für Deutschland und alle Bundesländer.",
   alternates: { canonical: "/" },
@@ -168,6 +168,37 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* NÄCHSTES JAHR — ab September steigt die Nachfrage nach dem Folgejahr */}
+        {cm >= 8 && (
+          <section className="mt-10 rounded-2xl border border-brand-green-200 bg-brand-green-50/60 p-5">
+            <h2 className="mb-1 text-xl font-bold text-navy-800">Jetzt {cy + 1} planen</h2>
+            <p className="mb-4 text-sm text-slate-600">
+              Kalender, Feiertage, Schulferien und Brückentage für das kommende Jahr – mit PDF zum Ausdrucken.
+            </p>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+              {[
+                { label: `Kalender ${cy + 1}`, href: `/kalender/${cy + 1}`, emoji: "📅" },
+                { label: `Feiertage ${cy + 1}`, href: `/feiertage/${cy + 1}`, emoji: "🎉" },
+                { label: `Schulferien ${cy + 1}`, href: `/schulferien/${cy + 1}`, emoji: "🎒" },
+                { label: `Brückentage ${cy + 1}`, href: `/brueckentage/${cy + 1}`, emoji: "🌉" },
+                { label: `Arbeitstage ${cy + 1}`, href: `/arbeitstage/${cy + 1}`, emoji: "💼" },
+                { label: `Kalenderwochen ${cy + 1}`, href: `/kalenderwochen/${cy + 1}`, emoji: "🔢" },
+                { label: `Urlaubsplaner ${cy + 1}`, href: `/urlaubsplaner/${cy + 1}`, emoji: "🏖️" },
+                { label: `Kalender ${cy + 1} zum Ausdrucken`, href: `/kalender-zum-ausdrucken/${cy + 1}`, emoji: "🖨️" },
+              ].map((c) => (
+                <Link
+                  key={c.href}
+                  href={c.href}
+                  className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-navy-800 transition hover:-translate-y-0.5 hover:border-navy-300 hover:shadow-sm"
+                >
+                  <span aria-hidden="true">{c.emoji}</span>
+                  {c.label}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* BUNDESLAND */}
         <section className="mt-10">

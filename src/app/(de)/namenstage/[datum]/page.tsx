@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ datum: st
   return {
     title,
     description: names.length
-      ? `Am ${label} haben ${names.join(", ")} Namenstag. Bedeutung, Datum und Kalenderblatt zum ${label}.`
+      ? `Am ${label} haben ${names.join(", ")} Namenstag. Herkunft und Bedeutung des Namenstags, Datum im Heiligenkalender und das Kalenderblatt zum ${label}.`
       : `Namenstag am ${label} im Heiligenkalender.`,
     alternates: { canonical: `/namenstage/${datum}` },
     openGraph: ogMeta(`/namenstage/${datum}`, { defaultImage: true }),

@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const r = getISOWeekRange(p.year, p.week);
   return {
     title: `KW ${p.week} ${p.year} – Datum, Wochentage & Kalenderwoche`,
-    description: `Kalenderwoche ${p.week} ${p.year}: vom ${formatShortDE(iso(r.start))} bis ${formatShortDE(iso(r.end))}. Alle Tage der KW ${p.week} nach ISO 8601.`,
+    description: `Kalenderwoche ${p.week} ${p.year}: von Montag, ${formatShortDE(iso(r.start))} bis Sonntag, ${formatShortDE(iso(r.end))}. Alle Wochentage mit Datum, Feiertagen und Kalenderblatt â€“ KW ${p.week} nach ISO 8601.`,
     alternates: { canonical: `/kw/${p.week}-${p.year}` },
     openGraph: ogMeta(`/kw/${p.week}-${p.year}`),
     ...(isIndexableYear(p.year) ? {} : { robots: { index: false, follow: true } }),
