@@ -1,7 +1,11 @@
 // Jahreszeiten (astronomische Anfänge) und Zeitumstellung für Deutschland.
-// Astronomische Zeitpunkte nach Meeus; Zeitzone Europe/Berlin. Da Deutschland
-// und Polen dieselbe Zeitzone/DST-Regel haben, sind die Instants identisch —
-// nur Beschriftung und Locale sind deutsch.
+// Astronomische Zeitpunkte nach Meeus (Kap. 27); Zeitzone Europe/Berlin. Da
+// Deutschland und Polen dieselbe Zeitzone/DST-Regel haben, sind die Instants
+// identisch — nur Beschriftung und Locale sind deutsch.
+//
+// Meeus liefert die Zeitpunkte in Dynamischer Zeit (TD/JDE). Für die bürgerliche
+// Zeit wird ΔT (≈ 69–72 s für 2020–2035) abgezogen — sonst liegen die Angaben
+// systematisch 1–2 Minuten zu spät (Abgleich mit USNO 2026–2028 am 2026-10-22).
 
 export type Season = {
   key: "fruehling" | "sommer" | "herbst" | "winter";
@@ -36,12 +40,19 @@ function seasonJDE(year: number, which: 0 | 1 | 2 | 3): number {
   return jde0 + (0.00001 * S) / dLambda;
 }
 
-function jdeToDate(jde: number): Date {
-  return new Date((jde - 2440587.5) * 86400000);
+/** ΔT = TD − UT in Sekunden (Espenak/Meeus-Polynom, gültig 2005–2050). */
+function deltaTseconds(year: number): number {
+  const t = year - 2000;
+  return 62.92 + 0.32217 * t + 0.005589 * t * t;
+}
+
+/** JDE (Dynamische Zeit) → Date (UT), inkl. ΔT-Korrektur. */
+function jdeToDate(jde: number, year: number): Date {
+  return new Date((jde - deltaTseconds(year) / 86400 - 2440587.5) * 86400000);
 }
 
 export function getSeasonDate(year: number, which: 0 | 1 | 2 | 3): Date {
-  return jdeToDate(seasonJDE(year, which));
+  return jdeToDate(seasonJDE(year, which), year);
 }
 
 export function getSeasons(year: number): Season[] {
@@ -52,7 +63,7 @@ export function getSeasons(year: number): Season[] {
     { key: "winter", name: "Winteranfang (Wintersonnenwende)", which: 3 },
   ];
   return defs.map((def) => {
-    const date = jdeToDate(seasonJDE(year, def.which));
+    const date = jdeToDate(seasonJDE(year, def.which), year);
     return {
       key: def.key,
       name: def.name,

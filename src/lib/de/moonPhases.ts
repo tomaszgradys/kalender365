@@ -1,7 +1,9 @@
 // Genaue Mondphasen-Zeitpunkte — Meeus „Astronomical Algorithms", Kap. 49.
 // Liefert Datum UND Uhrzeit (gesetzliche Zeit in Deutschland, Europe/Berlin,
 // mit Sommer-/Winterzeit), das Tierkreiszeichen des Mondes sowie ein „Blue Moon"-
-// Flag (zweiter Vollmond im selben Kalendermonat). Genauigkeit ~1 Minute.
+// Flag (zweiter Vollmond im selben Kalendermonat). Genauigkeit: alle Daten
+// korrekt, Uhrzeiten innerhalb weniger Minuten (Abgleich 2027 gegen USNO/
+// timeanddate am 2026-10-22: max. 3 Minuten Abweichung bei Vollmonden).
 //
 // Hinweis: Deutschland und Polen teilen dieselbe Zeitzone (MEZ/MESZ, gleiche
 // EU-DST-Regeln); die lokalen Zeitpunkte sind daher identisch zur PL-Version —

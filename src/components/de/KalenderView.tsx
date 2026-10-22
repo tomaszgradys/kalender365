@@ -240,7 +240,7 @@ function yearProse(year: number, label: string, summary: ReturnType<typeof yearS
     {
       h2: `Feiertage, Brückentage und Ferien ${year}`,
       p: [
-        `Bundesweit gelten neun gesetzliche Feiertage einheitlich in allen 16 Bundesländern; je nach Land kommen regionale Feiertage wie Fronleichnam, Reformationstag oder Allerheiligen hinzu. Für ${label} sind ${year} ${summary.feiertageCount} Feiertage hinterlegt, woraus sich ${summary.arbeitstage} Arbeitstage ergeben. Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen ein langer Zeitraum machen – eine detaillierte Übersicht bietet die Brückentage-Seite.${ferienSatz}`,
+        `Bundesweit gelten neun gesetzliche Feiertage einheitlich in allen 16 Bundesländern; je nach Land kommen regionale Feiertage wie Fronleichnam, Reformationstag oder Allerheiligen hinzu. Für ${label} gelten ${year} ${summary.feiertageCount} gesetzliche Feiertage, davon ${summary.feiertageAnWerktagen} an Werktagen (Montag bis Freitag) – daraus ergeben sich ${summary.arbeitstage} Arbeitstage. Mit den passenden Brückentagen lässt sich aus wenigen Urlaubstagen ein langer Zeitraum machen – eine detaillierte Übersicht bietet die Brückentage-Seite.${ferienSatz}`,
       ],
     },
     {
@@ -256,7 +256,7 @@ function yearFaq(year: number, label: string, summary: ReturnType<typeof yearSum
   return [
     { q: `Wie viele Tage hat das Jahr ${year}?`, a: `${year} hat ${summary.totalDays} Tage${summary.totalDays === 366 ? " – es ist ein Schaltjahr" : ""}.` },
     { q: `Wie viele Kalenderwochen hat ${year}?`, a: `${year} hat ${summary.isoWeeks} Kalenderwochen (nach ISO 8601, Wochenbeginn Montag).` },
-    { q: `Wie viele Feiertage und Arbeitstage hat ${year} in ${label}?`, a: `Für ${label} sind ${year} ${summary.feiertageCount} gesetzliche Feiertage hinterlegt; daraus ergeben sich ${summary.arbeitstage} Arbeitstage.` },
+    { q: `Wie viele Feiertage und Arbeitstage hat ${year} in ${label}?`, a: `Für ${label} gelten ${year} ${summary.feiertageCount} gesetzliche Feiertage, davon ${summary.feiertageAnWerktagen} an Werktagen; daraus ergeben sich ${summary.arbeitstage} Arbeitstage (5-Tage-Woche).` },
     ...(ferienList.length
       ? [{
           q: `Wann sind ${year} Schulferien in ${label}?`,

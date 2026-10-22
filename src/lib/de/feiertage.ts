@@ -12,9 +12,15 @@
 // Sources of truth for the rules encoded here:
 //   - Gemeinsame nationwide holidays: § fixed by all Länder uniformly.
 //   - Regional holidays: the respective Feiertagsgesetze of each Land.
-//   TODO(verify): re-check "sinceYear" guards against the Land Feiertagsgesetze
-//   if the site is ever used for years before 2018. For 2018+ all encoded here
-//   are stable.
+//   Historische Änderungen (für das Render-Fenster 2015–2035 abgebildet):
+//   - Reformationstag: BB/MV/SN/ST/TH seit 1990; HB/HH/NI/SH dauerhaft seit
+//     2018; 2017 einmalig in allen 16 Ländern (500 Jahre Reformation).
+//   - Internationaler Frauentag: BE seit 2019 (Gesetz vom 30.01.2019, GVBl.
+//     S. 22), MV seit 2023. Weltkindertag: TH seit 2019.
+//   - Berlin, einmalige Feiertage: 8. Mai 2020 (75 Jahre Befreiung, Gesetz vom
+//     30.01.2019), 8. Mai 2025 und 17. Juni 2028 (§ 1 Abs. 1 Nr. 11/12 FTG Bln,
+//     Viertes Änderungsgesetz vom 10.07.2024, GVBl. 2024 Nr. 28 S. 460).
+//   Geprüft 2026-10-22 (siehe Claude/kalender365-recovery/raport-dane-DE.md).
 
 import type { StateCode } from "./bundeslaender";
 import { STATE_CODES } from "./bundeslaender";
@@ -77,9 +83,22 @@ export type Feiertag = {
   note?: string;
 };
 
-type Def = Omit<Feiertag, "date"> & { date: (y: number) => Date; sinceYear?: number };
+type Def = Omit<Feiertag, "date"> & {
+  date: (y: number) => Date;
+  /** First year the rule applies (inclusive). */
+  sinceYear?: number;
+  /** Last year the rule applies (inclusive). */
+  untilYear?: number;
+  /** Explicit list of years (one-off holidays). Overrides since/until. */
+  onlyYears?: number[];
+};
 
-const REFORMATION_STATES: StateCode[] = ["BB", "HB", "HH", "MV", "NI", "SN", "ST", "SH", "TH"];
+/** Reformationstag: die fünf östlichen Länder seit der Wiedervereinigung. */
+const REFORMATION_EAST: StateCode[] = ["BB", "MV", "SN", "ST", "TH"];
+/** Reformationstag: die vier norddeutschen Länder dauerhaft seit 2018. */
+const REFORMATION_NORTH: StateCode[] = ["HB", "HH", "NI", "SH"];
+/** Reformationstag 2017 (500 Jahre Reformation): einmalig in den übrigen sieben Ländern. */
+const REFORMATION_2017_ONLY: StateCode[] = ["BW", "BY", "BE", "HE", "NW", "RP", "SL"];
 const ALLERHEILIGEN_STATES: StateCode[] = ["BW", "BY", "NW", "RP", "SL"];
 const FRONLEICHNAM_FULL: StateCode[] = ["BW", "BY", "HE", "NW", "RP", "SL"];
 const DREIKOENIG_STATES: StateCode[] = ["BW", "BY", "ST"];
@@ -105,13 +124,20 @@ const DEFS: Def[] = [
   { name: "Mariä Himmelfahrt", slug: "mariae-himmelfahrt", scope: "state", states: ["SL"], movable: false, date: (y) => new Date(Date.UTC(y, 7, 15)) },
   { name: "Mariä Himmelfahrt", slug: "mariae-himmelfahrt", scope: "partial", states: ["BY"], movable: false, note: "Nur in überwiegend katholischen Gemeinden Bayerns gesetzlicher Feiertag.", date: (y) => new Date(Date.UTC(y, 7, 15)) },
   { name: "Weltkindertag", slug: "weltkindertag", scope: "state", states: ["TH"], sinceYear: 2019, movable: false, date: (y) => new Date(Date.UTC(y, 8, 20)) },
-  { name: "Reformationstag", slug: "reformationstag", scope: "state", states: REFORMATION_STATES, movable: false, date: (y) => new Date(Date.UTC(y, 9, 31)) },
+  { name: "Reformationstag", slug: "reformationstag", scope: "state", states: REFORMATION_EAST, movable: false, date: (y) => new Date(Date.UTC(y, 9, 31)) },
+  { name: "Reformationstag", slug: "reformationstag", scope: "state", states: REFORMATION_NORTH, sinceYear: 2018, movable: false, date: (y) => new Date(Date.UTC(y, 9, 31)) },
+  { name: "Reformationstag", slug: "reformationstag", scope: "state", states: REFORMATION_2017_ONLY, onlyYears: [2017], movable: false, note: "2017 einmalig bundesweit gesetzlicher Feiertag (500 Jahre Reformation).", date: (y) => new Date(Date.UTC(y, 9, 31)) },
   { name: "Allerheiligen", slug: "allerheiligen", scope: "state", states: ALLERHEILIGEN_STATES, movable: false, date: (y) => new Date(Date.UTC(y, 10, 1)) },
 
   // ---- Regional movable ----
   { name: "Fronleichnam", slug: "fronleichnam", scope: "state", states: FRONLEICHNAM_FULL, movable: true, date: (y) => addDays(easterSunday(y), 60) },
   { name: "Fronleichnam", slug: "fronleichnam", scope: "partial", states: ["SN", "TH"], movable: true, note: "Nur in einzelnen (überwiegend katholischen) Gemeinden Sachsens und Thüringens.", date: (y) => addDays(easterSunday(y), 60) },
   { name: "Buß- und Bettag", slug: "buss-und-bettag", scope: "state", states: ["SN"], movable: true, note: "Gesetzlicher Feiertag nur in Sachsen. In Bayern schulfrei, aber kein Feiertag.", date: (y) => bussUndBettag(y) },
+
+  // ---- Einmalige Feiertage (Berlin) ----
+  { name: "Tag der Befreiung (75. Jahrestag)", slug: "tag-der-befreiung-2020", scope: "state", states: ["BE"], onlyYears: [2020], movable: false, note: "Einmaliger gesetzlicher Feiertag nur in Berlin (Gesetz vom 30. Januar 2019, GVBl. S. 22).", date: (y) => new Date(Date.UTC(y, 4, 8)) },
+  { name: "Tag der Befreiung (80. Jahrestag)", slug: "tag-der-befreiung-2025", scope: "state", states: ["BE"], onlyYears: [2025], movable: false, note: "Einmaliger gesetzlicher Feiertag nur in Berlin (§ 1 Abs. 1 Nr. 11 FTG Berlin, Gesetz vom 10. Juli 2024, GVBl. S. 460).", date: (y) => new Date(Date.UTC(y, 4, 8)) },
+  { name: "75. Jahrestag des Volksaufstandes vom 17. Juni 1953", slug: "jahrestag-17-juni-1953", scope: "state", states: ["BE"], onlyYears: [2028], movable: false, note: "Einmaliger gesetzlicher Feiertag nur in Berlin (§ 1 Abs. 1 Nr. 12 FTG Berlin, Gesetz vom 10. Juli 2024, GVBl. S. 460). Fällt auf einen Samstag.", date: (y) => new Date(Date.UTC(y, 5, 17)) },
 
   // ---- Partial / municipal ----
   { name: "Augsburger Friedensfest", slug: "augsburger-friedensfest", scope: "partial", states: ["BY"], movable: false, note: "Gesetzlicher Feiertag nur im Stadtgebiet Augsburg.", date: (y) => new Date(Date.UTC(y, 7, 8)) },
@@ -122,7 +148,10 @@ const DEFS: Def[] = [
 ];
 
 function isActive(def: Def, year: number): boolean {
-  return def.sinceYear === undefined || year >= def.sinceYear;
+  if (def.onlyYears) return def.onlyYears.includes(year);
+  if (def.sinceYear !== undefined && year < def.sinceYear) return false;
+  if (def.untilYear !== undefined && year > def.untilYear) return false;
+  return true;
 }
 
 /**
@@ -134,8 +163,10 @@ function isActive(def: Def, year: number): boolean {
 export function getAllFeiertage(year: number): Feiertag[] {
   return DEFS.filter((def) => isActive(def, year))
     .map((def) => {
-      const { date, sinceYear: _s, ...rest } = def;
+      const { date, sinceYear: _s, untilYear: _u, onlyYears: _o, ...rest } = def;
       void _s;
+      void _u;
+      void _o;
       return { ...rest, date: iso(date(year)) };
     })
     .sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));

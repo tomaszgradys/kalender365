@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { yearSummary } from "../src/lib/de/calendar.ts";
 import {
   arbeitstageInYear,
   werktageInYear,
@@ -53,4 +54,12 @@ test("Schulferien data is present and verified for seeded states", () => {
   assert.equal(isSchulferienIndexable(2026, "BY"), true); // now seeded + verified
   assert.ok(getSchulferien(2026, "HE")); // all 16 states now seeded
   assert.equal(getSchulferien(2030, "BY"), null); // no data for far-future year
+});
+
+test("yearSummary: Feiertage zählt ALLE gesetzlichen Feiertage, nicht nur die an Werktagen", () => {
+  const s = yearSummary(2027);
+  assert.equal(s.feiertageCount, 9, "Deutschland hat 9 bundesweite Feiertage");
+  assert.ok(s.feiertageAnWerktagen <= s.feiertageCount);
+  const by = yearSummary(2027, "BY");
+  assert.ok(by.feiertageCount >= 12, "Bayern ≥ 12 arbeitsfreie Feiertage");
 });

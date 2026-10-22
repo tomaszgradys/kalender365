@@ -97,14 +97,16 @@ export type YearSummary = {
   year: number;
   totalDays: number;
   weekends: number;
-  feiertageCount: number; // national statutory days that fall on a weekday
+  feiertageCount: number; // ALLE gesetzlichen Feiertage des Jahres (Deutschland: 9 bundesweite; Land: dessen arbeitsfreie Tage)
+  feiertageAnWerktagen: number; // davon Mo–Fr (nur diese senken die Arbeitstage)
   arbeitstage: number; // 5-day week, national baseline (no regional holidays)
   isoWeeks: number;
 };
 
 /**
- * Year summary at the national ("Deutschland") baseline. Feiertage count = the 9
- * nationwide holidays that fall Mon–Fri (weekend ones don't reduce Arbeitstage).
+ * Year summary at the national ("Deutschland") baseline. feiertageCount = alle
+ * gesetzlichen Feiertage (bundesweit 9); feiertageAnWerktagen = davon Mo–Fr
+ * (nur diese senken die Arbeitstage).
  * When a state is given, uses that Land's holiday set instead.
  */
 export function yearSummary(year: number, state?: StateCode): YearSummary {
@@ -139,7 +141,8 @@ export function yearSummary(year: number, state?: StateCode): YearSummary {
     year,
     totalDays,
     weekends,
-    feiertageCount: feiertageOnWeekday,
+    feiertageCount: holidaySet.size,
+    feiertageAnWerktagen: feiertageOnWeekday,
     arbeitstage,
     isoWeeks: isoWeeksInYear(year),
   };
