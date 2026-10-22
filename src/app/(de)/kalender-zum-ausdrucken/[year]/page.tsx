@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   // kanonisieren, damit keine Dublette entsteht.
   const isCurrent = y === berlinNow().year;
   return {
-    title: `Kalender ${y} zum Ausdrucken – kostenlos als PDF & Excel`,
+    title: `Kalender ${y} zum Ausdrucken – PDF & Excel, Hoch- & Querformat, kostenlos`,
     description: `Kalender ${y} kostenlos als PDF und Excel zum Ausdrucken: Jahreskalender, Jahresplaner, Halbjahres- und Monatskalender mit Kalenderwochen und Feiertagen je Bundesland.`,
     alternates: { canonical: isCurrent ? "/kalender-zum-ausdrucken" : `/kalender-zum-ausdrucken/${y}` },
     openGraph: ogMeta(isCurrent ? "/kalender-zum-ausdrucken" : `/kalender-zum-ausdrucken/${y}`, { defaultImage: true }),

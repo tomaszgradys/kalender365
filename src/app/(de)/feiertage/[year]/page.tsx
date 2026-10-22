@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { formatLongDE, weekdayDE } from "@/lib/de/locale";
-import { getAllFeiertage, getNationalFeiertage } from "@/lib/de/feiertage";
+import { getAllFeiertage, getNationalFeiertage, easterSunday } from "@/lib/de/feiertage";
 import { BUNDESLAENDER } from "@/lib/de/bundeslaender";
 import BundeslandSelect from "@/components/de/BundeslandSelect";
 import SeoProse from "@/components/de/SeoProse";
@@ -64,7 +64,13 @@ export default async function FeiertagePage({ params }: { params: Promise<{ year
   const matrixRows = [...matrixMap.values()].sort((a, b) => a.date.localeCompare(b.date));
   const dm = (iso: string) => `${iso.slice(8)}.${iso.slice(5, 7)}.`;
 
+  const osternIso = easterSunday(y).toISOString().slice(0, 10);
+  const shift = (isoDate: string, days: number) => new Date(Date.parse(`${isoDate}T00:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
   const faq = [
+    {
+      q: `Wann ist Ostern ${y}?`,
+      a: `Ostersonntag ${y} ist am ${formatLongDE(osternIso)}. Karfreitag fällt auf den ${formatLongDE(shift(osternIso, -2))}, Ostermontag auf den ${formatLongDE(shift(osternIso, 1))}; Christi Himmelfahrt ist am ${formatLongDE(shift(osternIso, 39))}, Pfingstmontag am ${formatLongDE(shift(osternIso, 50))} und Fronleichnam am ${formatLongDE(shift(osternIso, 60))}.`,
+    },
     {
       q: `Wie viele gesetzliche Feiertage gibt es ${y} in Deutschland?`,
       a: `Bundesweit gelten 9 gesetzliche Feiertage einheitlich in allen 16 Bundesländern. Je nach Bundesland kommen regionale Feiertage hinzu, sodass ein Land auf mehr Feiertage kommt.`,

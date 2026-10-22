@@ -5,7 +5,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { getISOWeekRange, isoWeeksInYear, isValidWeek } from "@/lib/de/weeks";
-import { MONTH_NAMES_DE, WEEKDAY_NAMES_DE, formatLongDE, formatShortDE } from "@/lib/de/locale";
+import { MONTH_NAMES_DE, MONTH_SLUGS_DE, WEEKDAY_NAMES_DE, formatLongDE, formatShortDE } from "@/lib/de/locale";
+import { stateByCode } from "@/lib/de/bundeslaender";
+import { ferienInRange, ferienNachTyp, regionaleFeiertageInRange, mondphasenInRange, sonneInWoche } from "@/lib/de/kwInfo";
 import { getNationalFeiertage } from "@/lib/de/feiertage";
 import { berlinISOWeek } from "@/lib/de/now";
 import SeoProse from "@/components/de/SeoProse";
@@ -70,6 +72,19 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
     .filter((h, i, arr) => arr.findIndex((x) => x.date === h.date) === i)
     .filter((h) => h.date >= iso(r.start) && h.date <= iso(r.end));
 
+  // Zusatzfakten der Woche (Ferien je Land, regionale Feiertage, Mond, Sonne).
+  const wStart = iso(r.start);
+  const wEnd = iso(r.end);
+  const regional = regionaleFeiertageInRange(wStart, wEnd);
+  const ferien = ferienInRange(wStart, wEnd);
+  const ferienGruppen = ferienNachTyp(ferien);
+  const mond = mondphasenInRange(wStart, wEnd);
+  const sonne = sonneInWoche(wStart, wEnd);
+  const landKurz = (codes: string[]) => codes.map((c) => stateByCode(c as never).abbr ?? stateByCode(c as never).name).join(", ");
+  const ferienLaender = (list: typeof ferien) => list.map((f) => `${f.abbr ?? f.name} (bis ${formatShortDE(f.end)})`).join(", ");
+  const monatSlug = `${MONTH_SLUGS_DE[r.start.getUTCMonth()]}-${r.start.getUTCFullYear()}`;
+  const vollmond = mond.find((m) => m.type === "full");
+
   const cur = berlinISOWeek();
   const isCurrent = cur.isoYear === year && cur.week === week;
   const totalWeeks = isoWeeksInYear(year);
@@ -117,6 +132,14 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
                     <td className="px-4 py-2 text-slate-600">{formatShortDE(isoD)}</td>
                     <td className="px-4 py-2 text-right">
                       {holiday && <span className="rounded-full bg-brand-green-50 px-2 py-0.5 text-xs font-semibold text-brand-green-700">{holiday.name}</span>}
+                      {regional.filter((h) => h.date === isoD).map((h) => (
+                        <span key={h.slug + h.scope} className="ml-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800" title={h.note ?? undefined}>
+                          {h.name} · {landKurz(h.states)}{h.scope === "partial" ? " (teilweise)" : ""}
+                        </span>
+                      ))}
+                      {mond.filter((m) => m.date === isoD).map((m) => (
+                        <span key={m.date + m.type} className="ml-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">{m.icon} {m.label} {m.time} Uhr</span>
+                      ))}
                     </td>
                   </tr>
                 );
@@ -127,7 +150,40 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
 
         <p className="mt-4 text-sm text-slate-500">
           <Link href={`/kalenderwochen/${year}`} className="font-medium text-navy-600 underline">Alle Kalenderwochen {year} →</Link>
+          {" · "}
+          <Link href={`/kalender/${monatSlug}`} className="font-medium text-navy-600 underline">Monatskalender {startMonth} {r.start.getUTCFullYear()} →</Link>
         </p>
+
+        <section className="mt-8 grid gap-6 md:grid-cols-2">
+          <div>
+            <h2 className="mb-2 text-xl font-bold text-navy-800">Schulferien in der KW {week}</h2>
+            {ferienGruppen.length === 0 ? (
+              <p className="text-sm text-slate-600">In der KW {week} {year} hat kein Bundesland Schulferien.</p>
+            ) : (
+              <ul className="space-y-1.5 text-sm text-slate-700">
+                {ferienGruppen.map((g) => (
+                  <li key={g.typ} className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                    <span className="font-semibold text-navy-800">{g.label}:</span> {ferienLaender(g.laender)}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="mt-2 text-xs text-slate-500">Quelle: Ferienregelungen der Länder (KMK). <Link href={`/schulferien/${r.start.getUTCFullYear()}`} className="underline">Alle Schulferien {r.start.getUTCFullYear()}</Link></p>
+          </div>
+          <div>
+            <h2 className="mb-2 text-xl font-bold text-navy-800">Mond &amp; Sonne in der KW {week}</h2>
+            <ul className="space-y-1.5 text-sm text-slate-700">
+              {mond.map((m) => (
+                <li key={m.date + m.type} className="rounded-xl border border-slate-200 bg-white px-3 py-2">{m.icon} <span className="font-semibold text-navy-800">{m.label}</span> am {formatLongDE(m.date)} um {m.time} Uhr (MEZ/MESZ){m.zodiacSign ? `, Mond im ${m.zodiacSign}` : ""}</li>
+              ))}
+              {mond.length === 0 && <li className="text-slate-600">Keine Hauptmondphase (Neumond, Viertel, Vollmond) in dieser Woche.</li>}
+              <li className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                ☀️ Sonne in {sonne.ort}: Montag {sonne.montag.sunrise ?? "–"}–{sonne.montag.sunset ?? "–"} Uhr ({sonne.montag.dayLengthText}), Sonntag {sonne.sonntag.sunrise ?? "–"}–{sonne.sonntag.sunset ?? "–"} Uhr ({sonne.sonntag.dayLengthText}); Tageslänge {sonne.deltaMinuten >= 0 ? "+" : "−"}{Math.abs(sonne.deltaMinuten)} Min. im Wochenverlauf.
+              </li>
+            </ul>
+            <p className="mt-2 text-xs text-slate-500">Sonnenzeiten gelten für {sonne.ort}; andere Orte: <Link href="/sonnenaufgang-sonnenuntergang" className="underline">Sonnenaufgang &amp; Sonnenuntergang</Link>.</p>
+          </div>
+        </section>
 
         <SeoProse
           blocks={[
@@ -136,6 +192,7 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
               p: [
                 `Die ${week}. Kalenderwoche ${year} beginnt am Montag, den ${formatLongDE(iso(r.start))}, und endet am Sonntag, den ${formatLongDE(iso(r.end))}. Sie liegt im ${spanText} und ist nach der Norm ISO 8601 nummeriert, die in Deutschland und der EU gilt: Die Woche beginnt am Montag, und KW 1 ist die Woche mit dem ersten Donnerstag des Jahres.${holidaysThisWeek.length ? ` In dieser Woche liegt ein bundesweiter Feiertag: ${holidaysThisWeek.map((h) => `${h.name} (${formatShortDE(h.date)})`).join(", ")}.` : " In dieser Woche liegt kein bundesweiter Feiertag."}`,
                 `Kalenderwochen werden im Berufsalltag häufig zur Terminabsprache genutzt – etwa „Lieferung in KW ${week}“. Die Tabelle oben zeigt jeden Wochentag mit Datum, sodass Sie die KW ${week} ${year} schnell einem konkreten Datum zuordnen können.`,
+                `${regional.length ? `Regionale Feiertage in dieser Woche: ${regional.map((h) => `${h.name} am ${formatShortDE(h.date)} (${landKurz(h.states)}${h.scope === "partial" ? ", nur teilweise" : ""})`).join("; ")}. ` : "Regionale Feiertage gibt es in dieser Woche nicht. "}${ferienGruppen.length ? `Schulferien haben in der KW ${week}: ${ferienGruppen.map((g) => `${g.label} in ${g.laender.map((f) => f.abbr ?? f.name).join(", ")}`).join("; ")}.` : `Schulferien hat in der KW ${week} ${year} kein Bundesland.`}${vollmond ? ` Vollmond ist am ${formatLongDE(vollmond.date)} um ${vollmond.time} Uhr.` : ""}`,
               ],
             },
           ]}
@@ -145,6 +202,9 @@ export default async function KwPage({ params }: { params: Promise<{ slug: strin
             { q: `Von wann bis wann geht die KW ${week} ${year}?`, a: `Die Kalenderwoche ${week} ${year} geht von Montag, ${formatLongDE(iso(r.start))}, bis Sonntag, ${formatLongDE(iso(r.end))}.` },
             { q: `In welchem Monat liegt die KW ${week} ${year}?`, a: `Die KW ${week} ${year} liegt im ${spanText}.` },
             { q: "Beginnt die Kalenderwoche am Montag?", a: "Ja. Nach ISO 8601 – der in Deutschland gültigen Norm – beginnt jede Kalenderwoche am Montag und endet am Sonntag." },
+            { q: `Welche Bundesländer haben in der KW ${week} ${year} Schulferien?`, a: ferienGruppen.length ? ferienGruppen.map((g) => `${g.label}: ${g.laender.map((f) => `${f.name} (${formatShortDE(f.start)}–${formatShortDE(f.end)})`).join(", ")}`).join(". ") + "." : `In der KW ${week} ${year} hat kein Bundesland Schulferien.` },
+            { q: `Gibt es in der KW ${week} ${year} einen Feiertag?`, a: `${holidaysThisWeek.length ? `Bundesweit: ${holidaysThisWeek.map((h) => `${h.name} am ${formatLongDE(h.date)}`).join(", ")}.` : "Bundesweit gibt es in dieser Woche keinen gesetzlichen Feiertag."}${regional.length ? ` Regional: ${regional.map((h) => `${h.name} am ${formatShortDE(h.date)} in ${landKurz(h.states)}`).join("; ")}.` : ""}` },
+            ...(vollmond ? [{ q: `Wann ist Vollmond in der KW ${week} ${year}?`, a: `Vollmond ist am ${formatLongDE(vollmond.date)} um ${vollmond.time} Uhr (MEZ/MESZ).` }] : []),
           ]}
         />
       </PageWithSidebar>

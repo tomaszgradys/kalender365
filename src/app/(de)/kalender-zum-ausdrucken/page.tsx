@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export function generateMetadata(): Metadata {
   const y = berlinNow().year;
   return {
-    title: `Kalender ${y} zum Ausdrucken – kostenlos als PDF & Excel`,
+    title: `Kalender ${y} zum Ausdrucken – PDF & Excel, Hoch- & Querformat, kostenlos`,
     description: `Kalender ${y} kostenlos zum Ausdrucken: Jahreskalender, Jahresplaner, Halbjahres- und Monatskalender als PDF und Excel – mit Feiertagen und Kalenderwochen je Bundesland.`,
     alternates: { canonical: "/kalender-zum-ausdrucken" },
     openGraph: ogMeta("/kalender-zum-ausdrucken", { defaultImage: true }),

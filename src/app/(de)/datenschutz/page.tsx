@@ -40,7 +40,10 @@ export default function DatenschutzPage() {
       <h2>4. Lokale Speicherung (localStorage)</h2>
       <p>
         Zur Verbesserung der Bedienung speichern wir Ihre zuletzt gewählte Auswahl (z. B. Ihr Bundesland) lokal in
-        Ihrem Browser. Diese Daten verlassen Ihr Gerät nicht und werden nicht an uns übertragen.
+        Ihrem Browser. Diese Daten verlassen Ihr Gerät nicht und werden nicht an uns übertragen. Diese Speicherung
+        ist für die von Ihnen ausdrücklich gewünschte Funktion (Merken Ihrer Auswahl) unbedingt erforderlich und
+        bedarf daher nach § 25 Abs. 2 Nr. 2 TDDDG keiner Einwilligung; Tracking- oder Werbespeicher setzen wir nicht
+        ein.
       </p>
       <h2>5. Kontaktaufnahme per E-Mail</h2>
       <p>
