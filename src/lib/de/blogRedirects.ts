@@ -1,0 +1,26 @@
+// Alte Blog-Slugs (geloeschte Autoblog-Duplikate, 23.10.2026) -> beibehaltener Beitrag.
+// Quelle: Claude/kalender365-recovery/dane/blog-duble-mapa.json
+export const BLOG_REDIRECTS: Record<string, string> = {
+  "reformationstag-2026-wo-frei-bundeslaender": "reformationstag-2026-feiertag-wo-frei",
+  "reformationstag-allerheiligen-2026-wo-frei": "reformationstag-2026-feiertag-wo-frei",
+  "reformationstag-allerheiligen-2026-feiertage": "reformationstag-2026-feiertag-wo-frei",
+  "reformationstag-2026-feiertag-bundeslaender-frei": "reformationstag-2026-feiertag-wo-frei",
+  "herbstferien-2026-start-bundeslaender-uebersicht": "herbstferien-2026-termine-bundeslaender",
+  "herbstferien-2026-start-uebersicht-laender": "herbstferien-2026-termine-bundeslaender",
+  "herbstferien-2026-start-termine-alle-laender": "herbstferien-2026-termine-bundeslaender",
+  "herbstferien-2026-start-bundeslaender-termine": "herbstferien-2026-termine-bundeslaender",
+  "herbstferien-2026-brueckentage-planen": "brueckentage-herbst-2026-urlaub-verlaengern",
+  "herbstferien-hessen-2026-start-oktober-planen": "herbstferien-hessen-2026-start-planung",
+  "erntedankfest-2026-datum-herkunft-braeuche": "erntedankfest-2026-datum-bedeutung-braeuche",
+  "mariae-himmelfahrt-2026-feiertag-wo-frei": "mariae-himmelfahrt-2026-wo-frei-bundeslaender",
+  "mariae-himmelfahrt-2026-feiertag-frei-arbeit": "mariae-himmelfahrt-2026-wo-frei-bundeslaender",
+  "sommerurlaub-2026-planen-reisezeit": "ferienstau-vermeiden-sommerferien-start-2026",
+  "oktoberfest-2026-start-termine-wissenswertes": "oktoberfest-2026-beginn-termine",
+  "tag-deutschen-einheit-2026-brueckentage-nutzen": "tag-der-deutschen-einheit-2026-3-oktober",
+  "tag-deutschen-einheit-2026-3-oktober-brueckentag": "tag-der-deutschen-einheit-2026-3-oktober",
+  "vollmond-wassermann-29-juli-2026-bedeutung": "vollmond-29-juli-2026-wassermann",
+  "neumond-loewe-12-august-2026-bedeutung": "neumond-august-2026-datum-loewe",
+  "vollmond-28-august-2026-fische-bedeutung": "vollmond-august-2026-sturmmond-fische",
+  "sommerferien-2026-ende-uebersicht-schulstart": "sommerferien-ende-2026-schulstart-termine",
+  "schulanfang-2026-vorbereitung-nach-ferien": "schulstart-2026-uebergang-nach-sommerferien",
+};

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { BLOG_REDIRECTS } from "@/lib/de/blogRedirects";
 import { getAllPosts, getPostBySlug, getSeedPosts, CATEGORY_GRADIENT } from "@/lib/de/blog";
 import { formatLongDE } from "@/lib/de/locale";
 import { SITE_URL, SITE_NAME } from "@/lib/de/site";
@@ -45,7 +46,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) notFound();
+  if (!post) {
+    const ziel = BLOG_REDIRECTS[slug];
+    if (ziel) permanentRedirect(`/blog/${ziel}`);
+    notFound();
+  }
 
   const related = (await getAllPosts()).filter((p) => p.slug !== post.slug).slice(0, 3);
 
