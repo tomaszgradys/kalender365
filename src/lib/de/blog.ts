@@ -148,6 +148,49 @@ export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]>
 
 const SEED: BlogPost[] = [
   {
+    // Discover-Beitrag 2.11.2026, gut zwei Wochen vorher. Datum aus bussUndBettag(), Arbeitstage
+    // November aus workingDaysInMonth (SN 20, BY 21). Pflege-Beitragssätze 2026: 3,6 %, in Sachsen
+    // AN 2,3 % / AG 1,3 % (§ 58 Abs. 3 SGB XI; AOK, vdek).
+    slug: "buss-und-bettag-2026-18-november-wo-frei",
+    title: "Buß- und Bettag 2026: Am 18. November frei – aber nur in Sachsen",
+    excerpt:
+      "Am Mittwoch, 18. November 2026, ist Buß- und Bettag. Wo er Feiertag ist, warum in Bayern die Schule ausfällt und was Sachsen dafür bei der Pflegeversicherung zahlt.",
+    category: "Feiertage & Urlaub",
+    publishedAt: "2026-11-02",
+    cover: { src: "/blog/buss-und-bettag-2026-18-november.jpg", alt: "Dorfkirche im Novembernebel mit herbstlichen Bäumen in der Morgensonne" },
+    bodyHtml: `
+<p><strong>Der Buß- und Bettag fällt 2026 auf Mittwoch, den 18. November.</strong> Gesetzlicher Feiertag ist er nur noch in Sachsen. In Bayern haben Schülerinnen und Schüler trotzdem frei, Eltern müssen dagegen arbeiten. Wir zeigen, wo was gilt, wie man aus dem Mittwoch fünf freie Tage macht und warum Beschäftigte in Sachsen jeden Monat für diesen Tag bezahlen.</p>
+<h2>Wo ist der Buß- und Bettag ein Feiertag?</h2>
+<p>Nur in <strong>Sachsen</strong>. Dort sind Behörden, Schulen und die meisten Geschäfte geschlossen, und Arbeitnehmer haben frei, sofern sie nicht in Branchen mit Feiertagsarbeit beschäftigt sind. In allen anderen 15 Bundesländern ist der 18. November ein normaler Arbeitstag. Der November 2026 hat in Sachsen deshalb <strong>20 Arbeitstage</strong>, in Bayern und den meisten anderen Ländern 21 (Allerheiligen fällt 2026 auf einen Sonntag). Alle Termine je Land stehen in der Übersicht <a href="/feiertage/2026/sachsen">Feiertage Sachsen 2026</a> und unter <a href="/feiertage/2026">Feiertage 2026</a>.</p>
+<h2>Bayern: schulfrei, aber kein Feiertag</h2>
+<p>In Bayern ist der Buß- und Bettag ein <strong>unterrichtsfreier Tag</strong> an allen Schulen, aber kein gesetzlicher Feiertag. Für berufstätige Eltern heißt das: Das Kind ist zu Hause, der Arbeitgeber erwartet sie trotzdem im Büro. Viele Gemeinden und Horte bieten an diesem Mittwoch eine Notbetreuung an; wer sie braucht, sollte sich früh anmelden. In einigen anderen Ländern können evangelische Schülerinnen und Schüler für den Gottesdienst vom Unterricht freigestellt werden, die Einzelheiten regelt das jeweilige Schulrecht. Die bayerischen Ferientermine rund um den November finden Sie unter <a href="/schulferien/2026/bayern">Schulferien Bayern 2026</a>.</p>
+<h2>Warum nur noch Sachsen? Die Pflegeversicherung</h2>
+<p>Bis 1994 war der Buß- und Bettag fast überall in Deutschland arbeitsfrei. Mit der Einführung der Pflegeversicherung 1995 strichen die Länder den Feiertag, damit die Arbeitgeber über den zusätzlichen Arbeitstag ihren Beitragsanteil gegenfinanzieren. Sachsen behielt den Feiertag und ging einen anderen Weg: Dort tragen die Beschäftigten einen höheren Anteil am Pflegebeitrag.</p>
+<p>2026 liegt der Beitragssatz bundesweit bei <strong>3,6 Prozent</strong>. Üblich ist die Teilung 1,8 zu 1,8 Prozent. In Sachsen zahlen Arbeitnehmer <strong>2,3 Prozent</strong>, Arbeitgeber nur 1,3 Prozent. Kinderlose zahlen in ganz Deutschland 0,6 Prozentpunkte Zuschlag, in Sachsen also 2,9 Prozent. Bei einem Bruttogehalt von 3.500 Euro sind das 17,50 Euro mehr im Monat oder 210 Euro im Jahr, der Preis für einen freien Mittwoch im November.</p>
+<h2>Brückentage in Sachsen: 2 Urlaubstage, 5 Tage frei</h2>
+<p>Ein Feiertag in der Wochenmitte ist ideal für eine kurze Auszeit. Zwei Varianten bieten sich an:</p>
+<ul>
+<li><strong>Urlaub am Montag und Dienstag (16. und 17. November):</strong> frei von Samstag, 14., bis Mittwoch, 18. November.</li>
+<li><strong>Urlaub am Donnerstag und Freitag (19. und 20. November):</strong> frei von Mittwoch, 18., bis Sonntag, 22. November.</li>
+</ul>
+<p>In beiden Fällen ergeben 2 Urlaubstage 5 freie Tage am Stück. Weitere Kombinationen für das Jahresende zeigt die Seite <a href="/brueckentage/2026/sachsen">Brückentage Sachsen 2026</a>; Ihren eigenen Plan stellen Sie im <a href="/urlaubsplaner/2026">Urlaubsplaner 2026</a> zusammen.</p>
+<h2>Wie das Datum berechnet wird</h2>
+<p>Der Buß- und Bettag ist immer der <strong>Mittwoch vor dem Totensonntag</strong>, dem letzten Sonntag des Kirchenjahres vor dem ersten Advent. Er liegt damit stets zwischen dem 16. und dem 22. November. Die nächsten Termine:</p>
+<ul>
+<li><strong>2026:</strong> Mittwoch, 18. November</li>
+<li><strong>2027:</strong> Mittwoch, 17. November</li>
+<li><strong>2028:</strong> Mittwoch, 22. November</li>
+</ul>
+<p>Der November ist der Monat der stillen Gedenktage: Am Sonntag, 15. November 2026, ist Volkstrauertag, am Sonntag, 22. November, Totensonntag, und eine Woche später, am 29. November, beginnt mit dem ersten Advent die Vorweihnachtszeit. Mehr dazu im Beitrag <a href="/blog/advent-2026-erster-advent-termine">Advent 2026</a>. Die ganze Woche mit allen Terminen zeigt die <a href="/kw/47-2026">Kalenderwoche 47</a>.</p>`,
+    faq: [
+      { q: "Wann ist Buß- und Bettag 2026?", a: "Am Mittwoch, 18. November 2026. Der Tag liegt immer auf dem Mittwoch vor dem Totensonntag, also zwischen dem 16. und dem 22. November." },
+      { q: "In welchem Bundesland ist Buß- und Bettag ein Feiertag?", a: "Nur in Sachsen. In allen anderen Bundesländern ist der 18. November 2026 ein normaler Arbeitstag." },
+      { q: "Ist Buß- und Bettag in Bayern schulfrei?", a: "Ja. In Bayern haben alle Schulen an diesem Tag unterrichtsfrei, ein gesetzlicher Feiertag ist er dort aber nicht – Arbeitnehmer müssen arbeiten." },
+      { q: "Warum zahlen Arbeitnehmer in Sachsen mehr Pflegeversicherung?", a: "Weil Sachsen den Buß- und Bettag 1995 als Feiertag behalten hat. Dafür tragen Beschäftigte dort 2026 einen Anteil von 2,3 statt 1,8 Prozent am Pflegebeitrag, Arbeitgeber nur 1,3 Prozent." },
+    ],
+    source: "seed",
+  },
+  {
     // Discover-Beitrag 22.10.2026: Zahlen-Hook (4 Urlaubstage = 10 Tage frei; 4 Feiertage am
     // Wochenende). Alle Termine aus brueckentageBundesweit()/feiertage.ts berechnet.
     slug: "brueckentage-2027-mit-4-urlaubstagen-10-tage-frei",
