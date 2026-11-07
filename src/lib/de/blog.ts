@@ -148,6 +148,65 @@ export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]>
 
 const SEED: BlogPost[] = [
   {
+    // Discover-Beitrag 07.11.2026: Weihnachtsferien 2026/27 aus schulferien.data.ts (KMK FER2026_27,
+    // verifiziert 09.07.2026). Wochentage: 21.12.2026 Mo, 23.12 Mi, 24.12 Do, 1.1.2027 Fr, 6.1 Mi, 12.1 Di.
+    slug: "weihnachtsferien-2026-2027-alle-bundeslaender",
+    title: "Weihnachtsferien 2026/27: Fünf Länder starten schon am 21. Dezember",
+    excerpt:
+      "Hamburg, Mecklenburg-Vorpommern, Saarland, Sachsen-Anhalt und Schleswig-Holstein starten am 21.12., Hessen hat bis 12. Januar frei. Alle Termine je Land.",
+    category: "Feiertage & Urlaub",
+    publishedAt: "2026-11-07",
+    cover: { src: "/blog/weihnachtsferien-2026-2027.jpg", alt: "Zwei Kinder mit Schlitten im Schnee vor einem Haus mit Weihnachtsbaum und warm beleuchteten Fenstern" },
+    bodyHtml: `
+<p><strong>Die Weihnachtsferien 2026/27 beginnen in fünf Bundesländern bereits am Montag, 21. Dezember 2026.</strong> In den meisten anderen Ländern ist der erste Ferientag Mittwoch, der 23. Dezember, in Bayern erst Heiligabend. Am längsten frei haben Kinder in Hessen: bis Dienstag, 12. Januar 2027. Das Saarland ist dagegen schon an Silvester fertig. Hier sind alle Termine im Überblick und was sie für die Urlaubsplanung der Eltern bedeuten.</p>
+<h2>Weihnachtsferien 2026/27: alle Termine</h2>
+<ul>
+<li><strong>Baden-Württemberg:</strong> 23.12.2026 bis 09.01.2027</li>
+<li><strong>Bayern:</strong> 24.12.2026 bis 08.01.2027</li>
+<li><strong>Berlin:</strong> 23.12.2026 bis 02.01.2027</li>
+<li><strong>Brandenburg:</strong> 23.12.2026 bis 02.01.2027</li>
+<li><strong>Bremen:</strong> 23.12.2026 bis 09.01.2027</li>
+<li><strong>Hamburg:</strong> 21.12.2026 bis 01.01.2027</li>
+<li><strong>Hessen:</strong> 23.12.2026 bis 12.01.2027</li>
+<li><strong>Mecklenburg-Vorpommern:</strong> 21.12.2026 bis 02.01.2027</li>
+<li><strong>Niedersachsen:</strong> 23.12.2026 bis 09.01.2027</li>
+<li><strong>Nordrhein-Westfalen:</strong> 23.12.2026 bis 06.01.2027</li>
+<li><strong>Rheinland-Pfalz:</strong> 23.12.2026 bis 08.01.2027</li>
+<li><strong>Saarland:</strong> 21.12.2026 bis 31.12.2026</li>
+<li><strong>Sachsen:</strong> 23.12.2026 bis 02.01.2027</li>
+<li><strong>Sachsen-Anhalt:</strong> 21.12.2026 bis 02.01.2027</li>
+<li><strong>Schleswig-Holstein:</strong> 21.12.2026 bis 06.01.2027</li>
+<li><strong>Thüringen:</strong> 23.12.2026 bis 02.01.2027</li>
+</ul>
+<p>Die Termine stammen aus dem Ferienkalender der Kultusministerkonferenz. Für Ihr Land finden Sie Details, Kalenderdatei und Countdown unter <a href="/weihnachtsferien/2026">Weihnachtsferien 2026</a>, zum Beispiel <a href="/weihnachtsferien/2026/hessen">Weihnachtsferien Hessen</a> oder <a href="/weihnachtsferien/2026/nordrhein-westfalen">Weihnachtsferien NRW</a>.</p>
+<h2>Wann ist der letzte Schultag vor Weihnachten?</h2>
+<p>Das hängt vom ersten Ferientag ab. In <strong>Hamburg, Mecklenburg-Vorpommern, im Saarland, in Sachsen-Anhalt und Schleswig-Holstein</strong> ist am Freitag, 18. Dezember, Schluss. Faktisch sind die Kinder dort also schon ab dem vierten Adventswochenende zu Hause, der vierte Advent fällt 2026 auf den 20. Dezember. In den zehn Ländern mit Ferienstart am 23. Dezember ist der letzte Schultag Dienstag, der 22. Dezember. In Bayern gehen die Kinder bis Mittwoch, 23. Dezember, zur Schule.</p>
+<h2>Wann geht die Schule 2027 wieder los?</h2>
+<ul>
+<li><strong>Montag, 4. Januar 2027:</strong> Berlin, Brandenburg, Hamburg, Mecklenburg-Vorpommern, Saarland, Sachsen, Sachsen-Anhalt und Thüringen. Weil Neujahr ein Freitag ist und der 2. und 3. Januar aufs Wochenende fallen, haben auch die Saarländer faktisch bis zum 3. Januar frei.</li>
+<li><strong>Donnerstag, 7. Januar 2027:</strong> Nordrhein-Westfalen und Schleswig-Holstein, also mitten in der Woche nach Heilige Drei Könige.</li>
+<li><strong>Montag, 11. Januar 2027:</strong> Baden-Württemberg, Bayern, Bremen, Niedersachsen und Rheinland-Pfalz.</li>
+<li><strong>Mittwoch, 13. Januar 2027:</strong> Hessen, das Land mit den längsten Weihnachtsferien.</li>
+</ul>
+<h2>Feiertage und Brückentage zwischen den Jahren</h2>
+<p>Heiligabend und Silvester sind keine gesetzlichen Feiertage, sie fallen 2026 beide auf einen Donnerstag. Der 1. Weihnachtsfeiertag ist ein Freitag, der 2. Weihnachtsfeiertag ein Samstag, Neujahr wieder ein Freitag. Für Eltern mit 5-Tage-Woche bedeutet das: Mit <strong>5 Urlaubstagen</strong> (24. Dezember und 28. bis 31. Dezember) sind sie <strong>11 Tage am Stück</strong> frei, von Heiligabend bis Sonntag, 3. Januar. Wer im Betrieb den 24. und 31. Dezember ohnehin frei bekommt, braucht nur 3 Urlaubstage. In Baden-Württemberg, Bayern und Sachsen-Anhalt ist zusätzlich der 6. Januar, ein Mittwoch, ein gesetzlicher Feiertag. Alle Kombinationen zeigt <a href="/brueckentage/2026">Brückentage 2026</a>, Ihren Plan stellen Sie im <a href="/urlaubsplaner/2026">Urlaubsplaner 2026</a> zusammen.</p>
+<h2>Was bei der Planung hilft</h2>
+<ul>
+<li>Urlaub für die Tage zwischen den Jahren früh beantragen, denn in vielen Betrieben sind diese Tage zuerst vergeben.</li>
+<li>Wer verreist: An den Wochenenden 19./20. Dezember und 2./3. Januar beginnen oder enden die Ferien in besonders vielen Ländern gleichzeitig, entsprechend voll sind Straßen und Züge.</li>
+<li>Die Adventssonntage 2026 sind der 29. November, 6., 13. und 20. Dezember. Mehr dazu im Beitrag <a href="/blog/advent-2026-erster-advent-termine">Advent 2026</a>.</li>
+<li>Die Ferientermine für das ganze kommende Jahr stehen unter <a href="/schulferien/2027">Schulferien 2027</a>, die besten Brücken im Beitrag <a href="/blog/brueckentage-2027-mit-4-urlaubstagen-10-tage-frei">Brückentage 2027</a>.</li>
+</ul>
+<p>Angaben ohne Gewähr. Einzelne Schulen können bewegliche Ferientage anders legen, maßgeblich ist der Ferienplan des jeweiligen Kultusministeriums.</p>`,
+    faq: [
+      { q: "Wann beginnen die Weihnachtsferien 2026?", a: "In Hamburg, Mecklenburg-Vorpommern, im Saarland, in Sachsen-Anhalt und Schleswig-Holstein am Montag, 21. Dezember 2026. In Bayern am 24. Dezember, in allen anderen Ländern am Mittwoch, 23. Dezember." },
+      { q: "Welches Bundesland hat 2026/27 die längsten Weihnachtsferien?", a: "Hessen: vom 23. Dezember 2026 bis 12. Januar 2027. Die Schule beginnt dort erst am Mittwoch, 13. Januar." },
+      { q: "Wann enden die Weihnachtsferien in NRW?", a: "Am Mittwoch, 6. Januar 2027. Der erste Schultag in Nordrhein-Westfalen ist Donnerstag, der 7. Januar." },
+      { q: "Wie viele Urlaubstage brauche ich zwischen Weihnachten und Neujahr 2026?", a: "Mit 5 Urlaubstagen (24. sowie 28. bis 31. Dezember) haben Sie 11 Tage am Stück frei, von Heiligabend bis 3. Januar 2027. Sind der 24. und 31. Dezember im Betrieb frei, reichen 3 Urlaubstage." },
+    ],
+    source: "seed",
+  },
+  {
     // Discover-Beitrag 2.11.2026, gut zwei Wochen vorher. Datum aus bussUndBettag(), Arbeitstage
     // November aus workingDaysInMonth (SN 20, BY 21). Pflege-Beitragssätze 2026: 3,6 %, in Sachsen
     // AN 2,3 % / AG 1,3 % (§ 58 Abs. 3 SGB XI; AOK, vdek).
