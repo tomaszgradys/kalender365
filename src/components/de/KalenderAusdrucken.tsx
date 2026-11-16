@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import PageWithSidebar from "@/components/de/PageWithSidebar";
 import Breadcrumbs from "@/components/de/Breadcrumbs";
@@ -74,6 +75,28 @@ export default function KalenderAusdrucken({ year, isHub = false }: { year: numb
             );
           })}
         </nav>
+
+        {/* Vorschaubild als PNG — für die Bildersuche indexierbar (16.11.2026). */}
+        <figure className="mt-6 flex flex-col items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center">
+          <a
+            href={`/api/pdf/de/vorlage/${year}?typ=jahr-hoch`}
+            className="block w-full max-w-[200px] shrink-0 overflow-hidden rounded-lg border border-slate-200 shadow-sm transition hover:border-navy-300"
+          >
+            <img
+              src={`/vorschau/kalender-${year}-zum-ausdrucken.png`}
+              alt={`Kalender ${year} zum Ausdrucken: Jahreskalender im Hochformat mit Kalenderwochen und Feiertagen`}
+              width={1240}
+              height={1754}
+              className="h-auto w-full"
+            />
+          </a>
+          <figcaption className="text-sm text-slate-600">
+            <span className="block font-semibold text-navy-800">So sieht der Jahreskalender {year} aus</span>
+            Alle zwölf Monate auf einer A4-Seite, mit Kalenderwochen und den bundesweiten Feiertagen. Ein Klick auf
+            das Bild lädt das PDF im Hochformat. Für die Feiertage und Schulferien Ihres Bundeslandes wählen Sie
+            unten das Land aus.
+          </figcaption>
+        </figure>
 
         <section className="mt-6">
           <AusdruckenDownloads year={year} />

@@ -41,7 +41,7 @@ const IMPRESSUM_INDEXABLE = !COMPANY.legalName.startsWith("TODO");
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: NOW, changeFrequency: "daily" },
-    { url: `${SITE_URL}/kalender-zum-ausdrucken`, lastModified: NOW, changeFrequency: "monthly" },
+    { url: `${SITE_URL}/kalender-zum-ausdrucken`, lastModified: NOW, changeFrequency: "monthly", images: [`${SITE_URL}/vorschau/kalender-${thisYear}-zum-ausdrucken.png`] },
     { url: `${SITE_URL}/heute`, lastModified: NOW, changeFrequency: "daily" },
     { url: `${SITE_URL}/blog`, lastModified: NOW, changeFrequency: "daily" },
     ...(IMPRESSUM_INDEXABLE
@@ -82,7 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: `${SITE_URL}/kalender/${y}`, lastModified: lm, changeFrequency: "monthly" });
     // Aktuelles Jahr wird vom Hub /kalender-zum-ausdrucken abgedeckt (dorthin
     // kanonisiert) → nur die übrigen Jahre einzeln listen.
-    if (y !== thisYear) entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: lm, changeFrequency: "monthly" });
+    if (y !== thisYear) entries.push({ url: `${SITE_URL}/kalender-zum-ausdrucken/${y}`, lastModified: lm, changeFrequency: "monthly", images: [`${SITE_URL}/vorschau/kalender-${y}-zum-ausdrucken.png`] });
     entries.push({ url: `${SITE_URL}/feiertage/${y}`, lastModified: lm, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/brueckentage/${y}`, lastModified: lm, changeFrequency: "monthly" });
     entries.push({ url: `${SITE_URL}/arbeitstage/${y}`, lastModified: lm, changeFrequency: "monthly" });
