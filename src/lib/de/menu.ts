@@ -38,7 +38,7 @@ export const MENU: MenuSection[] = [
       { label: "Schulferien {y}", href: "/schulferien/{y}", emoji: "🎒" },
       { label: "Stundenplan", href: "/stundenplan", emoji: "📝" },
       { label: "Sommerferien-Countdown", href: "/wie-viele-tage-bis-zu-den-sommerferien", emoji: "⏳" },
-      { label: "Ferien-Widget für Websites", href: "/ferien-widget", emoji: "🧩" },
+      { label: "Kalender-Widget für Websites", href: "/ferien-widget", emoji: "🧩" },
     ],
   },
   {

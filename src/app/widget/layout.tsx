@@ -16,7 +16,7 @@ export default function WidgetLayout({ children }: { children: React.ReactNode }
           margin: 0,
           fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
           color: "#0f172a",
-          background: "#fff",
+          background: "transparent",
           fontSize: 14,
           lineHeight: 1.45,
         }}

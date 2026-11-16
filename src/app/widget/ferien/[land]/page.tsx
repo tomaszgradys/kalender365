@@ -52,7 +52,7 @@ export default async function FerienWidgetPage({ params, searchParams }: Params)
 
   const td: React.CSSProperties = { padding: "6px 8px", borderTop: "1px solid #e2e8f0", verticalAlign: "top" };
   return (
-    <div style={{ padding: 12, maxWidth: 520 }}>
+    <div style={{ padding: 12, maxWidth: 520, background: "#fff", border: "1px solid #cbd5e1", borderRadius: 12, boxSizing: "border-box" }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
         <h1 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "#0b2a6f" }}>Schulferien {state.name} {titelJahr}</h1>
         {laufend && !pinned && (
