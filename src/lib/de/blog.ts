@@ -148,6 +148,57 @@ export async function getPostsByCategory(cat: BlogCategory): Promise<BlogPost[]>
 
 const SEED: BlogPost[] = [
   {
+    // Discover-Beitrag 16.11.2026, sechs Tage vorher. Totensonntag = Sonntag vor dem 1. Advent (29.11.2026),
+    // liegt immer zwischen 20. und 26. November; 2027: 21.11., 2028: 26.11. Tanzverbot-Zeiten: Bayern 2–24 Uhr,
+    // Bußgeld bis 10.000 € (muenchen.de), Berlin 4–21 Uhr (t-online), NRW bis 18 Uhr (Stadt Köln), übrige Länder
+    // laut Übersicht der Landes-Feiertagsgesetze (Wikipedia „Tanzverbot“, Stand 16.11.2026). Christkindlmarkt
+    // München 20.11.–24.12.2026, am 22.11. geschlossen (muenchen.de).
+    slug: "totensonntag-2026-22-november-tanzverbot-stiller-tag",
+    title: "Totensonntag 2026: Was am 22. November gilt – Tanzverbot je Land",
+    excerpt:
+      "Am Sonntag, 22. November 2026, ist Totensonntag. Warum er ein stiller Tag ist, wie lange das Tanzverbot in Ihrem Land gilt und warum Weihnachtsmärkte zubleiben.",
+    category: "Feiertage & Urlaub",
+    publishedAt: "2026-11-16",
+    cover: { src: "/blog/totensonntag-2026.jpg", alt: "Grab mit Gesteck aus Tannengrün, roter und weißer Rose und zwei brennenden Grablichtern auf einem Friedhof im Novembernebel" },
+    bodyHtml: `
+<p><strong>Totensonntag ist 2026 am Sonntag, dem 22. November.</strong> Er ist kein zusätzlicher freier Tag, denn er fällt ohnehin auf einen Sonntag. In allen 16 Bundesländern ist er aber ein <strong>stiller Tag</strong>: Tanzveranstaltungen und laute öffentliche Feiern sind dann eingeschränkt, je nach Land bis 17, 18, 20, 21 oder 24 Uhr. Eine Woche später, am 29. November, ist schon der erste Advent.</p>
+<h2>Was ist der Totensonntag?</h2>
+<p>Der Totensonntag, in vielen evangelischen Gemeinden auch Ewigkeitssonntag genannt, ist der letzte Sonntag des Kirchenjahres. Der preußische König Friedrich Wilhelm III. führte ihn 1816 als Gedenktag für die Verstorbenen ein. Heute besuchen viele Familien an diesem Tag die Gräber ihrer Angehörigen. Die Gräber werden vorher winterfest gemacht, meist mit Tannengrün, Gestecken und einem Grablicht. In den Gottesdiensten werden oft die Namen der Menschen vorgelesen, die im zurückliegenden Jahr in der Gemeinde gestorben sind.</p>
+<p>Die katholische Kirche feiert am selben Sonntag das Christkönigsfest. Ihr Totengedenken liegt Anfang November, an Allerheiligen und Allerseelen.</p>
+<h2>Wann ist Totensonntag? Die nächsten Termine</h2>
+<p>Der Totensonntag ist immer der Sonntag vor dem ersten Advent. Er liegt deshalb stets zwischen dem 20. und dem 26. November.</p>
+<ul>
+<li><strong>2026:</strong> Sonntag, 22. November</li>
+<li><strong>2027:</strong> Sonntag, 21. November</li>
+<li><strong>2028:</strong> Sonntag, 26. November</li>
+</ul>
+<p>Er schließt eine Woche mit mehreren Gedenktagen ab. In der <a href="/kw/47-2026">Kalenderwoche 47</a> liegen 2026 auch der Buß- und Bettag am Mittwoch, 18. November, und eben der Totensonntag. Warum der Buß- und Bettag nur noch in Sachsen arbeitsfrei ist, steht im Beitrag <a href="/blog/buss-und-bettag-2026-18-november-wo-frei">Buß- und Bettag 2026</a>.</p>
+<h2>Tanzverbot am Totensonntag: die Zeiten je Bundesland</h2>
+<p>Welche Veranstaltungen an stillen Tagen verboten sind und wie lange, regelt jedes Land in seinem Feiertagsgesetz. Am bekanntesten ist das Tanzverbot. Für den Totensonntag gelten 2026 diese Zeitfenster:</p>
+<ul>
+<li><strong>Bayern:</strong> von 2 bis 24 Uhr. Wer am Samstagabend feiert, muss also um 2 Uhr nachts Schluss machen. Verstöße können mit bis zu 10.000 Euro Bußgeld geahndet werden.</li>
+<li><strong>Berlin:</strong> von 4 bis 21 Uhr.</li>
+<li><strong>Nordrhein-Westfalen:</strong> bis 18 Uhr, danach gelten keine besonderen Regeln mehr.</li>
+<li><strong>Hamburg und Bremen:</strong> von 6 bis 17 Uhr.</li>
+<li><strong>Schleswig-Holstein:</strong> von 6 bis 20 Uhr.</li>
+<li><strong>Alle übrigen Länder</strong> (Baden-Württemberg, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Thüringen): bis Mitternacht. Der Beginn liegt je nach Land zwischen 3 und 5 Uhr morgens.</li>
+</ul>
+<p>In mehreren Ländern sind an stillen Tagen auch andere öffentliche Unterhaltungsveranstaltungen eingeschränkt, etwa laute Musik in Gaststätten oder bestimmte Sportveranstaltungen. Das Tanzverbot betrifft öffentliche Veranstaltungen, nicht private Feiern in der eigenen Wohnung. Die Angaben sind ohne Gewähr, verbindlich ist das Feiertagsgesetz Ihres Landes.</p>
+<h2>Weihnachtsmärkte: am Totensonntag meist geschlossen</h2>
+<p>Viele Städte eröffnen ihre Weihnachtsmärkte erst nach dem Totensonntag, also ab Montag, 23. November 2026, oder noch später. Märkte, die schon früher beginnen, machen an diesem Sonntag in der Regel eine Pause. Ein Beispiel ist der Münchner Christkindlmarkt am Marienplatz: Er öffnet 2026 schon am Freitag, 20. November, bleibt aber am Totensonntag geschlossen und läuft dann bis Heiligabend. Wer am 22. November einen Ausflug plant, sollte die Öffnungszeiten des jeweiligen Marktes vorher prüfen.</p>
+<h2>Ist Totensonntag ein Feiertag?</h2>
+<p>Nein, kein gesetzlicher Feiertag im Sinne eines zusätzlichen freien Tages. Weil er immer auf einen Sonntag fällt, gelten für Arbeitnehmer die normalen Sonntagsregeln, Geschäfte sind wie an jedem Sonntag geschlossen. Die Feiertagsgesetze schützen ihn aber als stillen Tag, genau wie Karfreitag oder den Volkstrauertag eine Woche vorher. Alle gesetzlichen Feiertage des Jahres je Bundesland finden Sie unter <a href="/feiertage/2026">Feiertage 2026</a>.</p>
+<h2>Danach beginnt die Adventszeit</h2>
+<p>Mit dem Totensonntag endet das Kirchenjahr. Am Sonntag darauf, dem 29. November 2026, ist der erste Advent, die weiteren Adventssonntage sind der 6., 13. und 20. Dezember. Mehr dazu im Beitrag <a href="/blog/advent-2026-erster-advent-termine">Advent 2026</a>. Wie viele Tage es danach noch bis zum Fest sind, zeigt der Countdown <a href="/wie-viele-tage-bis/weihnachten">Wie viele Tage bis Weihnachten</a>.</p>`,
+    faq: [
+      { q: "Wann ist Totensonntag 2026?", a: "Am Sonntag, 22. November 2026. Der Totensonntag ist immer der Sonntag vor dem ersten Advent und liegt deshalb zwischen dem 20. und dem 26. November." },
+      { q: "Gilt am Totensonntag ein Tanzverbot?", a: "Ja, in allen Bundesländern, aber unterschiedlich lange: zum Beispiel in Bayern von 2 bis 24 Uhr, in Berlin von 4 bis 21 Uhr, in Nordrhein-Westfalen bis 18 Uhr und in Hamburg von 6 bis 17 Uhr." },
+      { q: "Ist Totensonntag ein gesetzlicher Feiertag?", a: "Er ist kein zusätzlicher freier Tag, weil er immer auf einen Sonntag fällt. Die Feiertagsgesetze der Länder schützen ihn aber als stillen Tag." },
+      { q: "Haben Weihnachtsmärkte am Totensonntag geöffnet?", a: "Meist nicht. Viele Märkte öffnen erst ab Montag, 23. November 2026. Früher startende Märkte wie der Münchner Christkindlmarkt bleiben am 22. November geschlossen." },
+    ],
+    source: "seed",
+  },
+  {
     // Discover-Beitrag 07.11.2026: Weihnachtsferien 2026/27 aus schulferien.data.ts (KMK FER2026_27,
     // verifiziert 09.07.2026). Wochentage: 21.12.2026 Mo, 23.12 Mi, 24.12 Do, 1.1.2027 Fr, 6.1 Mi, 12.1 Di.
     slug: "weihnachtsferien-2026-2027-alle-bundeslaender",
