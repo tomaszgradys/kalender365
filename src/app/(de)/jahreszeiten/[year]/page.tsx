@@ -17,7 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   const y = parseYear(year);
   if (!y) return {};
   return {
-    title: `Jahreszeiten ${y} – Frühling, Sommer, Herbst & Winter`,
+    // 16.11.2026: Suchbegriffe der Seite sind „Frühlingsanfang/Sommeranfang {Jahr}“, nicht „Jahreszeiten“.
+    title: `Frühlingsanfang & Sommeranfang ${y} – Datum & Uhrzeit aller Jahreszeiten`,
     description: `Astronomischer Beginn der Jahreszeiten ${y}: Frühlingsanfang, Sommeranfang, Herbstanfang und Winteranfang mit genauem Datum und Uhrzeit.`,
     alternates: { canonical: `/jahreszeiten/${y}` },
     openGraph: ogMeta(`/jahreszeiten/${y}`),

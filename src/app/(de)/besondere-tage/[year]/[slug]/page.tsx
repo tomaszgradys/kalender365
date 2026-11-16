@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PRERENDER_YEARS, parseYear, isNavigableYear, isIndexableYear } from "@/lib/de/year";
 import { berlinNow, berlinToday } from "@/lib/de/now";
-import { formatFullDE, formatLongDE, weekdayDE, MONTH_SLUGS_DE } from "@/lib/de/locale";
+import { formatFullDE, formatLongDE, weekdayDE, MONTH_SLUGS_DE, MONTH_NAMES_DE } from "@/lib/de/locale";
 import { BESONDERE_TAGE, getBesondererTag } from "@/lib/de/besondereTage";
 import { getCountdown, berlinMidnight } from "@/lib/de/countdowns";
 import EventArt from "@/components/de/EventArt";
@@ -23,6 +23,12 @@ export function generateStaticParams() {
   return out;
 }
 
+/** "2027-05-09" → "9. Mai" (ohne Jahr, für den Seitentitel). */
+function tagMonat(isoDate: string): string {
+  const [, m, d] = isoDate.split("-").map(Number);
+  return `${d}. ${MONTH_NAMES_DE[m - 1]}`;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ year: string; slug: string }> }): Promise<Metadata> {
   const { year, slug } = await params;
   const y = parseYear(year);
@@ -30,7 +36,10 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   if (!y || !e) return {};
   const iso = e.date(y).toISOString().slice(0, 10);
   return {
-    title: `${e.name} ${y} – Datum, Termin & Bedeutung`,
+    // 16.11.2026: Wochentag und Datum direkt im Titel (wie die bestplatzierten Treffer bei „… 2027“-Suchen).
+    title: e.endDate
+      ? `${e.name} ${y}: ${tagMonat(iso)} bis ${tagMonat(e.endDate(y).toISOString().slice(0, 10))} – Termin & Dauer`
+      : `${e.name} ${y}: ${weekdayDE(iso)}, ${tagMonat(iso)} – Datum & Bedeutung`,
     description: `${e.name} ${y} ist am ${formatLongDE(iso)} (${weekdayDE(iso)}). ${e.intro}`.slice(0, 158).replace(/\s+\S*$/, "") + " …",
     alternates: { canonical: `/besondere-tage/${y}/${e.slug}` },
     openGraph: ogMeta(`/besondere-tage/${y}/${e.slug}`, { defaultImage: true }),
